@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrincipal"
+    android:gravity="top|center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvDivisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dólar"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="113dp" />
+
+        <ImageView
+            android:id="@+id/iwBandera2"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvPrecioActual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ARS $40,08"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:text="⟳"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Última actualización: "
+        android:textColor="@android:color/holo_blue_light" />
+
+    <TextView
+        android:id="@+id/tvDiaHora"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:text="Viernes 15 de septiembre de 2018 a las 17:00"
+        android:textColor="@android:color/holo_blue_light" />
+
+</LinearLayout>

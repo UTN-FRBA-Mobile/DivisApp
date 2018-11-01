@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303f9f</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrincipal">#060606</color>
+    <color name="graphColorLinePositive">#286E52</color>
+    <color name="graphColorLineNegative">#714A4B</color>
+    <color name="graphColorFillPositive">#062D1B</color>
+    <color name="graphColorFillPositiveCenter">#0F1F1C</color>
+    <color name="graphColorFillNegative">#382829</color>
+    <color name="graphColorFillNegativeCenter">#251C1D</color>
+    <color name="colorTextPositive">#02E68D</color>
+    <color name="colorTextNegative">#FF4D4D</color>
+</resources>

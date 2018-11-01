@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+        <item
+            android:id="@+id/nav_divisas"
+            android:icon="@drawable/ic_money"
+            android:title="Divisas" />
+        <item
+            android:id="@+id/nav_historial"
+            android:icon="@drawable/ic_timeline"
+            android:title="Historial" />
+        <item
+            android:id="@+id/nav_configuracion"
+            android:icon="@drawable/ic_settings"
+            android:title="Configuración" />
+        <item
+            android:id="@+id/nav_perfil"
+            android:icon="@drawable/ic_perfil"
+            android:title="Perfil" />
+</menu>

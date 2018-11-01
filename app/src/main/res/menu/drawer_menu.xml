@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_divisas"
+            android:icon="@drawable/ic_money"
+            android:title="Divisas" />
+        <item
+            android:id="@+id/nav_historial"
+            android:icon="@drawable/ic_timeline"
+            android:title="Historial" />
+        <item
+            android:id="@+id/nav_configuracion"
+            android:icon="@drawable/ic_settings"
+            android:title="Config" />
+    </group>
+
+    <item android:title="Mas info">
+        <menu>
+            <item
+                android:id="@+id/nav_acerca"
+                android:icon="@drawable/ic_help"
+                android:title="Acerca de" />
+        </menu>
+    </item>
+</menu>
