@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="MONEDA_BASE">
+        <item>Peso Argentino</item>
+        <item>Dolár Estadounidense</item>
+        <item>Euro</item>
+        <item>Yen</item>
+    </string-array>
+
+    <string-array name="MONEDA_BASE_CODIGO">
+        <item>ARS</item>
+        <item>USD</item>
+        <item>EUR</item>
+        <item>JPY</item>
+    </string-array>
+
+    <string-array name="INTERVALO_NOTIFICACIONES">
+        <item>Diariamente</item>
+        <item>Semanalmente</item>
+        <item>Mensualmente</item>
+    </string-array>
+
+    <string-array name="INTERVALO_NOTIFICACIONES_CODIGO">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+</resources>

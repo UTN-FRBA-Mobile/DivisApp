@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="array_divisas">
-        <item>Dólar Estaunidense</item>
+        <item>Dólar Estadounidense</item>
         <item>Euro</item>
         <item>Peso Uruguayo</item>
         <item>Yen</item>

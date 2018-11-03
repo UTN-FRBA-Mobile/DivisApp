@@ -63,8 +63,8 @@ class IntervaloNotificacionesDialog : DialogFragment() {
         this.dismiss()
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    /*override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
         this.configFragment!!.actualizarOpciones()
-    }
+    }*/
 }

@@ -2,6 +2,7 @@ package com.gradientepolimorfico.monedapp.Fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.preference.PreferenceFragmentCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +13,14 @@ import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
 import kotlinx.android.synthetic.main.fragment_config.view.*
 
-class ConfigFragment : Fragment(){
-    var vista : View ? = null
+class ConfigFragment : PreferenceFragmentCompat(){
+    //var vista : View ? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+                addPreferencesFromResource(R.xml.pref_general)
+    }
+
+    /*override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         var vista = inflater.inflate(R.layout.fragment_config, container, false)
@@ -67,5 +72,5 @@ class ConfigFragment : Fragment(){
         else{
             FirebaseMessaging.getInstance().unsubscribeFromTopic("notificaciones")
         }
-    }
+    }*/
 }
