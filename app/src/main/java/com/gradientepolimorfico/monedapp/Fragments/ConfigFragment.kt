@@ -14,10 +14,12 @@ import com.gradientepolimorfico.monedapp.Storage.Preferencias
 import kotlinx.android.synthetic.main.fragment_config.view.*
 
 class ConfigFragment : PreferenceFragmentCompat(){
-    //var vista : View ? = null
+    //var vista : View = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-                addPreferencesFromResource(R.xml.pref_general)
+        addPreferencesFromResource(R.xml.pref_general)
+
+        this.subscribirANotificaciones(this.view)
     }
 
     /*override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +51,7 @@ class ConfigFragment : PreferenceFragmentCompat(){
     }
 
     private fun initOpciones(vista: View){
-        var textoIntervalo  = vista.findViewById<TextView>(R.id.tvDescripcion2)
+        //var textoIntervalo  = vista.findViewById<TextView>(R.id.tvDescripcion2)
         var intervaloNotificaciones = Preferencias.getIntervaloNotificaciones(this.context!!)
 
         when(intervaloNotificaciones){
@@ -62,15 +64,15 @@ class ConfigFragment : PreferenceFragmentCompat(){
 
     public fun actualizarOpciones(){
         this.initOpciones(this.vista!!)
-    }
+    }*/
 
-    private fun subscribirANotificaciones(vista: View){
-        vista.switchNotificaciones.isChecked = Preferencias.getNotificacionesActivas(this.context!!)
+    private fun subscribirANotificaciones(vista: View?){
+        //vista!!.switchNotificaciones.isChecked = Preferencias.getNotificacionesActivas(this.context!!)
         if(Preferencias.getNotificacionesActivas(this.context!!)){
             FirebaseMessaging.getInstance().subscribeToTopic("notificaciones")
         }
         else{
             FirebaseMessaging.getInstance().unsubscribeFromTopic("notificaciones")
         }
-    }*/
+    }
 }
