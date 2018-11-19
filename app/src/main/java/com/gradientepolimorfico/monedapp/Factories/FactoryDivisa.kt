@@ -32,14 +32,14 @@ object FactoryDivisa {
                     FactoryDivisa.DIVISA_EURO_ESPANIOL,
                     "España",
                     "Euro",
-                    R.drawable.pais_es
+                    R.drawable.pais_eu
             )
 
             DIVISA_YEN_JAPONES -> this.divisa = this.crearDivisa(
                     FactoryDivisa.DIVISA_YEN_JAPONES,
                     "Japón",
                     "Yen",
-                    R.drawable.pais_uy
+                    R.drawable.pais_jp
             )
         }
         return this.divisa

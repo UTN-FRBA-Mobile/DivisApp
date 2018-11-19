@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -57,5 +58,7 @@ fun LineChart.configureForHistory(context: Context, entries: ArrayList<Entry>) {
     mChart.axisRight.axisMinimum = 0.toFloat()
     mChart.axisLeft.isEnabled = false
     mChart.setVisibleXRangeMaximum(25.toFloat())
+    mChart.fitScreen()
+    mChart.setTouchEnabled(false)
     mChart.animateY(1000, Easing.EasingOption.EaseOutQuart)
 }
