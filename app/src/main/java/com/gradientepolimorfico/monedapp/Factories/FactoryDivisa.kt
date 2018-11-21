@@ -17,7 +17,7 @@ object FactoryDivisa {
             DIVISA_PESO_ARGENTINO -> this.divisa =  this.crearDivisa(
                     FactoryDivisa.DIVISA_PESO_ARGENTINO,
                     "Argentina",
-                    "Peso argentino",
+                    "Peso",
                     R.drawable.pais_ar
             )
 
@@ -32,7 +32,7 @@ object FactoryDivisa {
                     FactoryDivisa.DIVISA_EURO_ESPANIOL,
                     "España",
                     "Euro",
-                    R.drawable.pais_eu
+                    R.drawable.pais_es
             )
 
             DIVISA_YEN_JAPONES -> this.divisa = this.crearDivisa(
