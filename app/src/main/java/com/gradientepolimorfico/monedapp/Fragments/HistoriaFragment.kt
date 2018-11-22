@@ -47,23 +47,25 @@ class HistoriaFragment : Fragment() {
     }
 
     private fun valorMonedaSegunBase() : String{
-        return "$"+this.divisa!!.valor.toString()+" "+ this.divisaBase()!!.codigo
+        return this.divisa!!.valor.toString()+" "+ this.divisaBase()!!.codigo
     }
 
     private fun init(vista : View){
+
+        var ultimoCambio = this.divisa!!.ultimoCambio()
+        var ultimoCambioEnPorcentaje = this.divisa!!.ultimoCambioEnPorcentaje()
+
+
         vista.findViewById<TextView>(R.id.tvPais).text      = this.divisa!!.pais
         vista.findViewById<TextView>(R.id.tvDivisa).text    = this.divisa!!.moneda
-        vista.findViewById<ImageView>(R.id.iwBandera).setImageResource( this.divisa!!.bandera!!)
-
+        vista.findViewById<ImageView>(R.id.iwBandera).setImageResource(this.divisa!!.bandera!!)
         vista.findViewById<TextView>(R.id.tvValorDivisa).text = this.valorMonedaSegunBase()
+        vista.findViewById<TextView>(R.id.tvAmbosCambios).text =
+                ("%.3f".format(ultimoCambio) + " (" + "%.3f".format(ultimoCambioEnPorcentaje) + "%)")
 
         if(this.divisa!!.hayDatos()){
 
-            var ultimoCambio = this.divisa!!.ultimoCambio()
-
-            var ultimoCambioEnPorcentaje = "%.4f".format(this.divisa!!.ultimoCambioEnPorcentaje())
-
-            vista.findViewById<TextView>(R.id.tvCambio).text = "$"+"%.4f".format(ultimoCambio).toString()
+            vista.findViewById<TextView>(R.id.tvCambio).text = ("$"+"%.4f".format(ultimoCambio))
 
             var resource = 1
             var moneda = this.divisa!!.moneda!!.toLowerCase()
@@ -72,7 +74,7 @@ class HistoriaFragment : Fragment() {
 
             if(ultimoCambio<0){
                 resource = R.drawable.ic_down_palito_rojo
-                detalle  = "(-"+ultimoCambioEnPorcentaje.toString()+"%)"
+                detalle  = "(%.4f".format(ultimoCambioEnPorcentaje) + "%)"
                 colorDetalle = R.color.colorTextNegative
             }
             else{

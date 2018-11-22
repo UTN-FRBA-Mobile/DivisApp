@@ -50,8 +50,9 @@
                             android:id="@+id/iwBanderaBase"
                             android:layout_width="30dp"
                             android:layout_height="20dp"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp" />
+                            android:layout_marginEnd="10dp"
+                            android:scaleType="centerCrop"
+                            android:layout_gravity="center"/>
 
                         <TextView
                             android:id="@+id/tvPaisBase"
@@ -84,7 +85,7 @@
                         android:layout_weight="1"
                         android:text="Argentina"
                         android:textAlignment="viewStart"
-                        android:textColor="@android:color/background_light"
+                        android:textColor="@color/colorTextUnselected"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
