@@ -205,7 +205,7 @@
                 app:srcCompat="@drawable/ic_left" />
 
             <TextView
-                android:id="@+id/tvValorDivisa"
+                android:id="@+id/tvUnidadDivisa"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

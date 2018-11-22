@@ -38,5 +38,6 @@ class ConfigFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPref
         else{
             FirebaseMessaging.getInstance().unsubscribeFromTopic("notificaciones")
         }
+
     }
 }

@@ -29,12 +29,6 @@ class HistorialFragment : Fragment() {
         var vista = inflater.inflate(R.layout.pager_historial, container, false)
         var mainActivity = context as MainActivity
         mainActivity.iniciarFragmentsPagers(vista.findViewById(R.id.viewpagerHistorial),childFragmentManager)
-        /*if(!mainActivity.fragmentsPagersIniciados()){
-
-        }
-        else{
-            vista.findViewById<ViewPager>(R.id.viewpagerHistorial).adapter = mainActivity.getPagersAdapter()!!
-        }*/
         return vista
     }
 }

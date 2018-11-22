@@ -13,7 +13,6 @@ import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.configureForHistory
-import android.util.Log
 
 class HistoriaFragment : Fragment() {
     var divisa : Divisa? = null
@@ -60,6 +59,7 @@ class HistoriaFragment : Fragment() {
         vista.findViewById<TextView>(R.id.tvDivisa).text    = this.divisa!!.moneda
         vista.findViewById<ImageView>(R.id.iwBandera).setImageResource(this.divisa!!.bandera!!)
         vista.findViewById<TextView>(R.id.tvValorDivisa).text = this.valorMonedaSegunBase()
+
         vista.findViewById<TextView>(R.id.tvAmbosCambios).text =
                 ("%.3f".format(ultimoCambio) + " (" + "%.3f".format(ultimoCambioEnPorcentaje) + "%)")
 
@@ -84,18 +84,20 @@ class HistoriaFragment : Fragment() {
             }
 
             vista.findViewById<ImageView>(R.id.ivSubaBaja).setImageResource(resource)
+
             var tvDetalle = vista.findViewById<TextView>(R.id.tvDetalleSubaBaja)
             tvDetalle.setTextColor(resources.getColor(colorDetalle))
+
             vista.findViewById<TextView>(R.id.tvDetalleSubaBaja).text = detalle
             vista.findViewById<TextView>(R.id.tvCambio).setTextColor(resources.getColor(colorDetalle))
 
-            /*val mainActivity = vista.context as MainActivity
-            var divisaBase = mainActivity.divisaBase
-            var textoValorDivisaBase =  divisaBase!!.codigo!!
-            vista.findViewById<TextView>(R.id.tvValorDivisaBase).text = textoValorDivisaBase
-            vista.findViewById<TextView>(R.id.tvValorDivisaSegunBase).text = "$ "+ (1/this.divisa!!.valor!!).toString()+" "+this.divisa!!.codigo!!
-            vista.findViewById<TextView>(R.id.tvValorDivisa).text = "$ "+ this.divisa!!.valor!!.toString() + " "+ this.divisa!!.codigo!!
-            vista.findViewById<TextView>(R.id.tvValorBaseSegunDivisa).text = "$1"+ (this.divisa!!.valor!!).toString()+" "+this.divisa!!.codigo!!*/
+            vista.findViewById<TextView>(R.id.tvValorMonedaBase).text = "1 "+ this.divisaBase()!!.codigo
+            vista.findViewById<TextView>(R.id.tvValorDivisaSegunBase).text = "%.3f".format((1.toFloat()) / this.divisa!!.valor!!).toString() + " "+this.divisa!!.codigo
+
+
+            vista.findViewById<TextView>(R.id.tvValorBaseSegunDivisa).text = valorMonedaSegunBase()
+            vista.findViewById<TextView>(R.id.tvUnidadDivisa).text = "1 "+ this.divisa!!.codigo
+
         }
     }
 }

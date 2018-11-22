@@ -96,7 +96,6 @@ class MainActivity : AppCompatActivity(){
                 var fragment = HistoriaFragment()
                 fragment.agregarDivisa(d)
                 this.fragments.add(fragment)
-                //adapter!!.addFragment(fragment,d.moneda!!)
             }
         }
         adapter.agregarFragments(this.fragments)

@@ -14,17 +14,19 @@ import com.google.firebase.messaging.RemoteMessage
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
 import android.util.Log
+import com.gradientepolimorfico.monedapp.R
 
 class MyFirebaseService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+        Log.d("I","MyFireBase - "+"MENSAJE RECIBIDO")
         if (remoteMessage!!.data.size > 0) {
             //To Do
         }
 
         if (remoteMessage.notification != null) {
             if(Preferencias.notificacionesEstanActivas(this)){
-                //this.mostrarNotificacion(remoteMessage.notification!!.body)
+                this.mostrarNotificacion(remoteMessage.notification!!.body)
             }
         }
     }
@@ -45,19 +47,23 @@ class MyFirebaseService : FirebaseMessagingService() {
     }
 
     private fun getNotificationBuilder(messageBody: String?, pendingIntent: PendingIntent ) : NotificationCompat.Builder{
-        val defaultSoundUri = this.sonidoDeNotificacion()
-
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("DivisApp!")
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentText(messageBody)
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
+                .setSound(this.sonidoDeNotificacion())
+                .setVibrate(this.vibracion())
                 .setContentIntent(pendingIntent)
         return notificationBuilder
     }
 
     private fun sonidoDeNotificacion() : Uri{
         return RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+    }
+
+    private fun vibracion() : LongArray {
+        return longArrayOf(1000, 1000, 1000, 1000, 1000)
     }
 
     private fun notificationManager() : NotificationManager{
