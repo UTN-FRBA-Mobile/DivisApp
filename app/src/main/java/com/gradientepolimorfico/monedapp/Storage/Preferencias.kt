@@ -8,7 +8,7 @@ object Preferencias {
     private val FIREBASE_TOKEN              = "FIREBASE_TOKEN"
     private val INTERVALO_NOTIFICACIONES    = "INTERVALO_NOTIFICACIONES"
     private val MONEDAS_SUSCRITAS           = "MONEDAS_SUSCRITAS"
-    private val NOTIFICACIONES_ACTIVAS      = "NOTIFICACIONES_ACTIVAS"
+    public val NOTIFICACIONES_ACTIVAS       = "NOTIFICACIONES_ACTIVAS"
     private val MONEDA_BASE                 = "MONEDA_BASE"
 
     fun getMonedaBase(context: Context) : String?{

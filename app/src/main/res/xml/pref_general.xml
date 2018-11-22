@@ -1,44 +1,40 @@
-<PreferenceScreen
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:title="General">
+    <PreferenceCategory android:title="General">
         <ListPreference
-            android:title="Moneda Base"
-            android:key="MONEDA_BASE"
             android:entries="@array/MONEDA_BASE"
-            android:entryValues="@array/MONEDA_BASE_CODIGO">
-        </ListPreference>
+            android:entryValues="@array/MONEDA_BASE_CODIGO"
+            android:key="MONEDA_BASE"
+            android:title="Moneda Base"
+            android:icon="@drawable/ic_money_white"></ListPreference>
         <ListPreference
-            android:title="Intervalo de Actualización"
-            android:key="INTERVALO_NOTIFICACIONES"
             android:entries="@array/INTERVALO_NOTIFICACIONES"
-            android:entryValues="@array/INTERVALO_NOTIFICACIONES_CODIGO">
-        </ListPreference>
+            android:entryValues="@array/INTERVALO_NOTIFICACIONES_CODIGO"
+            android:key="INTERVALO_NOTIFICACIONES"
+            android:title="Intervalo de Actualización"
+            android:icon="@drawable/ic_update_white"></ListPreference>
     </PreferenceCategory>
     <PreferenceCategory
+        android:enabled="true"
         android:title="Notificaciones">
         <SwitchPreference
-            android:title="Activar Notificaciones"
+            android:defaultValue="true"
             android:key="NOTIFICACIONES_ACTIVAS"
             android:summary="Recibir notificaciones cuando haya cambios bruscos en las cotizaciones"
-            android:defaultValue="true">
-        </SwitchPreference>
+            android:title="Activar Notificaciones"></SwitchPreference>
         <SwitchPreference
-            android:title="Sonido"
+            android:defaultValue="true"
             android:key="NOTIFICACIONES_SONIDO"
-            android:defaultValue="true">
-        </SwitchPreference>
+            android:title="Sonido"></SwitchPreference>
         <SwitchPreference
-            android:title="Vibrar"
+            android:defaultValue="true"
             android:key="NOTIFICACIONES_VIBRAR"
-            android:defaultValue="true">
-        </SwitchPreference>
+            android:title="Vibrar"></SwitchPreference>
         <SwitchPreference
-            android:title="Aviso Importante"
+            android:defaultValue="false"
             android:key="NOTIFICACIONES_AVISO_IMPORTANTE"
-            android:defaultValue="false">
-        </SwitchPreference>
+            android:title="Aviso Importante"></SwitchPreference>
     </PreferenceCategory>
 
 </PreferenceScreen>

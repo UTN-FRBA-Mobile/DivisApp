@@ -18,18 +18,12 @@ import com.gradientepolimorfico.monedapp.R
 
 class DivisasFragment : Fragment(){
     private var divisas:ArrayList<Divisa>? = null
-    private var divisaAdapter:DivisaAdapter? = null
-    private var recyclerView:RecyclerView? = null
-    private var viewManager:RecyclerView.LayoutManager? = null
     private var fab: FloatingActionButton?=null
 
     private var usuario: Usuario? = null
 
     private fun inicializar(){
         this.divisas = this.usuario!!.configuracion!!.divisas
-        this.viewManager    = LinearLayoutManager(context)
-        this.divisaAdapter  = DivisaAdapter(this.divisas!!,context!!)
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +36,7 @@ class DivisasFragment : Fragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
         var vista= inflater.inflate(R.layout.fragment_divisas, container, false)
 
         this.iniciarMonedaBase(vista)
@@ -60,13 +55,13 @@ class DivisasFragment : Fragment(){
     }
 
     private fun inflarRecycler(vista: View){
-        this.recyclerView = vista.findViewById(R.id.rvDivisas)
-        this.fab = vista.findViewById(R.id.floatingActionButton)
-        this.recyclerView!!.layoutManager = this.viewManager
-        this.recyclerView!!.adapter = this.divisaAdapter
+        val recyclerView = vista.findViewById<RecyclerView>(R.id.rvDivisas)
+        recyclerView!!.layoutManager = LinearLayoutManager(context)
+        recyclerView!!.adapter = DivisaAdapter(this.divisas!!,context!!)
     }
 
     private fun iniciarBottomNav(vista : View){
+        var fab = vista.findViewById<FloatingActionButton>(R.id.floatingActionButton)
         //TODO: Agregar compartamiento al button. Agregar un Dialog de agregar divisa.
         //TODO: Agregar options al spinner del fragement de agregar divisa.
     }
