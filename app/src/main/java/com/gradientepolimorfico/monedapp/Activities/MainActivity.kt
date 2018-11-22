@@ -42,12 +42,17 @@ class MainActivity : AppCompatActivity(){
             this.divisaBase = FactoryDivisa.create(Preferencias.getMonedaBase(this)!!)
         }
 
+        this.cargarDivisasEnConfiguracion(configuracion)
+
+        this.usuario.configuracion = configuracion
+    }
+
+    private fun cargarDivisasEnConfiguracion(configuracion: Configuracion){
+        configuracion.divisas.clear()
         var monedasSuscritas = Preferencias.getMonedasSuscritas(this)
         monedasSuscritas!!.forEach {
             m -> this.iniciarDivisaEn(configuracion, m)
         }
-
-        this.usuario.configuracion = configuracion
     }
 
     private fun iniciarDivisaEn(configuracion : Configuracion, codigoDivisa : String){
@@ -132,16 +137,22 @@ class MainActivity : AppCompatActivity(){
         this.mostrarFragment(R.id.fragment_container, DivisasFragment())
     }
 
-    public fun getDivisas() : ArrayList<Divisa>{
+    fun getDivisas() : ArrayList<Divisa>{
         return usuario.configuracion!!.divisas
     }
 
-    public fun getDivisaByPosition(pos: Int): Divisa {
+    fun getDivisaByPosition(pos: Int): Divisa {
         return usuario.configuracion!!.divisas[pos]
     }
 
-    public fun getDivisasIterator() : Iterator<Divisa>{
+    fun getDivisasIterator() : Iterator<Divisa>{
         return this.usuario.configuracion!!.divisas.iterator()
     }
 
+    fun cambiarMonedaBase(){
+        val codigoMonedaBase = Preferencias.getMonedaBase(this)!!
+        this.divisaBase = FactoryDivisa.create(codigoMonedaBase)
+        Preferencias.desuscribirMoneda(this, codigoMonedaBase)
+        this.cargarDivisasEnConfiguracion(this.usuario.configuracion!!)
+    }
 }

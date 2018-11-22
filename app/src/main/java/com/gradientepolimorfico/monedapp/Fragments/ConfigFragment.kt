@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.preference.PreferenceFragmentCompat
 import com.google.firebase.messaging.FirebaseMessaging
+import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
 
@@ -12,6 +13,10 @@ class ConfigFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPref
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when(key){
             Preferencias.NOTIFICACIONES_ACTIVAS -> this.subscribirANotificaciones(sharedPreferences!!.getBoolean(Preferencias.NOTIFICACIONES_ACTIVAS,true))
+
+            Preferencias.MONEDA_BASE -> this.cambiarMonedaBase(sharedPreferences!!.getString(Preferencias.MONEDA_BASE,"ARS")!!)
+
+            Preferencias.INTERVALO_NOTIFICACIONES -> Preferencias.setIntervaloNotificaciones(this.context!!,sharedPreferences!!.getInt(Preferencias.INTERVALO_NOTIFICACIONES,1))
         }
     }
 
@@ -39,5 +44,10 @@ class ConfigFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPref
             FirebaseMessaging.getInstance().unsubscribeFromTopic("notificaciones")
         }
 
+    }
+
+    private fun cambiarMonedaBase(moneda : String){
+        Preferencias.setMonedaBase(this.context!!, moneda)
+        (context as MainActivity).cambiarMonedaBase()
     }
 }

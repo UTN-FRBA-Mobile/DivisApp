@@ -7,13 +7,15 @@
             android:entryValues="@array/MONEDA_BASE_CODIGO"
             android:key="MONEDA_BASE"
             android:title="Moneda Base"
-            android:icon="@drawable/ic_money_white"></ListPreference>
+            android:icon="@drawable/ic_money_white"
+            android:defaultValue="ARS"></ListPreference>
         <ListPreference
             android:entries="@array/INTERVALO_NOTIFICACIONES"
             android:entryValues="@array/INTERVALO_NOTIFICACIONES_CODIGO"
             android:key="INTERVALO_NOTIFICACIONES"
             android:title="Intervalo de Actualización"
-            android:icon="@drawable/ic_update_white"></ListPreference>
+            android:icon="@drawable/ic_update_white"
+            android:defaultValue="1"></ListPreference>
     </PreferenceCategory>
     <PreferenceCategory
         android:enabled="true"

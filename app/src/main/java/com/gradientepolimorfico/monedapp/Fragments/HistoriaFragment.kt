@@ -50,22 +50,22 @@ class HistoriaFragment : Fragment() {
     }
 
     private fun init(vista : View){
-
-        var ultimoCambio = this.divisa!!.ultimoCambio()
-        var ultimoCambioEnPorcentaje = this.divisa!!.ultimoCambioEnPorcentaje()
-
-
-        vista.findViewById<TextView>(R.id.tvPais).text      = this.divisa!!.pais
-        vista.findViewById<TextView>(R.id.tvDivisa).text    = this.divisa!!.moneda
-        vista.findViewById<ImageView>(R.id.iwBandera).setImageResource(this.divisa!!.bandera!!)
-        vista.findViewById<TextView>(R.id.tvValorDivisa).text = this.valorMonedaSegunBase()
-
-        vista.findViewById<TextView>(R.id.tvAmbosCambios).text =
-                ("%.3f".format(ultimoCambio) + " (" + "%.3f".format(ultimoCambioEnPorcentaje) + "%)")
-
         if(this.divisa!!.hayDatos()){
 
+            var ultimoCambio = this.divisa!!.ultimoCambio()
+            var ultimoCambioEnPorcentaje = this.divisa!!.ultimoCambioEnPorcentaje()
+
+            /**----------------------------- HEADERS ---------------------------------- **/
+            vista.findViewById<TextView>(R.id.tvPais).text      = this.divisa!!.pais
+            vista.findViewById<TextView>(R.id.tvDivisa).text    = this.divisa!!.moneda
+            vista.findViewById<ImageView>(R.id.iwBandera).setImageResource(this.divisa!!.bandera!!)
+            vista.findViewById<TextView>(R.id.tvValorDivisa).text = this.valorMonedaSegunBase()
+
+            vista.findViewById<TextView>(R.id.tvAmbosCambios).text =
+                    ("%.3f".format(ultimoCambio) + " (" + "%.3f".format(ultimoCambioEnPorcentaje) + "%)")
+
             vista.findViewById<TextView>(R.id.tvCambio).text = ("$"+"%.4f".format(ultimoCambio))
+            /**----------------------------- END HEADERS ------------------------------- **/
 
             var resource = 1
             var moneda = this.divisa!!.moneda!!.toLowerCase()
@@ -83,6 +83,7 @@ class HistoriaFragment : Fragment() {
                 colorDetalle = R.color.colorTextPositive
             }
 
+            /**----------------------------- DETALLES ---------------------------------- **/
             vista.findViewById<ImageView>(R.id.ivSubaBaja).setImageResource(resource)
 
             var tvDetalle = vista.findViewById<TextView>(R.id.tvDetalleSubaBaja)
@@ -98,6 +99,7 @@ class HistoriaFragment : Fragment() {
             vista.findViewById<TextView>(R.id.tvValorBaseSegunDivisa).text = valorMonedaSegunBase()
             vista.findViewById<TextView>(R.id.tvUnidadDivisa).text = "1 "+ this.divisa!!.codigo
 
+            /**----------------------------- END DETALLES ---------------------------------- **/
         }
     }
 }

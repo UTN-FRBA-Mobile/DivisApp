@@ -14,9 +14,10 @@ class Divisa {
     var bandera: Int?           = null
     var dataRequested: Boolean  = false
     var timeSeriesData          = ArrayList<Entry>()
+    var from: String?           = null
 
     fun hayDatos() : Boolean{
-        return !this.timeSeriesData.isEmpty()
+        return this.timeSeriesData.count()>0
     }
 
     private fun cantidadDatos() : Int{

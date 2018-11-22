@@ -62,19 +62,30 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
         return monedaBase
     }
 
+    private fun desactualizada(unaDivisa: Divisa) : Boolean{
+        return (!unaDivisa.dataRequested && !unaDivisa.hayDatos() )
+    }
+
+    private fun cambioMonedaBase(divisa: Divisa) : Boolean{
+        return divisa.hayDatos() && divisa.from!= ('"'.toString()+this.monedaBase()+'"'.toString())
+    }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         var unaDivisa = this.getDivisa(position)
+
         holder.view.findViewById<TextView>(R.id.tvPais).text = unaDivisa.pais
         holder.view.findViewById<TextView>(R.id.tvDivisa).text = unaDivisa.moneda
         holder.view.findViewById<ImageView>(R.id.iwBandera).setImageResource(unaDivisa.bandera!!)
         holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).setNoDataTextColor(Color.LTGRAY)
         holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).setNoDataText("Cargando...")
 
-        if(!unaDivisa.dataRequested && !unaDivisa.hayDatos()) {
+        if(this.desactualizada(unaDivisa) || this.cambioMonedaBase(unaDivisa)) {
+
             unaDivisa.dataRequested = true
             val service = RetrofitClientInstance.retrofitInstance!!.create<MonedasService>(MonedasService::class.java)
             val call = service.getTimeSeries(unaDivisa.codigo, this.monedaBase())
             Log.d("DivisApp", "------------------------ Getting currency exchange data for: " + unaDivisa.codigo)
+
             call.enqueue(object : Callback<ExchangeRateResponse> {
                 override fun onFailure(call: Call<ExchangeRateResponse>?, t: Throwable?) {
                     Log.e("DivisApp", Log.getStackTraceString(t))
@@ -86,11 +97,15 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
 
                 override fun onResponse(call: Call<ExchangeRateResponse>?, response: retrofit2.Response<ExchangeRateResponse>?) {
                     var body = response!!.body()!!
+
                     unaDivisa.fecha = body.lastRefreshed
                     unaDivisa.valor = body.exchangeRate
                     holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = "$" + unaDivisa.valor.toString()
                     unaDivisa.timeSeriesData = body.data
                     unaDivisa.timeSeriesData.reverse()
+                    unaDivisa.from = body.toCode.toString()
+                    //Log.d("I","DIVISA ADAPTER - "+body.toCode.toString())
+
                     holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
                     holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).invalidate()
                     holder.itemView.setOnClickListener {

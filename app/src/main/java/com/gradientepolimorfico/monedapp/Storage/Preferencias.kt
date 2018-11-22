@@ -2,14 +2,15 @@ package com.gradientepolimorfico.monedapp.Storage
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 
 object Preferencias {
-    private val PREF_NAME                   = "DIVIS_APP_PREFERENCES"
-    private val FIREBASE_TOKEN              = "FIREBASE_TOKEN"
-    private val INTERVALO_NOTIFICACIONES    = "INTERVALO_NOTIFICACIONES"
-    private val MONEDAS_SUSCRITAS           = "MONEDAS_SUSCRITAS"
-    public val NOTIFICACIONES_ACTIVAS       = "NOTIFICACIONES_ACTIVAS"
-    private val MONEDA_BASE                 = "MONEDA_BASE"
+    val PREF_NAME                   = "DIVIS_APP_PREFERENCES"
+    val FIREBASE_TOKEN              = "FIREBASE_TOKEN"
+    val INTERVALO_NOTIFICACIONES    = "INTERVALO_NOTIFICACIONES"
+    val MONEDAS_SUSCRITAS           = "MONEDAS_SUSCRITAS"
+    val NOTIFICACIONES_ACTIVAS      = "NOTIFICACIONES_ACTIVAS"
+    val MONEDA_BASE                 = "MONEDA_BASE"
 
     fun getMonedaBase(context: Context) : String?{
         return this.getPreferences(context).getString(MONEDA_BASE,null)
@@ -68,6 +69,26 @@ object Preferencias {
         monedas.add(moneda)
 
         val editor = this.getPreferencesEditor(context)
+        editor.putStringSet(MONEDAS_SUSCRITAS, monedas.toSet())
+        editor.apply()
+    }
+
+    fun desuscribirMoneda(context: Context, moneda: String){
+        val monedasActuales = this.getMonedasSuscritas(context)
+        val monedas = ArrayList<String>()
+
+        if(monedasActuales != null){
+            monedasActuales.forEach { m -> kotlin.run{
+                if(m!=moneda){
+                    monedas.add(m)
+                }
+            }
+
+            }
+        }
+        val editor = this.getPreferencesEditor(context)
+        editor.remove(MONEDAS_SUSCRITAS)
+        editor.apply()
         editor.putStringSet(MONEDAS_SUSCRITAS, monedas.toSet())
         editor.apply()
     }

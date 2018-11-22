@@ -49,7 +49,6 @@ class DivisasFragment : Fragment(){
     private fun iniciarMonedaBase(vista: View){
         vista.findViewById<TextView>(R.id.tvDivisaBase).text    = (this.context as MainActivity).divisaBase!!.moneda
         vista.findViewById<TextView>(R.id.tvPaisBase).text      = (this.context as MainActivity).divisaBase!!.pais
-        //vista.findViewById<TextView>(R.id.tvValorDivisaBase).text = (this.context as MainActivity).divisaBase!!.valor.toString()
         vista.findViewById<TextView>(R.id.tvCotizaciones).text = ("COTIZACIONES (1 " + (this.context as MainActivity).divisaBase!!.moneda!!.toUpperCase() + ")")
         vista.findViewById<ImageView>(R.id.iwBanderaBase).setImageResource((this.context as MainActivity).divisaBase!!.bandera!!)
     }

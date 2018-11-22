@@ -19,7 +19,7 @@ import com.gradientepolimorfico.monedapp.R
 class MyFirebaseService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
-        Log.d("I","MyFireBase - "+"MENSAJE RECIBIDO")
+        //Log.d("I","MyFireBase - "+"MENSAJE RECIBIDO")
         if (remoteMessage!!.data.size > 0) {
             //To Do
         }
