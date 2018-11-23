@@ -43,9 +43,9 @@ class IntervaloNotificacionesDialog : DialogFragment() {
 
         when(intervaloNotificaciones){
 
-            1 -> radioGroup.check(R.id.diarias)
-            2 -> radioGroup.check(R.id.semanales)
-            3 -> radioGroup.check(R.id.mensuales)
+            "1" -> radioGroup.check(R.id.diarias)
+            "2" -> radioGroup.check(R.id.semanales)
+            "3" -> radioGroup.check(R.id.mensuales)
 
         }
     }
@@ -55,9 +55,9 @@ class IntervaloNotificacionesDialog : DialogFragment() {
 
         when(opcionSeleccionada){
 
-            R.id.diarias    -> Preferencias.setIntervaloNotificaciones(this.context!!,1)
-            R.id.semanales  -> Preferencias.setIntervaloNotificaciones(this.context!!,2)
-            R.id.mensuales  -> Preferencias.setIntervaloNotificaciones(this.context!!,3)
+            R.id.diarias    -> Preferencias.setIntervaloNotificaciones(this.context!!,"1")
+            R.id.semanales  -> Preferencias.setIntervaloNotificaciones(this.context!!,"2")
+            R.id.mensuales  -> Preferencias.setIntervaloNotificaciones(this.context!!,"3")
 
         }
         this.dismiss()

@@ -50,14 +50,14 @@ object Preferencias {
         editor.apply()
     }
 
-    fun setIntervaloNotificaciones(context: Context, intervalo: Int){
+    fun setIntervaloNotificaciones(context: Context, intervalo: String){
         val editor = this.getPreferencesEditor(context)
-        editor.putInt(INTERVALO_NOTIFICACIONES, intervalo)
+        editor.putString(INTERVALO_NOTIFICACIONES, intervalo)
         editor.apply()
     }
 
-    fun getIntervaloNotificaciones(context: Context): Int{
-        return this.getPreferences(context).getInt(INTERVALO_NOTIFICACIONES,1)
+    fun getIntervaloNotificaciones(context: Context): String{
+        return this.getPreferences(context).getString(INTERVALO_NOTIFICACIONES,"1")!!
     }
 
     fun suscribirMoneda(context: Context, moneda : String){

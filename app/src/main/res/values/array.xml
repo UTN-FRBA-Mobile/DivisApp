@@ -14,13 +14,13 @@
         <item>JPY</item>
     </string-array>
 
-    <string-array name="INTERVALO_NOTIFICACIONES">
-        <item>Diariamente</item>
-        <item>Semanalmente</item>
-        <item>Mensualmente</item>
+    <string-array name="INTERVALO_NOTIFICACIONES_NOMBRES">
+        <item>Diario</item>
+        <item>Semanal</item>
+        <item>Mensual</item>
     </string-array>
 
-    <string-array name="INTERVALO_NOTIFICACIONES_CODIGO">
+    <string-array name="INTERVALO_NOTIFICACIONES">
         <item>1</item>
         <item>2</item>
         <item>3</item>

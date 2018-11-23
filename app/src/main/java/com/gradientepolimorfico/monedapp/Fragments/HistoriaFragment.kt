@@ -12,6 +12,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.R
+import com.gradientepolimorfico.monedapp.Storage.Preferencias
 import com.gradientepolimorfico.monedapp.configureForHistory
 
 class HistoriaFragment : Fragment() {
@@ -70,6 +71,15 @@ class HistoriaFragment : Fragment() {
                     ("%.3f".format(ultimoCambio) + " (" + "%.3f".format(ultimoCambioEnPorcentaje) + "%)")
 
             vista.findViewById<TextView>(R.id.tvCambio).text = ("$"+"%.4f".format(ultimoCambio))
+
+            vista.findViewById<TextView>(R.id.tvFrecuenciaAct).text = (
+                    when(Preferencias.getIntervaloNotificaciones(context!!))
+                    {
+                        "1" -> "Diario"
+                        "2" -> "Semanal"
+                        "3" -> "Mensual"
+                        else -> "ERROR"
+                    } )
             /**----------------------------- END HEADERS ------------------------------- **/
 
             var resource = 1
@@ -78,18 +88,23 @@ class HistoriaFragment : Fragment() {
             var colorDetalle = 1
 
             if(ultimoCambio<0){
-                resource = R.drawable.ic_down_palito_rojo
+                resource = R.drawable.ic_arrow_drop_down
                 detalle  = "(%.4f".format(ultimoCambioEnPorcentaje) + "%)"
                 colorDetalle = R.color.colorTextNegative
             }
             else{
-                resource = R.drawable.ic_up_palito_verde
+                resource = R.drawable.ic_arrow_drop_up
                 detalle = "(+"+ultimoCambioEnPorcentaje.toString()+"%)"
                 colorDetalle = R.color.colorTextPositive
             }
 
             /**----------------------------- DETALLES ---------------------------------- **/
             vista.findViewById<ImageView>(R.id.ivSubaBaja).setImageResource(resource)
+
+            vista.findViewById<ImageView>(R.id.ivUpDown).setImageResource(resource)
+            vista.findViewById<TextView>(R.id.tvValorDivisa).setTextColor(resources.getColor(colorDetalle))
+            vista.findViewById<TextView>(R.id.tvCodigoDivisa).setTextColor(resources.getColor(colorDetalle))
+            vista.findViewById<TextView>(R.id.tvAmbosCambios).setTextColor(resources.getColor(colorDetalle))
 
             var tvDetalle = vista.findViewById<TextView>(R.id.tvDetalleSubaBaja)
             tvDetalle.setTextColor(resources.getColor(colorDetalle))

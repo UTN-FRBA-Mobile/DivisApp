@@ -55,7 +55,7 @@
                     android:id="@+id/tvValorDivisa"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="8dp"
                     android:text=""
                     android:textAlignment="center"
                     android:textColor="@color/colorTextPositive"
@@ -63,6 +63,24 @@
                     android:textSize="30sp"
                     android:textStyle="bold"
                     android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tvCodigoDivisa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@color/colorTextPositive"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="8dp"/>
+
+                <ImageView
+                    android:id="@+id/ivUpDown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"/>
 
                 <TextView
                     android:id="@+id/tvAmbosCambios"
@@ -80,21 +98,35 @@
 
     </LinearLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="30dp" />
+    <TextView
+        android:id="@+id/tvFrecuenciaAct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frecuencia_historial"
+        android:paddingTop="15dp"
+        android:paddingEnd="30dp"
+        android:paddingStart="30dp"
+        android:paddingBottom="15dp"
+        android:textColor="@color/colorTextSelected"
+        android:letterSpacing="0.2"
+        android:textAllCaps="true"/>
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/priceHistoricGraph"
         android:layout_width="match_parent"
         android:layout_height="250dp" >
-
-
     </com.github.mikephil.charting.charts.LineChart>
 
-    <Space
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginLeft="10dp" />
+        android:layout_height="wrap_content"
+        android:text="CAMBIO"
+        android:textColor="@color/colorTextSelected"
+        android:letterSpacing="0.2"
+        android:paddingTop="10dp"
+        android:paddingEnd="30dp"
+        android:paddingStart="30dp"
+        android:paddingBottom="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

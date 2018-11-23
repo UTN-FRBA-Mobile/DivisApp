@@ -10,8 +10,8 @@
             android:icon="@drawable/ic_money_white"
             android:defaultValue="ARS"></ListPreference>
         <ListPreference
-            android:entries="@array/INTERVALO_NOTIFICACIONES"
-            android:entryValues="@array/INTERVALO_NOTIFICACIONES_CODIGO"
+            android:entries="@array/INTERVALO_NOTIFICACIONES_NOMBRES"
+            android:entryValues="@array/INTERVALO_NOTIFICACIONES"
             android:key="INTERVALO_NOTIFICACIONES"
             android:title="Intervalo de Actualización"
             android:icon="@drawable/ic_update_white"

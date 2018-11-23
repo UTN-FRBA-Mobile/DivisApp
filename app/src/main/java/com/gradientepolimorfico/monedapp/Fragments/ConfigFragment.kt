@@ -16,11 +16,12 @@ class ConfigFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPref
 
             Preferencias.MONEDA_BASE -> this.cambiarMonedaBase(sharedPreferences!!.getString(Preferencias.MONEDA_BASE,"ARS")!!)
 
-            Preferencias.INTERVALO_NOTIFICACIONES -> Preferencias.setIntervaloNotificaciones(this.context!!,sharedPreferences!!.getInt(Preferencias.INTERVALO_NOTIFICACIONES,1))
+            Preferencias.INTERVALO_NOTIFICACIONES -> Preferencias.setIntervaloNotificaciones(this.context!!,sharedPreferences!!.getString(Preferencias.INTERVALO_NOTIFICACIONES,"1")!!)
         }
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        preferenceManager.sharedPreferencesName = "DIVIS_APP_PREFERENCES"
         addPreferencesFromResource(R.xml.pref_general)
     }
 
