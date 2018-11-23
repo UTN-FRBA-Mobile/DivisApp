@@ -1,45 +1,52 @@
 <PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="General">
+    <PreferenceCategory
+        android:title="General"
+        android:layout="@layout/preferences_category">
         <ListPreference
             android:entries="@array/MONEDA_BASE"
             android:entryValues="@array/MONEDA_BASE_CODIGO"
             android:key="MONEDA_BASE"
             android:title="Moneda Base"
             android:icon="@drawable/ic_money_white"
-            android:defaultValue="ARS"></ListPreference>
+            android:defaultValue="ARS"/>
         <ListPreference
             android:entries="@array/INTERVALO_NOTIFICACIONES_NOMBRES"
             android:entryValues="@array/INTERVALO_NOTIFICACIONES"
             android:key="INTERVALO_NOTIFICACIONES"
             android:title="Intervalo de Actualización"
             android:icon="@drawable/ic_update_white"
-            android:defaultValue="1"></ListPreference>
+            android:defaultValue="1"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:enabled="true"
-        android:title="Notificaciones">
+        android:title="Notificaciones"
+        android:layout="@layout/preferences_category">
         <SwitchPreference
             android:defaultValue="true"
             android:key="NOTIFICACIONES_ACTIVAS"
             android:summary="Recibir notificaciones cuando haya cambios bruscos en las cotizaciones"
-            android:title="Activar Notificaciones"></SwitchPreference>
+            android:title="Activar Notificaciones"
+            android:icon="@drawable/ic_notifications_active_white"/>
         <SwitchPreference
             android:defaultValue="true"
             android:key="NOTIFICACIONES_SONIDO"
             android:title="Sonido"
-            android:dependency="NOTIFICACIONES_ACTIVAS"></SwitchPreference>
+            android:dependency="NOTIFICACIONES_ACTIVAS"
+            android:icon="@drawable/ic_audio_volume_white"/>
         <SwitchPreference
             android:defaultValue="true"
             android:key="NOTIFICACIONES_VIBRAR"
             android:title="Vibrar"
-            android:dependency="NOTIFICACIONES_ACTIVAS"></SwitchPreference>
+            android:dependency="NOTIFICACIONES_ACTIVAS"
+            android:icon="@drawable/ic_vibration_white"/>
         <SwitchPreference
             android:defaultValue="false"
             android:key="NOTIFICACIONES_AVISO_IMPORTANTE"
             android:title="Aviso Importante"
-            android:dependency="NOTIFICACIONES_ACTIVAS"></SwitchPreference>
+            android:dependency="NOTIFICACIONES_ACTIVAS"
+            android:icon="@drawable/ic_warning_white"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
