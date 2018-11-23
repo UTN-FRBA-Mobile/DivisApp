@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity(){
     var historialFragment   : HistorialFragment?    = null
     var divisaBase          : Divisa?               = null
     var historialAdapter    : HistoriaPageAdapter?  = null
-    var fragments           = ArrayList<Fragment>()
     var cambioEnMonedaBase : Boolean = false
 
     private fun init(){
@@ -94,23 +93,9 @@ class MainActivity : AppCompatActivity(){
 
     public fun iniciarFragmentsPagers(pager: ViewPager?, manager : FragmentManager){
         val adapter = HistoriaPageAdapter(manager)
-
-        if(this.fragments.isEmpty() || this.cambioEnMonedaBase){
-            //Log.d("I","PRINCIPAL --- VACIO O CAMBIO EN MONEDA")
-            this.cambioEnMonedaBase = false
-            this.fragments.clear()
-            var iterador = this.getDivisasIterator()
-            iterador.forEach {
-                d ->
-                var fragment = HistoriaFragment()
-                fragment.agregarDivisa(d)
-                this.fragments.add(fragment)
-                //Log.d("I","PRINCIPAL --- "+d.codigo)
-            }
-        }
        // Log.d("I","PRINCIPAL ---"+this.fragments.count().toString())
         //Log.d("I","PRINCIPAL ---"+(this.fragments[0] as HistoriaFragment).divisa!!.codigo)
-        adapter.agregarFragments(this.fragments)
+        adapter.agregarDivisas(getDivisas())
         //Log.d("I","PRINCIPAL ---"+(adapter.getItem(0) as HistoriaFragment).divisa!!.codigo)
         adapter.notifyDataSetChanged()
         pager?.adapter = adapter
