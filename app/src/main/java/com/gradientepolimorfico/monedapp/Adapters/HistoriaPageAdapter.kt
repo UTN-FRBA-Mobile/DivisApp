@@ -2,16 +2,15 @@ package com.gradientepolimorfico.monedapp.Adapters
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.app.FragmentStatePagerAdapter
-import com.gradientepolimorfico.monedapp.Entities.Divisa
-import com.gradientepolimorfico.monedapp.Fragments.HistoriaFragment
+import android.support.v4.view.PagerAdapter
 
 class HistoriaPageAdapter : FragmentStatePagerAdapter {
     private var fragments = ArrayList<Fragment>()
     private val titles = ArrayList<String>()
 
     constructor(fm: FragmentManager?) : super(fm){
+
     }
 
     override fun getItem(position: Int): Fragment {
@@ -22,16 +21,24 @@ class HistoriaPageAdapter : FragmentStatePagerAdapter {
         return this.fragments.size
     }
 
-    fun addFragment(fragment: Fragment, title: String) {
-        this.fragments.add(fragment)
-        this.titles.add(title)
+    override fun getItemPosition(`object`: Any): Int {
+        return PagerAdapter.POSITION_NONE
     }
 
     fun agregarFragments(fragments : ArrayList<Fragment>){
+        this.fragments.clear()
         this.fragments = fragments
     }
 
     override fun getPageTitle(position: Int): CharSequence {
         return titles[position]
+    }
+
+    fun removeFragment(position: Int){
+        this.fragments.remove(this.getItem(position))
+    }
+
+    fun addFragment(fragment: Fragment){
+        this.fragments.add(fragment)
     }
 }
