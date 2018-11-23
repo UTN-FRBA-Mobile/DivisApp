@@ -3,10 +3,11 @@ package com.gradientepolimorfico.monedapp.Adapters
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.Fragments.HistoriaFragment
 
 class HistoriaPageAdapter : FragmentPagerAdapter {
-    private var fragments = ArrayList<Fragment>()
+    private var divisas = ArrayList<Divisa>()
     private val titles = ArrayList<String>()
 
     constructor(fm: FragmentManager?) : super(fm){
@@ -14,31 +15,31 @@ class HistoriaPageAdapter : FragmentPagerAdapter {
     }
 
     override fun getItem(position: Int): Fragment {
-        return this.fragments[position]
+        return HistoriaFragment().also { it.agregarDivisa(divisas[position]) }
     }
 
     override fun getCount(): Int {
-        return this.fragments.size
+        return this.divisas.size
     }
 
     override fun getItemId(position: Int): Long {
-        return (fragments[position] as HistoriaFragment?)?.divisa?.bandera?.toLong() ?: super.getItemId(position)
+        return divisas[position].bandera?.toLong() ?: super.getItemId(position)
     }
 
-    fun agregarFragments(fragments : ArrayList<Fragment>){
-        this.fragments.clear()
-        this.fragments = fragments
+    fun agregarDivisas(fragments : ArrayList<Divisa>){
+        this.divisas.clear()
+        this.divisas = fragments
     }
 
     override fun getPageTitle(position: Int): CharSequence {
         return titles[position]
     }
 
-    fun removeFragment(position: Int){
-        this.fragments.remove(this.getItem(position))
+    fun removeDivisa(position: Int){
+        this.divisas.removeAt(position)
     }
 
-    fun addFragment(fragment: Fragment){
-        this.fragments.add(fragment)
+    fun addDivisa(divisa: Divisa){
+        this.divisas.add(divisa)
     }
 }
