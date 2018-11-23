@@ -25,6 +25,7 @@ import android.support.v4.content.ContextCompat.startActivity
 import android.util.Log
 import android.widget.Toast
 import com.github.mikephil.charting.data.Entry
+import com.gradientepolimorfico.monedapp.Fragments.DetalleFragment
 import com.gradientepolimorfico.monedapp.Services.ExchangeRateResponse
 import com.gradientepolimorfico.monedapp.Services.MonedasService
 import com.gradientepolimorfico.monedapp.Services.RetrofitClientInstance
@@ -104,20 +105,9 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
                     unaDivisa.timeSeriesData = body.data
                     unaDivisa.timeSeriesData.reverse()
                     unaDivisa.from = body.toCode.toString()
-                    //Log.d("I","DIVISA ADAPTER - "+body.toCode.toString())
 
                     holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
                     holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).invalidate()
-                    holder.itemView.setOnClickListener {
-                        var args = Bundle()
-                        args.putInt("DivisaIndex", position)
-                        var fragment = PrincipalFragment()
-                        fragment.arguments = args
-                        (context as MainActivity).getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.fragment_container, fragment)
-                                .commit()
-                    }
                 }
 
             })
@@ -125,19 +115,21 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
         else {
             holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = "$" + unaDivisa.valor.toString()
             holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
-            holder.itemView.setOnClickListener {
-                var args = Bundle()
-                args.putString("tipo", unaDivisa.codigo)
-                var fragment = PrincipalFragment()
-                fragment.arguments = args
-                (context as MainActivity).getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, fragment)
-                        .commit()
             }
+        this.listenerDetalle(holder, position)
+    }
+
+    private fun listenerDetalle(holder: MyViewHolder, position: Int){
+        holder.itemView.setOnClickListener {
+            var args = Bundle()
+            args.putInt("divisaIndex", position)
+            var fragment = DetalleFragment()
+            fragment.arguments = args
+            (context as MainActivity).getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit()
         }
-//        TODO("refactorizar esta asquerosidad")
-//        TODO("cambiar el color del grafico dependiendo al trend")
     }
 
     private fun getDivisa(position: Int) : Divisa{

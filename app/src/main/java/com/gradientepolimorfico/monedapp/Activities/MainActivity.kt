@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(){
     var historialFragment   : HistorialFragment?    = null
     var divisaBase          : Divisa?               = null
     var historialAdapter    : HistoriaPageAdapter?  = null
-    var cambioEnMonedaBase : Boolean = false
+    var cambioEnMonedaBase  : Boolean = false
 
     private fun init(){
         this.usuario.nombreDeUsuario = "Steve"
@@ -83,20 +83,9 @@ class MainActivity : AppCompatActivity(){
         this.irAPrincipal()
     }
 
-    /*public fun fragmentsPagersIniciados() : Boolean{
-        return this.historialAdapter != null
-    }
-
-    public fun getPagersAdapter() : HistoriaPageAdapter?{
-        return this.historialAdapter
-    }*/
-
     public fun iniciarFragmentsPagers(pager: ViewPager?, manager : FragmentManager){
         val adapter = HistoriaPageAdapter(manager)
-       // Log.d("I","PRINCIPAL ---"+this.fragments.count().toString())
-        //Log.d("I","PRINCIPAL ---"+(this.fragments[0] as HistoriaFragment).divisa!!.codigo)
         adapter.agregarDivisas(getDivisas())
-        //Log.d("I","PRINCIPAL ---"+(adapter.getItem(0) as HistoriaFragment).divisa!!.codigo)
         adapter.notifyDataSetChanged()
         pager?.adapter = adapter
     }
@@ -135,10 +124,6 @@ class MainActivity : AppCompatActivity(){
 
     fun getDivisaByPosition(pos: Int): Divisa {
         return usuario.configuracion!!.divisas[pos]
-    }
-
-    fun getDivisasIterator() : Iterator<Divisa>{
-        return this.usuario.configuracion!!.divisas.iterator()
     }
 
     fun cambiarMonedaBase(){

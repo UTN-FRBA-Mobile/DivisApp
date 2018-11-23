@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
@@ -51,6 +52,17 @@ class DivisasFragment : Fragment(){
         vista.findViewById<TextView>(R.id.tvPaisBase).text      = (this.context as MainActivity).divisaBase!!.pais
         vista.findViewById<TextView>(R.id.tvCotizaciones).text = ("COTIZACIONES (1 " + (this.context as MainActivity).divisaBase!!.moneda!!.toUpperCase() + ")")
         vista.findViewById<ImageView>(R.id.iwBanderaBase).setImageResource((this.context as MainActivity).divisaBase!!.bandera!!)
+
+        vista.findViewById<FrameLayout>(R.id.divisaFLBase).setOnClickListener{
+            var args = Bundle()
+            args.putInt("divisaIndex", -1)
+            var fragment = DetalleFragment()
+            fragment.arguments = args
+            (context as MainActivity).getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit()
+        }
     }
 
     private fun inflarRecycler(vista: View){

@@ -33,6 +33,7 @@
                 android:layout_marginLeft="8dp"
                 android:background="@drawable/divisa_ppal_gris"
                 android:gravity="center"
+                android:id="@+id/divisaFLBase"
                 android:orientation="horizontal">
 
                 <LinearLayout
