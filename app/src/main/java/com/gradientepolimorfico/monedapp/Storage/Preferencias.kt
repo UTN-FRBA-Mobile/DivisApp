@@ -60,6 +60,20 @@ object Preferencias {
         return this.getPreferences(context).getString(INTERVALO_NOTIFICACIONES,"1")!!
     }
 
+    fun existeMonedero(context: Context, divisa:String) : Boolean{
+        return this.getPreferences(context).contains(divisa)
+    }
+
+    fun monedero(context: Context, divisa: String) : Float{
+        return this.getPreferences(context).getFloat(divisa,(0.0).toFloat())
+    }
+
+    fun saveMonedero(context: Context, divisa: String, valor : Float){
+        val editor = this.getPreferencesEditor(context)
+        editor.putFloat(divisa, valor)
+        editor.apply()
+    }
+
     fun suscribirMoneda(context: Context, moneda : String){
         val monedasActuales = this.getMonedasSuscritas(context)
         val monedas = ArrayList<String>()

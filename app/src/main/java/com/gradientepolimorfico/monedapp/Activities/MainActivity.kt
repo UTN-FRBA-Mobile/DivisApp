@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if(Preferencias.getMonedaBase(this) ==null){
             Preferencias.setMonedaBase(this, "ARS")
             Preferencias.suscribirMoneda(this,"USD")

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -19,6 +20,9 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB0305rQROTUxVpSaByKcQBlv_CRe9XVck"/>
 
         <activity
             android:name=".Activities.SplashActivity"

@@ -1,123 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrincipal"
-    android:gravity="top|center"
-    android:orientation="vertical">
+    android:background="@color/colorPrimaryDark"
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/detalleBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start|bottom"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@android:color/transparent"
+        android:backgroundTint="@android:color/transparent"
+        android:clickable="true"
+        app:backgroundTint="@android:color/transparent"
+        app:srcCompat="@drawable/ic_back_white" />
 
-        <ImageView
-            android:id="@+id/detalleIwBandera"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:scaleType="centerCrop"
-            tools:srcCompat="@drawable/pais_ar" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/detalleTvPais"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Argentina"
-                android:textAlignment="center"
-                android:textColor="@color/common_google_signin_btn_text_dark_default"
-                android:textSize="36sp" />
-
-            <TextView
-                android:id="@+id/detalleTvMoneda"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Peso - ARS"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textColor="@color/common_google_signin_btn_text_dark_default"
-                android:textSize="24sp"
-                android:textStyle="italic" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/detalleLLY"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0"
+
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="top|center"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/textView7"
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/detalleTvPais"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="Argentina"
+                    android:textAlignment="center"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
+                    android:textSize="36sp" />
+
+                <TextView
+                    android:id="@+id/detalleTvMoneda"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Peso - ARS"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
+                    android:textSize="24sp"
+                    android:textStyle="italic" />
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/detalleIwBandera"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@drawable/pais_ar" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:letterSpacing="0.2"
-            android:paddingStart="30dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="10dp"
-            android:text="HISTORIA"
-            android:textColor="@color/colorTextSelected"
-            android:textSize="14sp" />
+            android:orientation="vertical">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <com.ms.square.android.expandabletextview.ExpandableTextView
-                android:id="@+id/detalle_historia_expandible"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:orientation="vertical">
+
                 <TextView
-                    android:id="@+id/expandable_text"
+                    android:id="@+id/textView8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:gravity="fill_horizontal"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:scrollbars="vertical"
-                    android:textColor="@color/common_google_signin_btn_text_dark_default" />
-                
-                <ImageButton
-                    android:id="@+id/expand_collapse"
-                    android:layout_gravity="right|bottom"
-                    android:background="@android:color/transparent"
-                    android:padding="16dp"
+                    android:background="#192226"
+                    android:letterSpacing="0.2"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="5dp"
+                    android:paddingBottom="10dp"
+                    android:text="SALDO ACTUAL"
+                    android:textColor="@color/colorTextSelected"
+                    android:textSize="14sp" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </com.ms.square.android.expandabletextview.ExpandableTextView>
-        <!--<LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingStart="15dp"
+                        android:paddingTop="10dp"
+                        android:text="Su saldo:"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/detalleETCantidad"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:ems="5"
+                        android:inputType="numberDecimal"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/detalleTVCodigo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingTop="10dp"
+                        android:text="ARS"
+                        android:textAlignment="center"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:background="#192226"
+                    android:letterSpacing="0.2"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="5dp"
+                    android:paddingBottom="10dp"
+                    android:text="HISTORIA"
+                    android:textColor="@color/colorTextSelected"
+                    android:textSize="14sp" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.ms.square.android.expandabletextview.ExpandableTextView
+                        android:id="@+id/detalle_historia_expandible"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/expandable_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:gravity="fill_horizontal"
+                            android:paddingStart="15dp"
+                            android:paddingEnd="20dp"
+                            android:scrollbars="vertical"
+                            android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+                        <ImageButton
+                            android:id="@+id/expand_collapse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right|bottom"
+                            android:background="@android:color/transparent"
+                            android:padding="16dp" />
+                    </com.ms.square.android.expandabletextview.ExpandableTextView>
+                </ScrollView>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical">
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="#192226"
+                android:letterSpacing="0.2"
+                android:paddingStart="15dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="5dp"
+                android:paddingBottom="10dp"
+                android:text="UBICACIÓN"
+                android:textColor="@color/colorTextSelected"
+                android:textSize="14sp" />
 
-        <TextView
-                    android:id="@+id/detalleFhistoria"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0"
-                    android:gravity="fill_horizontal"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:scrollbars="vertical"
-                    android:textColor="@color/common_google_signin_btn_text_dark_default" />
-
-
-        </LinearLayout>-->
-        </ScrollView>
-
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
