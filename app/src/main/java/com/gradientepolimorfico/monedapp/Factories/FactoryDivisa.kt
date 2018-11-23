@@ -9,6 +9,8 @@ object FactoryDivisa {
     public val DIVISA_EURO_ESPANIOL         = "EUR"
     public val DIVISA_YEN_JAPONES           = "JPY"
 
+    val divisasDisponibles = arrayOf(DIVISA_PESO_ARGENTINO, DIVISA_DOLAR_ESTADOUNIDENSE, DIVISA_EURO_ESPANIOL, DIVISA_YEN_JAPONES)
+
     private var divisa : Divisa? = null
 
     fun create(codigo : String) : Divisa?{

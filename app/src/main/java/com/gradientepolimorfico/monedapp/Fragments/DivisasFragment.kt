@@ -61,7 +61,7 @@ class DivisasFragment : Fragment(){
 
     private fun iniciarBottomNav(vista : View){
         var fab = vista.findViewById<FloatingActionButton>(R.id.floatingActionButton)
-        //TODO: Agregar compartamiento al button. Agregar un Dialog de agregar divisa.
-        //TODO: Agregar options al spinner del fragement de agregar divisa.
+        val addDivisaDialog = AddDivisaDialogFragment()
+        fab.setOnClickListener(View.OnClickListener { addDivisaDialog.show(this.childFragmentManager!!,"prueba") })
     }
 }

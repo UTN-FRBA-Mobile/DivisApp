@@ -27,17 +27,21 @@ class HistoriaFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
-        var vista = inflater.inflate(R.layout.fragment_historia, container, false)
-
-        this.init(vista)
-
         if(this.divisa!!.hayDatos()){
+            var vista = inflater.inflate(R.layout.fragment_historia, container, false)
+
+            this.init(vista)
             val mChart : LineChart = vista.findViewById<LineChart>(R.id.priceHistoricGraph)
             mChart.configureForHistory(activity!!.applicationContext, this.divisa!!.timeSeriesData)
+            return vista
         }
-
-        return vista
+        else{
+            var vista = inflater.inflate(R.layout.fragment_error_conexion, container, false)
+            vista.findViewById<TextView>(R.id.tvPais).text      = this.divisa!!.pais
+            vista.findViewById<TextView>(R.id.tvDivisa).text    = this.divisa!!.moneda
+            vista.findViewById<ImageView>(R.id.iwBandera).setImageResource(this.divisa!!.bandera!!)
+            return vista
+        }
     }
 
     private fun divisaBase() : Divisa?{
@@ -50,15 +54,16 @@ class HistoriaFragment : Fragment() {
     }
 
     private fun init(vista : View){
+        vista.findViewById<TextView>(R.id.tvPais).text      = this.divisa!!.pais
+        vista.findViewById<TextView>(R.id.tvDivisa).text    = this.divisa!!.moneda
+        vista.findViewById<ImageView>(R.id.iwBandera).setImageResource(this.divisa!!.bandera!!)
+
         if(this.divisa!!.hayDatos()){
 
             var ultimoCambio = this.divisa!!.ultimoCambio()
             var ultimoCambioEnPorcentaje = this.divisa!!.ultimoCambioEnPorcentaje()
 
             /**----------------------------- HEADERS ---------------------------------- **/
-            vista.findViewById<TextView>(R.id.tvPais).text      = this.divisa!!.pais
-            vista.findViewById<TextView>(R.id.tvDivisa).text    = this.divisa!!.moneda
-            vista.findViewById<ImageView>(R.id.iwBandera).setImageResource(this.divisa!!.bandera!!)
             vista.findViewById<TextView>(R.id.tvValorDivisa).text = this.valorMonedaSegunBase()
 
             vista.findViewById<TextView>(R.id.tvAmbosCambios).text =

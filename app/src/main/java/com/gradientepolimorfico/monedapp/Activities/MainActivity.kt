@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(){
     var divisaBase          : Divisa?               = null
     var historialAdapter    : HistoriaPageAdapter?  = null
     var fragments           = ArrayList<Fragment>()
+    var cambioEnMonedaBase : Boolean = false
 
     private fun init(){
         this.usuario.nombreDeUsuario = "Steve"
@@ -94,15 +95,20 @@ class MainActivity : AppCompatActivity(){
     public fun iniciarFragmentsPagers(pager: ViewPager?, manager : FragmentManager){
         val adapter = HistoriaPageAdapter(manager)
 
-        if(this.fragments.isEmpty()){
+        if(this.fragments.isEmpty() || this.cambioEnMonedaBase){
+            //Log.d("I","PRINCIPAL --- VACIO O CAMBIO EN MONEDA")
+            this.cambioEnMonedaBase = false
+            this.fragments.clear()
             var iterador = this.getDivisasIterator()
             iterador.forEach {
                 d ->
                 var fragment = HistoriaFragment()
                 fragment.agregarDivisa(d)
                 this.fragments.add(fragment)
+                //Log.d("I","PRINCIPAL --- "+d.codigo)
             }
         }
+        //Log.d("I","PRINCIPAL ---"+this.fragments.count().toString())
         adapter.agregarFragments(this.fragments)
         pager?.adapter = adapter
     }
@@ -133,7 +139,7 @@ class MainActivity : AppCompatActivity(){
     }
 
 
-    private fun irAPrincipal(){
+    fun irAPrincipal(){
         this.mostrarFragment(R.id.fragment_container, DivisasFragment())
     }
 
@@ -152,7 +158,12 @@ class MainActivity : AppCompatActivity(){
     fun cambiarMonedaBase(){
         val codigoMonedaBase = Preferencias.getMonedaBase(this)!!
         this.divisaBase = FactoryDivisa.create(codigoMonedaBase)
+        this.cambioEnMonedaBase = true
         Preferencias.desuscribirMoneda(this, codigoMonedaBase)
+        this.reloadDivisas()
+    }
+
+    fun reloadDivisas(){
         this.cargarDivisasEnConfiguracion(this.usuario.configuracion!!)
     }
 }
