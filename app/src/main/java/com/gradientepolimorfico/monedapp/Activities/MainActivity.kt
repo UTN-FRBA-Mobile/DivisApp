@@ -58,10 +58,8 @@ class MainActivity : AppCompatActivity(){
     private fun iniciarDivisaEn(configuracion : Configuracion, codigoDivisa : String){
         var divisa = FactoryDivisa.create(codigoDivisa)
         Preferencias.recuperarDivisa(this, divisa!!)
-        //Log.d("I","MAINACT--"+divisa!!.hayDatos().toString())
         configuracion.agregarDivisa(divisa!!)
     }
-
 
     private fun iniciarFragments(){
         this.divisasFragment    = DivisasFragment()
@@ -69,9 +67,14 @@ class MainActivity : AppCompatActivity(){
         this.historialFragment  = HistorialFragment()
         this.perfilFragment     = PerfilFragment()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if(this.divisaBase == null){
+            this.iniciarPrimeraVez()
+        }
 
         this.iniciarBottomNav()
         this.init()
@@ -82,16 +85,29 @@ class MainActivity : AppCompatActivity(){
             this.mostrarPantallaSegunNotificacion(codigoDivisa)
         }
         else{
-            if(Preferencias.getMonedaBase(this) ==null){
-                Preferencias.setMonedaBase(this, "ARS")
-                Preferencias.suscribirMoneda(this,"USD")
-                Preferencias.suscribirMoneda(this,"EUR")
-                Preferencias.suscribirMoneda(this,"JPY")
-                Preferencias.setNotificacionesActivas(this, true)
-            }
-            FirebaseMessaging.getInstance().subscribeToTopic("notificaciones")
+            //FirebaseMessaging.getInstance().subscribeToTopic("notificaciones3")
             this.irAPrincipal()
         }
+    }
+
+    private fun iniciarPrimeraVez(){
+        Preferencias.setMonedaBase(this, FactoryDivisa.divisaBaseDefault)
+
+        FactoryDivisa.divisasDisponibles.forEach { d ->
+            if(d!= FactoryDivisa.divisaBaseDefault){
+                this.iniciarPrimeraVezDivisa(d)
+            }
+        }
+
+        Preferencias.setNotificacionesActivas(this, true)
+    }
+
+    private fun iniciarPrimeraVezDivisa(codigoDivisa : String){
+        Preferencias.suscribirMoneda(this,codigoDivisa)
+        Preferencias.notificacionesParaSubaDivisa(this,codigoDivisa,true)
+        Preferencias.notificacionesParaBajaDivisa(this,codigoDivisa,true)
+        FirebaseMessaging.getInstance().subscribeToTopic("suba_"+codigoDivisa)
+        FirebaseMessaging.getInstance().subscribeToTopic("baja_"+codigoDivisa)
     }
 
     private fun mostrarPantallaSegunNotificacion(fragment : String){

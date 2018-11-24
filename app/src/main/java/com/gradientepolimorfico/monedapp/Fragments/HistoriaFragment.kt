@@ -3,6 +3,7 @@ package com.gradientepolimorfico.monedapp.Fragments
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -144,16 +145,16 @@ class HistoriaFragment : Fragment() {
 
             vista.findViewById<Switch>(R.id.historiaNotiSuba).setOnCheckedChangeListener {
                 buttonView, isChecked ->
+                Preferencias.notificacionesParaSubaDivisa(this.context!!, this.divisa!!.codigo!!,isChecked)
                 if(isChecked) FirebaseMessaging.getInstance().subscribeToTopic("suba_"+this.divisa!!.codigo!!)
                 else FirebaseMessaging.getInstance().unsubscribeFromTopic("suba_"+this.divisa!!.codigo!!)
-                Preferencias.notificacionesParaSubaDivisa(this.context!!, this.divisa!!.codigo!!,isChecked)
             }
 
             vista.findViewById<Switch>(R.id.historiaNotiBaja).setOnCheckedChangeListener {
                 buttonView, isChecked ->
+                Preferencias.notificacionesParaBajaDivisa(this.context!!, this.divisa!!.codigo!!,isChecked)
                 if(isChecked) FirebaseMessaging.getInstance().subscribeToTopic("baja_"+this.divisa!!.codigo!!)
                 else FirebaseMessaging.getInstance().unsubscribeFromTopic("baja_"+this.divisa!!.codigo!!)
-                Preferencias.notificacionesParaBajaDivisa(this.context!!, this.divisa!!.codigo!!,isChecked)
             }
             /**----------------------------- END NOTIFICACIONES ---------------------------- **/
         }
