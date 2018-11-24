@@ -24,6 +24,7 @@ object Preferencias {
     private val DIVISA_PARTICULAR_VALOR         = "_VALOR"
     private val DIVISA_PARTICULAR_TIMES_SERIES  = "_TIMES_SERIES"
     private val DIVISA_PARTICULAR_FROM          = "_FROM"
+    private var DIVISA_ULTIMA_ACTUALIZACION     = "_ACTUALIZACION"
 
     fun getMonedaBase(context: Context) : String?{
         return this.getPreferences(context).getString(MONEDA_BASE,null)
@@ -97,6 +98,16 @@ object Preferencias {
         return this.getPreferences(context).getString(INTERVALO_NOTIFICACIONES,"1")!!
     }
 
+    fun getIntervaloNotificacionesAsLong(context: Context): Long{
+        val dayInMiliseconds: Long = 24 * 3600 * 1000
+        when(this.getPreferences(context).getString(INTERVALO_NOTIFICACIONES,"1")!!){
+            "1" -> return dayInMiliseconds
+            "2" -> return dayInMiliseconds * 7
+            "3" -> return dayInMiliseconds * 30
+            else -> return dayInMiliseconds * 100
+        }
+    }
+
     fun existeMonedero(context: Context, divisa:String) : Boolean{
         return this.getPreferences(context).contains(divisa)
     }
@@ -162,6 +173,10 @@ object Preferencias {
         editor.apply()
         editor.putString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_FROM,divisa.from!!)
         editor.apply()
+
+        editor.remove(DIVISA_PARTICULAR+codigo+ DIVISA_ULTIMA_ACTUALIZACION)
+        editor.putLong(DIVISA_PARTICULAR+codigo+ DIVISA_ULTIMA_ACTUALIZACION,divisa.lastUpdated.time!!)
+        editor.apply()
     }
 
     fun recuperarDivisa(context: Context, divisa: Divisa){
@@ -170,6 +185,7 @@ object Preferencias {
 
         divisa.valor = preferences.getFloat(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_VALOR, (0.0).toFloat())
         divisa.from  = preferences.getString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_FROM,"ARS")
+        divisa.lastUpdated = Date(preferences.getLong(DIVISA_PARTICULAR+codigo+ DIVISA_ULTIMA_ACTUALIZACION, 0))
         var stringEntries = preferences.getString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES,null)
 
         if(stringEntries!= null){
