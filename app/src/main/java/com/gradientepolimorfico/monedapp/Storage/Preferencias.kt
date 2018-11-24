@@ -5,6 +5,10 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.github.mikephil.charting.data.Entry
 import com.gradientepolimorfico.monedapp.Entities.Divisa
+import java.util.*
+import java.util.Arrays.asList
+import kotlin.collections.ArrayList
+
 
 object Preferencias {
     val PREF_NAME                   = "DIVIS_APP_PREFERENCES"
@@ -141,7 +145,7 @@ object Preferencias {
         val codigo = divisa.codigo!!
 
         editor.remove(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES)
-        editor.putStringSet(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES, divisa.timesSeriesDataToSetString())
+        editor.putString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES, divisa.timesSeriesDataToString())
         editor.apply()
 
         editor.remove(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_VALOR)
@@ -159,8 +163,10 @@ object Preferencias {
 
         divisa.valor = preferences.getFloat(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_VALOR, (0.0).toFloat())
         divisa.from  = preferences.getString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_FROM,"ARS")
-        var entries = preferences.getStringSet(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES,null)
-        if(entries!= null){
+        var stringEntries = preferences.getString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES,null)
+
+        if(stringEntries!= null){
+            var entries: ArrayList<String> = ArrayList(stringEntries.split(";"))
             entries.forEach {
                 e ->
                 var spliteado = e.split("x:","y:")

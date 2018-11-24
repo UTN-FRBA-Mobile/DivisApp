@@ -30,11 +30,11 @@ import java.util.*
 
 
 class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
-    //private var divisas:ArrayList<Divisa>? = null
+    private var divisas:ArrayList<Divisa>? = null
     private var context:Context? = null
 
     constructor(divisas:ArrayList<Divisa>, context: Context) : super(){
-        //this.divisas = divisas
+        this.divisas = divisas
         this.context = context
     }
 
@@ -47,7 +47,7 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
 
     override fun getItemCount(): Int {
         return  (this.context!! as MainActivity).getDivisas().count()
-       // return this.divisas!!.size
+        return this.divisas!!.size
     }
 
     private fun monedaBase() : String?{
@@ -64,12 +64,12 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
 
     private fun cambioMonedaBase(divisa: Divisa) : Boolean{
         return divisa.hayDatos() && divisa.from!= ('"'.toString()+this.monedaBase()+'"'.toString())
-        //return divisa.hayDatos() && divisa.from!= this.monedaBase()!!
+        return divisa.hayDatos() && divisa.from!= this.monedaBase()!!
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         var unaDivisa = (this.context!! as MainActivity).getDivisaByPosition(position)
-       // var unaDivisa = this.getDivisa(position)
+        //var unaDivisa = this.getDivisa(position)
 
         holder.view.findViewById<TextView>(R.id.tvPais).text = unaDivisa.pais
         holder.view.findViewById<TextView>(R.id.tvDivisa).text = unaDivisa.moneda
@@ -101,10 +101,10 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
                     holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = "$" + unaDivisa.valor.toString()
                     unaDivisa.timeSeriesData = body.data
                     unaDivisa.timeSeriesData.reverse()
-                    //unaDivisa.timeSeriesData.toSet()
+                    unaDivisa.timeSeriesData.toSet()
                     unaDivisa.from = body.toCode.toString()
 
-                    //Preferencias.saveDivisa(context!!, unaDivisa)
+                    Preferencias.saveDivisa(context!!, unaDivisa)
 
                     holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
                     holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).invalidate()
@@ -114,7 +114,7 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
         }
         else {
                 holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = "$" + unaDivisa.valor.toString()
-                //Log.d("I",  "MAINACT-- CHECKEO VACIO"+unaDivisa.timeSeriesData.isEmpty().toString()+" "+unaDivisa.timeSeriesData.count().toString())
+                Log.d("I",  "MAINACT-- CHECKEO VACIO"+unaDivisa.timeSeriesData.isEmpty().toString()+" "+unaDivisa.timeSeriesData.count().toString())
                 holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
         }
 

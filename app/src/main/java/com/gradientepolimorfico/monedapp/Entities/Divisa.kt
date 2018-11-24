@@ -3,6 +3,9 @@ package com.gradientepolimorfico.monedapp.Entities
 import android.util.Log
 import com.github.mikephil.charting.data.Entry
 import com.google.gson.annotations.SerializedName
+import android.text.TextUtils
+
+
 
 
 
@@ -50,11 +53,8 @@ class Divisa {
     }
 
 
-    fun timesSeriesDataToSetString() : Set<String>{
-        var resultado = ArrayList<String>()
-        this.timeSeriesData.forEach { e ->
-            resultado.add(e.toString()) }
-        return resultado.toSet()
+    fun timesSeriesDataToString() : String{
+        return TextUtils.join(";", this.timeSeriesData)
     }
 
 }
