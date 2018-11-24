@@ -19,6 +19,8 @@ import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.configureForList
 import android.util.Log
 import android.widget.Toast
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
 import com.gradientepolimorfico.monedapp.Fragments.DetalleFragment
 import com.gradientepolimorfico.monedapp.Services.ExchangeRateResponse
 import com.gradientepolimorfico.monedapp.Services.MonedasService
@@ -26,11 +28,12 @@ import com.gradientepolimorfico.monedapp.Services.RetrofitClientInstance
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
 import retrofit2.Call
 import retrofit2.Callback
+import java.security.KeyStore
 import java.util.*
-
+import kotlin.collections.ArrayList
 
 class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
-    private var divisas:ArrayList<Divisa>? = null
+    var divisas:ArrayList<Divisa>? = null
     private var context:Context? = null
 
     constructor(divisas:ArrayList<Divisa>, context: Context) : super(){
@@ -59,24 +62,16 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
     }
 
     private fun desactualizada(unaDivisa: Divisa) : Boolean{
-        return (!unaDivisa.hayDatos() )
+        val desactualizada = (Date().time - unaDivisa.lastUpdated.time) > Preferencias.getIntervaloNotificacionesAsLong(this.context!!)
+        return (!unaDivisa.hayDatos() || desactualizada)
     }
 
     private fun cambioMonedaBase(divisa: Divisa) : Boolean{
         return divisa.hayDatos() && divisa.from!= ('"'.toString()+this.monedaBase()+'"'.toString())
-        return divisa.hayDatos() && divisa.from!= this.monedaBase()!!
+        //return divisa.hayDatos() && divisa.from!= this.monedaBase()!!
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        var unaDivisa = (this.context!! as MainActivity).getDivisaByPosition(position)
-        //var unaDivisa = this.getDivisa(position)
-
-        holder.view.findViewById<TextView>(R.id.tvPais).text = unaDivisa.pais
-        holder.view.findViewById<TextView>(R.id.tvDivisa).text = unaDivisa.moneda
-        holder.view.findViewById<ImageView>(R.id.iwBandera).setImageResource(unaDivisa.bandera!!)
-        holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).setNoDataTextColor(Color.LTGRAY)
-        holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).setNoDataText("Cargando...")
-
+    fun requestDataFromAPI(unaDivisa: Divisa, holder: MyViewHolder) {
         if(this.desactualizada(unaDivisa) || this.cambioMonedaBase(unaDivisa)) {
             unaDivisa.dataRequested = true
             val service = RetrofitClientInstance.retrofitInstance!!.create<MonedasService>(MonedasService::class.java)
@@ -96,16 +91,11 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
                 override fun onResponse(call: Call<ExchangeRateResponse>?, response: retrofit2.Response<ExchangeRateResponse>?) {
                     var body = response!!.body()!!
 
-                    unaDivisa.fecha = body.lastRefreshed
-                    unaDivisa.valor = body.exchangeRate
-                    holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = "$" + unaDivisa.valor.toString()
-                    unaDivisa.timeSeriesData = body.data
-                    unaDivisa.timeSeriesData.reverse()
-                    unaDivisa.timeSeriesData.toSet()
-                    unaDivisa.from = body.toCode.toString()
+                    unaDivisa.setDatos(body)
 
                     Preferencias.saveDivisa(context!!, unaDivisa)
 
+                    holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = "$" + unaDivisa.valor.toString()
                     holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
                     holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).invalidate()
                 }
@@ -113,10 +103,25 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
             })
         }
         else {
-                holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = "$" + unaDivisa.valor.toString()
-                Log.d("I",  "MAINACT-- CHECKEO VACIO"+unaDivisa.timeSeriesData.isEmpty().toString()+" "+unaDivisa.timeSeriesData.count().toString())
-                holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
+            holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = "$" + unaDivisa.valor.toString()
+            Log.d("I",  "MAINACT-- CHECKEO VACIO"+unaDivisa.timeSeriesData.isEmpty().toString()+" "+unaDivisa.timeSeriesData.count().toString())
+            holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
         }
+
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        var unaDivisa = (this.context!! as MainActivity).getDivisaByPosition(position)
+        //var unaDivisa = this.getDivisa(position)
+
+        holder.view.findViewById<TextView>(R.id.tvPais).text = unaDivisa.pais
+        holder.view.findViewById<TextView>(R.id.tvDivisa).text = unaDivisa.moneda
+        holder.view.findViewById<ImageView>(R.id.iwBandera).setImageResource(unaDivisa.bandera!!)
+        holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).data = null
+        holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).setNoDataTextColor(Color.LTGRAY)
+        holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).setNoDataText("Cargando...")
+
+        requestDataFromAPI(unaDivisa, holder)
 
         this.listenerDetalle(holder, position)
     }

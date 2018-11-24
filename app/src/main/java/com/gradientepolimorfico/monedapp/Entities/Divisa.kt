@@ -4,9 +4,10 @@ import android.util.Log
 import com.github.mikephil.charting.data.Entry
 import com.google.gson.annotations.SerializedName
 import android.text.TextUtils
-
-
-
+import android.widget.TextView
+import com.gradientepolimorfico.monedapp.R
+import com.gradientepolimorfico.monedapp.Services.ExchangeRateResponse
+import java.util.*
 
 
 class Divisa {
@@ -19,6 +20,17 @@ class Divisa {
     var dataRequested: Boolean  = false
     var timeSeriesData          = ArrayList<Entry>()
     var from: String?           = null
+    var lastUpdated: Date       = Date(0)
+
+    fun setDatos(body: ExchangeRateResponse) {
+        this.fecha = body.lastRefreshed
+        this.valor = body.exchangeRate
+        this.timeSeriesData = body.data
+        this.timeSeriesData.reverse()
+        this.timeSeriesData.toSet()
+        this.from = body.toCode.toString()
+        this.lastUpdated = Date()
+    }
 
     fun hayDatos() : Boolean{
         return this.timeSeriesData.count()>0
@@ -52,9 +64,11 @@ class Divisa {
         return resultado
     }
 
-
     fun timesSeriesDataToString() : String{
         return TextUtils.join(";", this.timeSeriesData)
     }
 
+    fun getDataFromAPI() {
+
+    }
 }
