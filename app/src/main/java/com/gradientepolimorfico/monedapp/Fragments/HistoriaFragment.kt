@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
 import com.github.mikephil.charting.charts.LineChart
+import com.google.firebase.messaging.FirebaseMessaging
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.R
@@ -70,7 +72,7 @@ class HistoriaFragment : Fragment() {
             vista.findViewById<TextView>(R.id.tvAmbosCambios).text =
                     ("%.3f".format(ultimoCambio) + " (" + "%.3f".format(ultimoCambioEnPorcentaje) + "%)")
 
-            vista.findViewById<TextView>(R.id.tvCambio).text = ("$"+"%.4f".format(ultimoCambio))
+            //vista.findViewById<TextView>(R.id.tvCambio).text = ("$"+"%.4f".format(ultimoCambio))
 
             vista.findViewById<TextView>(R.id.tvFrecuenciaAct).text = (
                     when(Preferencias.getIntervaloNotificaciones(context!!))
@@ -86,6 +88,7 @@ class HistoriaFragment : Fragment() {
             var moneda = this.divisa!!.moneda!!.toLowerCase()
             var detalle = ""
             var colorDetalle = 1
+            var base = this.divisaBase()
 
             if(ultimoCambio<0){
                 resource = R.drawable.ic_arrow_drop_down
@@ -99,20 +102,20 @@ class HistoriaFragment : Fragment() {
             }
 
             /**----------------------------- DETALLES ---------------------------------- **/
-            vista.findViewById<ImageView>(R.id.ivSubaBaja).setImageResource(resource)
+            //vista.findViewById<ImageView>(R.id.ivSubaBaja).setImageResource(resource)
 
             vista.findViewById<ImageView>(R.id.ivUpDown).setImageResource(resource)
             vista.findViewById<TextView>(R.id.tvValorDivisa).setTextColor(resources.getColor(colorDetalle))
             vista.findViewById<TextView>(R.id.tvCodigoDivisa).setTextColor(resources.getColor(colorDetalle))
             vista.findViewById<TextView>(R.id.tvAmbosCambios).setTextColor(resources.getColor(colorDetalle))
 
-            var tvDetalle = vista.findViewById<TextView>(R.id.tvDetalleSubaBaja)
-            tvDetalle.setTextColor(resources.getColor(colorDetalle))
+            //var tvDetalle = vista.findViewById<TextView>(R.id.tvDetalleSubaBaja)
+            //tvDetalle.setTextColor(resources.getColor(colorDetalle))
 
-            vista.findViewById<TextView>(R.id.tvDetalleSubaBaja).text = detalle
-            vista.findViewById<TextView>(R.id.tvCambio).setTextColor(resources.getColor(colorDetalle))
+            /*vista.findViewById<TextView>(R.id.tvDetalleSubaBaja).text = detalle
+            vista.findViewById<TextView>(R.id.tvCambio).setTextColor(resources.getColor(colorDetalle))*/
 
-            vista.findViewById<TextView>(R.id.tvValorMonedaBase).text = "1 "+ this.divisaBase()!!.codigo
+            vista.findViewById<TextView>(R.id.tvValorMonedaBase).text = "1 "+ base!!.codigo
             vista.findViewById<TextView>(R.id.tvValorDivisaSegunBase).text = "%.3f".format((1.toFloat()) / this.divisa!!.valor!!).toString() + " "+this.divisa!!.codigo
 
 
@@ -120,6 +123,39 @@ class HistoriaFragment : Fragment() {
             vista.findViewById<TextView>(R.id.tvUnidadDivisa).text = "1 "+ this.divisa!!.codigo
 
             /**----------------------------- END DETALLES ---------------------------------- **/
+
+            /**----------------------------- CONVERTIBILIDAD -------------------------------- **/
+            var monederoDivisa  = Preferencias.monedero(this.context!!,this.divisa!!.codigo!!)
+            var monederoBase    = Preferencias.monedero(this.context!!, base!!.codigo!!)
+
+            var ventaDivisa     = monederoDivisa*(this.divisa!!.valor!!)
+            var compraDivisa    = monederoBase/(this.divisa!!.valor!!)
+
+            var descripcionVenta  = "Si  vende sus "+ monederoDivisa.toString()+" "+ this.divisa!!.codigo +" obtendrá "+ "%.2f".format(ventaDivisa).toString()+" "+base!!.codigo
+            var descripcionCompra = "Con sus "+monederoBase+" "+ base!!.codigo+" puede comprar "+"%.2f".format(compraDivisa).toString()+" "+this.divisa!!.codigo
+
+            vista.findViewById<TextView>(R.id.historiaTvVentaDivisa).text  = descripcionVenta
+            vista.findViewById<TextView>(R.id.historiaTvCompraDivisa).text = descripcionCompra
+            /**----------------------------- END CONVERTIBILIDAD ---------------------------- **/
+
+            /**----------------------------- NOTIFICACIONES -------------------------------- **/
+            vista.findViewById<Switch>(R.id.historiaNotiSuba).isChecked = Preferencias.getNotificacionesParaSubaDivisa(this.context!!,this.divisa!!.codigo!!)
+            vista.findViewById<Switch>(R.id.historiaNotiBaja).isChecked = Preferencias.getNotificacionesParaBajaDivisa(this.context!!,this.divisa!!.codigo!!)
+
+            vista.findViewById<Switch>(R.id.historiaNotiSuba).setOnCheckedChangeListener {
+                buttonView, isChecked ->
+                if(isChecked) FirebaseMessaging.getInstance().subscribeToTopic("suba_"+this.divisa!!.codigo!!)
+                else FirebaseMessaging.getInstance().unsubscribeFromTopic("suba_"+this.divisa!!.codigo!!)
+                Preferencias.notificacionesParaSubaDivisa(this.context!!, this.divisa!!.codigo!!,isChecked)
+            }
+
+            vista.findViewById<Switch>(R.id.historiaNotiBaja).setOnCheckedChangeListener {
+                buttonView, isChecked ->
+                if(isChecked) FirebaseMessaging.getInstance().subscribeToTopic("baja_"+this.divisa!!.codigo!!)
+                else FirebaseMessaging.getInstance().unsubscribeFromTopic("baja_"+this.divisa!!.codigo!!)
+                Preferencias.notificacionesParaBajaDivisa(this.context!!, this.divisa!!.codigo!!,isChecked)
+            }
+            /**----------------------------- END NOTIFICACIONES ---------------------------- **/
         }
     }
 }

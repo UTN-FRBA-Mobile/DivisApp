@@ -12,6 +12,7 @@ import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
 import kotlinx.android.synthetic.main.intervalconfig.view.*
 
+@Deprecated("No se usa más")
 class IntervaloNotificacionesDialog : DialogFragment() {
     var  configFragment : ConfigFragment? = null
 

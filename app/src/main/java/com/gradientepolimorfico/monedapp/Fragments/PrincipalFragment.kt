@@ -10,6 +10,7 @@ import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.R
 import kotlinx.android.synthetic.main.fragment_divisa_precioactual.*
 
+@Deprecated("No se usa más")
 class PrincipalFragment : Fragment() {
 
     private var divisaIndex: Int? = null
