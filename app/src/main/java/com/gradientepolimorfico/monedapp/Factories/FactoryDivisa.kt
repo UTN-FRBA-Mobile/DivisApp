@@ -12,6 +12,8 @@ object FactoryDivisa {
 
     val divisasDisponibles = arrayOf(DIVISA_PESO_ARGENTINO, DIVISA_DOLAR_ESTADOUNIDENSE, DIVISA_EURO_ESPANIOL, DIVISA_YEN_JAPONES)
 
+    val divisaBaseDefault = DIVISA_PESO_ARGENTINO
+
     private var divisa : Divisa? = null
 
     fun create(codigo : String) : Divisa?{

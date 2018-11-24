@@ -24,10 +24,7 @@ class MyFirebaseService : FirebaseMessagingService() {
         if (remoteMessage!!.data.size > 0) {
             if(remoteMessage!!.data.containsKey("notification")){
                 var moreData = remoteMessage!!.data.get("moredata")
-
-                var notificacion = remoteMessage!!.data.get("notification")
-                var json = JSONObject(notificacion)
-                this.mostrarNotificacion(json.get("body").toString(),moreData,json.getString("title"))
+                this.crearNotificacionEspecial(remoteMessage,moreData)
             }
         }
 
@@ -36,6 +33,12 @@ class MyFirebaseService : FirebaseMessagingService() {
                 this.mostrarNotificacion(remoteMessage.notification!!.body,null,remoteMessage!!.notification!!.title)
             }
         }
+    }
+
+    private fun crearNotificacionEspecial(remoteMessage: RemoteMessage?,codigoDivisa : String?){
+        var notificacion = remoteMessage!!.data.get("notification")
+        var json = JSONObject(notificacion)
+        this.mostrarNotificacion(json.get("body").toString(),codigoDivisa,json.getString("title"))
     }
 
     private fun mostrarNotificacion(messageBody: String?, codigoDivisa : String?, titulo : String?){
