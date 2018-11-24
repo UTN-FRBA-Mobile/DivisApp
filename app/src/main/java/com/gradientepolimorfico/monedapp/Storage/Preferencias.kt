@@ -145,14 +145,17 @@ object Preferencias {
         val codigo = divisa.codigo!!
 
         editor.remove(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES)
+        editor.apply()
         editor.putString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES, divisa.timesSeriesDataToString())
         editor.apply()
 
         editor.remove(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_VALOR)
+        editor.apply()
         editor.putFloat(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_VALOR, divisa.valor!!)
         editor.apply()
 
         editor.remove(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_FROM)
+        editor.apply()
         editor.putString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_FROM,divisa.from!!)
         editor.apply()
     }
