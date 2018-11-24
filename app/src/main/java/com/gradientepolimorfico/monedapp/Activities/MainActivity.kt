@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.FloatingActionButton
-import com.gradientepolimorfico.monedapp.Fragments.DivisasFragment
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.view.ViewPager
@@ -13,13 +12,11 @@ import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.Entities.Configuracion
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.Entities.Usuario
-import com.gradientepolimorfico.monedapp.Fragments.HistorialFragment
-import com.gradientepolimorfico.monedapp.Fragments.ConfigFragment
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
 import android.util.Log
 import com.gradientepolimorfico.monedapp.Adapters.HistoriaPageAdapter
 import com.gradientepolimorfico.monedapp.Factories.FactoryDivisa
-import com.gradientepolimorfico.monedapp.Fragments.HistoriaFragment
+import com.gradientepolimorfico.monedapp.Fragments.*
 
 
 class MainActivity : AppCompatActivity(){
@@ -28,6 +25,7 @@ class MainActivity : AppCompatActivity(){
 
     var divisasFragment     : DivisasFragment?      = null
     var configFragment      : ConfigFragment?       = null
+    var perfilFragment      : PerfilFragment?       = null
     var historialFragment   : HistorialFragment?    = null
     var divisaBase          : Divisa?               = null
     var historialAdapter    : HistoriaPageAdapter?  = null
@@ -65,6 +63,7 @@ class MainActivity : AppCompatActivity(){
         this.divisasFragment    = DivisasFragment()
         this.configFragment     = ConfigFragment()
         this.historialFragment  = HistorialFragment()
+        this.perfilFragment = PerfilFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,7 +101,7 @@ class MainActivity : AppCompatActivity(){
 
                 R.id.nav_configuracion  -> this.mostrarFragment(R.id.fragment_container,this.configFragment!!)
 
-                R.id.nav_perfil         -> this.mostrarFragment(R.id.fragment_container,this.divisasFragment!!)
+                R.id.nav_perfil         -> this.mostrarFragment(R.id.fragment_container,this.perfilFragment!!)
             }
             true
         }
