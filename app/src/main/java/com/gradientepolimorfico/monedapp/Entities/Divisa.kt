@@ -1,5 +1,6 @@
 package com.gradientepolimorfico.monedapp.Entities
 
+import android.util.Log
 import com.github.mikephil.charting.data.Entry
 import com.google.gson.annotations.SerializedName
 
@@ -46,6 +47,14 @@ class Divisa {
             resultado = (reduccion/anteultimo.y)*100
         }
         return resultado
+    }
+
+
+    fun timesSeriesDataToSetString() : Set<String>{
+        var resultado = ArrayList<String>()
+        this.timeSeriesData.forEach { e ->
+            resultado.add(e.toString()) }
+        return resultado.toSet()
     }
 
 }

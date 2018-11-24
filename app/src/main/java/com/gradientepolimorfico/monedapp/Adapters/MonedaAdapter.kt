@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.R
-
+@Deprecated("Ya no se utiliza")
 class MonedaAdapter: BaseAdapter {
     var listaDeMonedas = ArrayList<Divisa>()
     var context: Context?=null

@@ -3,6 +3,8 @@ package com.gradientepolimorfico.monedapp.Storage
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import com.github.mikephil.charting.data.Entry
+import com.gradientepolimorfico.monedapp.Entities.Divisa
 
 object Preferencias {
     val PREF_NAME                   = "DIVIS_APP_PREFERENCES"
@@ -13,6 +15,11 @@ object Preferencias {
     val MONEDA_BASE                 = "MONEDA_BASE"
 
     private val NOTIFICACIONES_POR_DIVISA = "NOTIFICACIONES_"
+
+    private val DIVISA_PARTICULAR               = "INFO_DIVISA_"
+    private val DIVISA_PARTICULAR_VALOR         = "_VALOR"
+    private val DIVISA_PARTICULAR_TIMES_SERIES  = "_TIMES_SERIES"
+    private val DIVISA_PARTICULAR_FROM          = "_FROM"
 
     fun getMonedaBase(context: Context) : String?{
         return this.getPreferences(context).getString(MONEDA_BASE,null)
@@ -127,6 +134,39 @@ object Preferencias {
         editor.apply()
         editor.putStringSet(MONEDAS_SUSCRITAS, monedas.toSet())
         editor.apply()
+    }
+
+    fun saveDivisa(context: Context, divisa: Divisa){
+        val editor = this.getPreferencesEditor(context)
+        val codigo = divisa.codigo!!
+
+        editor.remove(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES)
+        editor.putStringSet(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES, divisa.timesSeriesDataToSetString())
+        editor.apply()
+
+        editor.remove(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_VALOR)
+        editor.putFloat(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_VALOR, divisa.valor!!)
+        editor.apply()
+
+        editor.remove(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_FROM)
+        editor.putString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_FROM,divisa.from!!)
+        editor.apply()
+    }
+
+    fun recuperarDivisa(context: Context, divisa: Divisa){
+        val codigo = divisa.codigo!!
+        val preferences = this.getPreferences(context)
+
+        divisa.valor = preferences.getFloat(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_VALOR, (0.0).toFloat())
+        divisa.from  = preferences.getString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_FROM,"ARS")
+        var entries = preferences.getStringSet(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES,null)
+        if(entries!= null){
+            entries.forEach {
+                e ->
+                var spliteado = e.split("x:","y:")
+                divisa.timeSeriesData.add(Entry(spliteado[1].toFloat(),spliteado[2].toFloat()))
+            }
+        }
     }
 
     private fun getPreferencesEditor(context: Context): SharedPreferences.Editor {

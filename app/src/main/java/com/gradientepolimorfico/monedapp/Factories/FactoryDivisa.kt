@@ -2,6 +2,7 @@ package com.gradientepolimorfico.monedapp.Factories
 
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.R
+import com.gradientepolimorfico.monedapp.Storage.Preferencias
 
 object FactoryDivisa {
     public val DIVISA_PESO_ARGENTINO        = "ARS"

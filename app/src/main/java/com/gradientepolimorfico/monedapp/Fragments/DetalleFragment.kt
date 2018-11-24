@@ -41,6 +41,7 @@ class DetalleFragment : Fragment(), OnMapReadyCallback  {
         var vista = inflater.inflate(R.layout.fragment_detalle, container, false)
 
         var index = arguments!!.getInt("divisaIndex")
+        //Log.d("I","DETALLE--"+index.toString())
         var divisa : Divisa? = null
         if(index!=-1){
              divisa = (context as MainActivity).getDivisaByPosition(index)
@@ -57,6 +58,7 @@ class DetalleFragment : Fragment(), OnMapReadyCallback  {
 
     private fun mostrarDetalle(divisa: Divisa, vista : View){
         val detalleService = DetalleMonedaService.create()
+        this.rellenarVista(divisa, vista)
         var disposable = detalleService.getDetalleDivisa(divisa.codigo!!)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -64,7 +66,7 @@ class DetalleFragment : Fragment(), OnMapReadyCallback  {
                         { result ->
                             this.ubicacion = result.ubicacion
                             //Log.d("I","DETALLE- "+ubicacion.toString())
-                            this.rellenarVista(divisa, result, vista)
+                            this.rellenarDetalle(result, vista)
                         },
                         {
                             error ->
@@ -74,15 +76,15 @@ class DetalleFragment : Fragment(), OnMapReadyCallback  {
                 )
     }
 
-    private fun rellenarVista(divisa: Divisa, divisaDetalle: DetalleDivisa, vista: View){
+    private fun rellenarDetalle(divisaDetalle: DetalleDivisa, vista: View){
+        vista.findViewById<ExpandableTextView>(R.id.detalle_historia_expandible).text = divisaDetalle.detalle!!
+    }
+
+    private fun rellenarVista(divisa: Divisa, vista: View){
         vista.findViewById<ImageView>(R.id.detalleIwBandera).setImageResource(divisa.bandera!!)
         vista.findViewById<TextView>(R.id.detalleTvPais).text = divisa.pais!!
         vista.findViewById<TextView>(R.id.detalleTvMoneda).text = divisa.moneda!! +" - "+ divisa.codigo!!
-
-        vista.findViewById<ExpandableTextView>(R.id.detalle_historia_expandible).text = divisaDetalle.detalle!!
-
         vista.findViewById<TextView>(R.id.detalleTVCodigo).text = divisa.codigo!!
-
         var monedero = Preferencias.monedero(this.context!!, divisa.codigo!!)
         vista.findViewById<EditText>(R.id.detalleETCantidad).setText(monedero.toString())
 

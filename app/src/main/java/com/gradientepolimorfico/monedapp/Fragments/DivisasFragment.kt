@@ -18,20 +18,20 @@ import com.gradientepolimorfico.monedapp.Entities.Usuario
 import com.gradientepolimorfico.monedapp.R
 
 class DivisasFragment : Fragment(){
-    private var divisas:ArrayList<Divisa>? = null
+    //private var divisas:ArrayList<Divisa>? = null
     private var fab: FloatingActionButton?=null
 
     private var usuario: Usuario? = null
 
-    private fun inicializar(){
+    /*private fun inicializar(){
         this.divisas = this.usuario!!.configuracion!!.divisas
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.usuario = (context as MainActivity).usuario
-        this.divisas = ArrayList<Divisa>()
-        this.inicializar()
+        //this.divisas = ArrayList<Divisa>()
+       // this.inicializar()
 
     }
 
@@ -68,7 +68,7 @@ class DivisasFragment : Fragment(){
     private fun inflarRecycler(vista: View){
         val recyclerView = vista.findViewById<RecyclerView>(R.id.rvDivisas)
         recyclerView!!.layoutManager = LinearLayoutManager(context)
-        recyclerView!!.adapter = DivisaAdapter(this.divisas!!,context!!)
+        recyclerView!!.adapter = DivisaAdapter((context as MainActivity).getDivisas(),context!!)
     }
 
     private fun iniciarBottomNav(vista : View){

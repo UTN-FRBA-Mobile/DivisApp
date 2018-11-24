@@ -10,21 +10,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.github.mikephil.charting.charts.LineChart
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.Entities.Divisa
-import com.gradientepolimorfico.monedapp.Fragments.DivisasFragment
-import com.gradientepolimorfico.monedapp.Fragments.PrincipalFragment
 import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.configureForList
-import kotlinx.android.synthetic.main.fragment_divisa.view.*
-import android.support.v4.content.ContextCompat.startActivity
 import android.util.Log
 import android.widget.Toast
-import com.github.mikephil.charting.data.Entry
 import com.gradientepolimorfico.monedapp.Fragments.DetalleFragment
 import com.gradientepolimorfico.monedapp.Services.ExchangeRateResponse
 import com.gradientepolimorfico.monedapp.Services.MonedasService
@@ -36,11 +30,11 @@ import java.util.*
 
 
 class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
-    private var divisas:ArrayList<Divisa>? = null
+    //private var divisas:ArrayList<Divisa>? = null
     private var context:Context? = null
 
     constructor(divisas:ArrayList<Divisa>, context: Context) : super(){
-        this.divisas = divisas
+        //this.divisas = divisas
         this.context = context
     }
 
@@ -52,7 +46,8 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
     }
 
     override fun getItemCount(): Int {
-        return this.divisas!!.size
+        return  (this.context!! as MainActivity).getDivisas().count()
+       // return this.divisas!!.size
     }
 
     private fun monedaBase() : String?{
@@ -64,15 +59,17 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
     }
 
     private fun desactualizada(unaDivisa: Divisa) : Boolean{
-        return (!unaDivisa.dataRequested && !unaDivisa.hayDatos() )
+        return (!unaDivisa.hayDatos() )
     }
 
     private fun cambioMonedaBase(divisa: Divisa) : Boolean{
         return divisa.hayDatos() && divisa.from!= ('"'.toString()+this.monedaBase()+'"'.toString())
+        //return divisa.hayDatos() && divisa.from!= this.monedaBase()!!
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        var unaDivisa = this.getDivisa(position)
+        var unaDivisa = (this.context!! as MainActivity).getDivisaByPosition(position)
+       // var unaDivisa = this.getDivisa(position)
 
         holder.view.findViewById<TextView>(R.id.tvPais).text = unaDivisa.pais
         holder.view.findViewById<TextView>(R.id.tvDivisa).text = unaDivisa.moneda
@@ -81,11 +78,11 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
         holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).setNoDataText("Cargando...")
 
         if(this.desactualizada(unaDivisa) || this.cambioMonedaBase(unaDivisa)) {
-
             unaDivisa.dataRequested = true
             val service = RetrofitClientInstance.retrofitInstance!!.create<MonedasService>(MonedasService::class.java)
             val call = service.getTimeSeries(unaDivisa.codigo, this.monedaBase())
-            Log.d("DivisApp", "------------------------ Getting currency exchange data for: " + unaDivisa.codigo)
+            Log.d("MAINACT--", "------------------------ Getting currency exchange data for: " + unaDivisa.codigo)
+            Log.d("MAINACT--", this.desactualizada(unaDivisa).toString()+" "+this.cambioMonedaBase(unaDivisa).toString())
 
             call.enqueue(object : Callback<ExchangeRateResponse> {
                 override fun onFailure(call: Call<ExchangeRateResponse>?, t: Throwable?) {
@@ -104,7 +101,10 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
                     holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = "$" + unaDivisa.valor.toString()
                     unaDivisa.timeSeriesData = body.data
                     unaDivisa.timeSeriesData.reverse()
+                    //unaDivisa.timeSeriesData.toSet()
                     unaDivisa.from = body.toCode.toString()
+
+                    //Preferencias.saveDivisa(context!!, unaDivisa)
 
                     holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
                     holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).invalidate()
@@ -113,9 +113,11 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
             })
         }
         else {
-            holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = "$" + unaDivisa.valor.toString()
-            holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
-            }
+                holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = "$" + unaDivisa.valor.toString()
+                //Log.d("I",  "MAINACT-- CHECKEO VACIO"+unaDivisa.timeSeriesData.isEmpty().toString()+" "+unaDivisa.timeSeriesData.count().toString())
+                holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
+        }
+
         this.listenerDetalle(holder, position)
     }
 
@@ -130,9 +132,5 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
                     .replace(R.id.fragment_container, fragment)
                     .commit()
         }
-    }
-
-    private fun getDivisa(position: Int) : Divisa{
-        return this.divisas!!.get(position)
     }
 }

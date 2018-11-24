@@ -55,6 +55,8 @@ class MainActivity : AppCompatActivity(){
 
     private fun iniciarDivisaEn(configuracion : Configuracion, codigoDivisa : String){
         var divisa = FactoryDivisa.create(codigoDivisa)
+       // Preferencias.recuperarDivisa(this, divisa!!)
+        //Log.d("I","MAINACT--"+divisa!!.hayDatos().toString())
         configuracion.agregarDivisa(divisa!!)
     }
 
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity(){
         this.divisasFragment    = DivisasFragment()
         this.configFragment     = ConfigFragment()
         this.historialFragment  = HistorialFragment()
-        this.perfilFragment = PerfilFragment()
+        this.perfilFragment     = PerfilFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

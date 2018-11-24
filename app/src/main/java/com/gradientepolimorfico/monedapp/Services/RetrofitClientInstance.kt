@@ -37,11 +37,12 @@ object RetrofitClientInstance {
         override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): ExchangeRateResponse {
             val exchangeRate = ExchangeRateResponse()
             val jsonObject = json.asJsonObject
-            val metaData = jsonObject["Meta Data"].asJsonObject
-            exchangeRate.fromCode = metaData["2. From Symbol"].toString()
-            exchangeRate.toCode = metaData["3. To Symbol"].toString()
-            exchangeRate.lastRefreshed = metaData["5. Last Refreshed"].toString()
-
+            val metaData = jsonObject["Meta Data"]?.asJsonObject
+            if(metaData != null){
+                exchangeRate.fromCode = metaData["2. From Symbol"].toString()
+                exchangeRate.toCode = metaData["3. To Symbol"].toString()
+                exchangeRate.lastRefreshed = metaData["5. Last Refreshed"].toString()
+            }
             val timeSeries = jsonObject["Time Series FX (Daily)"]
             val gson = Gson()
             val rawData = gson.fromJson(timeSeries, Any::class.java) as LinkedTreeMap<String, LinkedTreeMap<String, String>>
