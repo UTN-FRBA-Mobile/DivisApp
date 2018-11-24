@@ -18,7 +18,7 @@ object Preferencias {
     val NOTIFICACIONES_ACTIVAS      = "NOTIFICACIONES_ACTIVAS"
     val MONEDA_BASE                 = "MONEDA_BASE"
 
-    private val NOTIFICACIONES_POR_DIVISA = "NOTIFICACIONES_"
+    private val NOTIFICACIONES_POR_DIVISA = "NT_"
 
     private val DIVISA_PARTICULAR               = "INFO_DIVISA_"
     private val DIVISA_PARTICULAR_VALOR         = "_VALOR"
@@ -51,12 +51,16 @@ object Preferencias {
 
     fun notificacionesParaSubaDivisa(context: Context, divisa: String, notificaciones: Boolean){
         val editor = this.getPreferencesEditor(context)
+        editor.remove(NOTIFICACIONES_POR_DIVISA+"SUBA_"+divisa)
+        editor.apply()
         editor.putBoolean(NOTIFICACIONES_POR_DIVISA+"SUBA_"+divisa, notificaciones)
         editor.apply()
     }
 
     fun notificacionesParaBajaDivisa(context: Context, divisa: String, notificaciones: Boolean){
         val editor = this.getPreferencesEditor(context)
+        editor.remove(NOTIFICACIONES_POR_DIVISA+"BAJA_"+divisa)
+        editor.apply()
         editor.putBoolean(NOTIFICACIONES_POR_DIVISA+"BAJA_"+divisa, notificaciones)
         editor.apply()
     }
@@ -66,7 +70,7 @@ object Preferencias {
     }
 
     fun getNotificacionesParaBajaDivisa(context: Context, divisa: String) : Boolean{
-        return getPreferences(context).getBoolean(NOTIFICACIONES_POR_DIVISA+"BAJA_"+divisa,true)
+        return getPreferences(context).getBoolean(NOTIFICACIONES_POR_DIVISA+"BAJA_"+divisa,false)
     }
 
     fun getFirebaseToken(context: Context): String? {
