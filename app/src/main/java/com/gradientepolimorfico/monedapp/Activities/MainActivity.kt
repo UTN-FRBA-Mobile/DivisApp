@@ -14,6 +14,7 @@ import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.Entities.Usuario
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
 import android.util.Log
+import com.google.firebase.messaging.FirebaseMessaging
 import com.gradientepolimorfico.monedapp.Adapters.HistoriaPageAdapter
 import com.gradientepolimorfico.monedapp.Factories.FactoryDivisa
 import com.gradientepolimorfico.monedapp.Fragments.*
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity(){
     var divisaBase          : Divisa?               = null
     var historialAdapter    : HistoriaPageAdapter?  = null
     var cambioEnMonedaBase  : Boolean = false
+    var posicionPantallaParaNotificacion : Int?     = null
 
     private fun init(){
         this.usuario.nombreDeUsuario = "Steve"
@@ -67,22 +69,34 @@ class MainActivity : AppCompatActivity(){
         this.historialFragment  = HistorialFragment()
         this.perfilFragment     = PerfilFragment()
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if(Preferencias.getMonedaBase(this) ==null){
-            Preferencias.setMonedaBase(this, "ARS")
-            Preferencias.suscribirMoneda(this,"USD")
-            Preferencias.suscribirMoneda(this,"EUR")
-            Preferencias.suscribirMoneda(this,"JPY")
-        }
         setContentView(R.layout.activity_main)
 
         this.iniciarBottomNav()
         this.init()
         this.iniciarFragments()
-        this.irAPrincipal()
+
+        var codigoDivisa = this.intent?.extras?.getString("codigoDivisa")
+        if(codigoDivisa!= null){
+            this.mostrarPantallaSegunNotificacion(codigoDivisa)
+        }
+        else{
+            if(Preferencias.getMonedaBase(this) ==null){
+                Preferencias.setMonedaBase(this, "ARS")
+                Preferencias.suscribirMoneda(this,"USD")
+                Preferencias.suscribirMoneda(this,"EUR")
+                Preferencias.suscribirMoneda(this,"JPY")
+                Preferencias.setNotificacionesActivas(this, true)
+            }
+            FirebaseMessaging.getInstance().subscribeToTopic("notificaciones")
+            this.irAPrincipal()
+        }
+    }
+
+    private fun mostrarPantallaSegunNotificacion(fragment : String){
+        this.posicionPantallaParaNotificacion = this.getPosicionDivisaDeCodigo(fragment)
+        this.mostrarFragment(R.id.fragment_container,this.historialFragment!!)
     }
 
     public fun iniciarFragmentsPagers(pager: ViewPager?, manager : FragmentManager){
@@ -90,6 +104,10 @@ class MainActivity : AppCompatActivity(){
         adapter.agregarDivisas(getDivisas())
         adapter.notifyDataSetChanged()
         pager?.adapter = adapter
+
+        if(this.posicionPantallaParaNotificacion!= null){
+            pager?.currentItem = this.posicionPantallaParaNotificacion!!
+        }
     }
 
     private fun iniciarBottomNav() {
@@ -126,6 +144,10 @@ class MainActivity : AppCompatActivity(){
 
     fun getDivisaByPosition(pos: Int): Divisa {
         return usuario.configuracion!!.divisas[pos]
+    }
+
+    fun getPosicionDivisaDeCodigo(codigo : String) : Int{
+        return this.usuario.configuracion!!.divisas.indexOfFirst { d -> d.codigo!! == codigo }
     }
 
     fun cambiarMonedaBase(){
