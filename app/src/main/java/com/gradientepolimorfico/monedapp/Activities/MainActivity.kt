@@ -34,13 +34,18 @@ class MainActivity : AppCompatActivity(){
     var posicionPantallaParaNotificacion : Int?     = null
 
     private fun init(){
-        this.usuario.nombreDeUsuario = "Steve"
-
-        var configuracion = Configuracion()
 
         if(Preferencias.getMonedaBase(this) != null){
             this.divisaBase = FactoryDivisa.create(Preferencias.getMonedaBase(this)!!)
         }
+
+        if(this.divisaBase == null){
+            this.iniciarPrimeraVez()
+        }
+
+        this.usuario.nombreDeUsuario = "Steve"
+
+        var configuracion = Configuracion()
 
         this.cargarDivisasEnConfiguracion(configuracion)
 
@@ -72,13 +77,10 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if(this.divisaBase == null){
-            this.iniciarPrimeraVez()
-        }
-
         this.iniciarBottomNav()
         this.init()
         this.iniciarFragments()
+
 
         var codigoDivisa = this.intent?.extras?.getString("codigoDivisa")
         if(codigoDivisa!= null){
