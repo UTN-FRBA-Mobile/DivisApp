@@ -98,29 +98,35 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvFrecuenciaAct"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/frecuencia_historial"
-        android:letterSpacing="0.2"
-        android:paddingStart="30dp"
-        android:paddingTop="15dp"
-        android:paddingEnd="30dp"
-        android:paddingBottom="15dp"
-        android:textAllCaps="true"
-        android:textColor="@color/colorTextSelected" />
+        android:scrollbars="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvFrecuenciaAct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/frecuencia_historial"
+            android:letterSpacing="0.2"
+            android:paddingStart="30dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="30dp"
+            android:paddingBottom="15dp"
+            android:textAllCaps="true"
+            android:textColor="@color/colorTextSelected" />
+            
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/priceHistoricGraph"
         android:layout_width="match_parent"
         android:layout_height="250dp" >
     </com.github.mikephil.charting.charts.LineChart>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -142,45 +148,6 @@
             android:layout_width="match_parent"
             android:layout_height="15dp"
             android:layout_weight="1" />
-
-        <!--<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/ivSubaBaja"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                app:srcCompat="@drawable/ic_up" />
-
-            <TextView
-                android:id="@+id/tvCambio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="viewStart"
-                android:textColor="@color/colorTextPositive"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvDetalleSubaBaja"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:textAlignment="textEnd"
-                android:textColor="@android:color/background_light"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="15dp"
-            android:layout_weight="1" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -345,5 +312,6 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>
