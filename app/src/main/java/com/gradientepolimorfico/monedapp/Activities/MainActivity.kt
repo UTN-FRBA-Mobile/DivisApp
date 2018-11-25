@@ -179,7 +179,6 @@ class MainActivity : AppCompatActivity(){
     fun cambiarDivisaPreferida(){
         val codigoMonedaBase = Preferencias.getDivisaIntercambioPreferida(this)!!
         this.divisaPreferida = FactoryDivisa.create(codigoMonedaBase)
-        this.reloadDivisas()
     }
 
     fun reloadDivisas(){

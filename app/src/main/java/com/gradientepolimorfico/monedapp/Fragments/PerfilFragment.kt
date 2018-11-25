@@ -29,9 +29,8 @@ class PerfilFragment : Fragment() {
         val addSaldoDialog = AddSaldoDialogFragment()
         this.btnSaldoActual?.setOnClickListener(View.OnClickListener { addSaldoDialog.show(this.childFragmentManager!!,"Divisas") })
 
-        this.btnCargarDivisaIntercambio?.setOnClickListener {
-            Toast.makeText(activity, "CARGAR DIVISA INTERCAMBIO", Toast.LENGTH_SHORT).show()
-        }
+        val addFavoriteDialog = AddDivisaPrefDialogFragment()
+        this.btnCargarDivisaIntercambio?.setOnClickListener(View.OnClickListener { addFavoriteDialog.show(this.childFragmentManager!!,"Divisas") })
 
         this.btnEvolucion?.setOnClickListener {
             Toast.makeText(activity, "VER EVOLUCION", Toast.LENGTH_SHORT).show()

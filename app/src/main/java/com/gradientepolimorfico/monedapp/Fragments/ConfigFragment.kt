@@ -16,6 +16,8 @@ class ConfigFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPref
 
             Preferencias.MONEDA_BASE -> this.cambiarMonedaBase(sharedPreferences!!.getString(Preferencias.MONEDA_BASE,"ARS")!!)
 
+            Preferencias.DIVISA_INTERCAMBIO_PREF -> this.cambiarDivisaPref(sharedPreferences!!.getString(Preferencias.DIVISA_INTERCAMBIO_PREF,"USD")!!)
+
             Preferencias.INTERVALO_NOTIFICACIONES -> Preferencias.setIntervaloNotificaciones(this.context!!,sharedPreferences!!.getString(Preferencias.INTERVALO_NOTIFICACIONES,"1")!!)
         }
     }
@@ -50,5 +52,10 @@ class ConfigFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPref
     private fun cambiarMonedaBase(moneda : String){
         Preferencias.setMonedaBase(this.context!!, moneda)
         (context as MainActivity).cambiarMonedaBase()
+    }
+
+    private fun cambiarDivisaPref(moneda : String){
+        Preferencias.setDivisaIntercambioPreferida(this.context!!, moneda)
+        (context as MainActivity).cambiarDivisaPreferida()
     }
 }
