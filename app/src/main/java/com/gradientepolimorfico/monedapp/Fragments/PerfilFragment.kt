@@ -1,8 +1,10 @@
 package com.gradientepolimorfico.monedapp.Fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.R
+import com.gradientepolimorfico.monedapp.Storage.Preferencias
 
 class PerfilFragment : Fragment() {
 
@@ -19,6 +22,11 @@ class PerfilFragment : Fragment() {
     var btnInvitarAmigos: TextView? = null
     var btnCerrarSesion: TextView? = null
 
+
+    private fun inicializarStrings(vista:View){
+        vista.findViewById<TextView>(R.id.tvNombreUsuario).text = (Preferencias.getUsername(this.context!!))
+        vista.findViewById<TextView>(R.id.tvModoIngreso).text =  (Preferencias.getLoginFrom(this.context!!))
+    }
 
     private fun inicializarBotones(vista: View){
         this.btnSaldoActual = vista.findViewById(R.id.btnSaldoActual)
@@ -48,7 +56,8 @@ class PerfilFragment : Fragment() {
         }
 
         this.btnCerrarSesion?.setOnClickListener {
-            Toast.makeText(activity, "CERRAR SESION", Toast.LENGTH_SHORT).show()
+            Preferencias.setLogged(this.context!!,false)
+            (this.context!! as MainActivity).irALoginOptions()
         }
 
 
@@ -64,8 +73,8 @@ class PerfilFragment : Fragment() {
         var vista = inflater.inflate(R.layout.fragment_profile, container, false)
         var mainActivity = context as MainActivity
         inicializarBotones(vista)
+        inicializarStrings(vista)
         return vista
     }
-
 
 }

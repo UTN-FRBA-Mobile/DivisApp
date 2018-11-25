@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import com.github.mikephil.charting.data.Entry
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import java.util.*
-import java.util.Arrays.asList
 import kotlin.collections.ArrayList
 
 
@@ -18,6 +17,12 @@ object Preferencias {
     val MONEDA_BASE                 = "MONEDA_BASE"
     val DIVISA_INTERCAMBIO_PREF     = "DIVISA_INTERCAMBIO_PREF"
     val NOTIFICACIONES_AVISO_IMPORTANTE = "NOTIFICACIONES_AVISO_IMPORTANTE"
+
+
+    val IS_LOGGED                   = "IS_LOGGED"
+    val LOGIN_FROM                  = "LOGIN_FROM"
+    val USERNAME                    = "USERNAME"
+    val PHOTO                       = "PHOTO"
 
     private val NOTIFICACIONES_POR_DIVISA = "NT_"
 
@@ -36,6 +41,48 @@ object Preferencias {
         editor.putString(MONEDA_BASE, monedaBase)
         editor.apply()
     }
+
+    fun getUsername(context: Context) : String?{
+        return this.getPreferences(context).getString(USERNAME,null)
+    }
+
+    fun setUsername(context: Context, userName : String){
+        val editor = this.getPreferencesEditor(context)
+        editor.putString(USERNAME, userName)
+        editor.apply()
+    }
+
+    fun getPhoto(context: Context) : String?{
+        return this.getPreferences(context).getString(PHOTO,null)
+    }
+
+    fun setPhoto(context: Context, photoInBase64 : String){
+        val editor = this.getPreferencesEditor(context)
+        editor.putString(PHOTO, photoInBase64)
+        editor.apply()
+    }
+
+    fun getLoginFrom(context: Context) : String?{
+        return this.getPreferences(context).getString(LOGIN_FROM,null)
+    }
+
+    fun setLoginFrom(context: Context, loginFrom : String){
+        val editor = this.getPreferencesEditor(context)
+        editor.putString(LOGIN_FROM, loginFrom)
+        editor.apply()
+    }
+
+    fun isLogged(context: Context) : Boolean{
+        return this.getPreferences(context).getBoolean(IS_LOGGED,false)
+    }
+
+    fun setLogged(context: Context, booleano : Boolean){
+        val editor = this.getPreferencesEditor(context)
+        editor.putBoolean(IS_LOGGED, booleano)
+        editor.apply()
+    }
+
+
 
     fun getDivisaIntercambioPreferida(context: Context) : String?{
         return this.getPreferences(context).getString(DIVISA_INTERCAMBIO_PREF,null)

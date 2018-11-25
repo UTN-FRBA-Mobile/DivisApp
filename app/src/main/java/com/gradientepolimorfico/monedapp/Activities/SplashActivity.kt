@@ -7,8 +7,8 @@ import com.gradientepolimorfico.monedapp.Fragments.LoginFragment
 import com.gradientepolimorfico.monedapp.Fragments.SplashFragment
 import com.gradientepolimorfico.monedapp.R
 
-
-class SplashActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionListener {
+class SplashActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionListener
+{
     override fun onLogin(nombreDeUsuario: String, contrasenia: String) {
         val intent = Intent(this, MainActivity::class.java)
         //intent.putExtra(MainActivity.PARAMETRO_NOMBREDEUSUARIO, nombreDeUsuario)

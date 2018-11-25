@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity(){
     var divisasFragment     : DivisasFragment?      = null
     var configFragment      : ConfigFragment?       = null
     var perfilFragment      : PerfilFragment?       = null
+    var loginFragment       : LoginFragment?       = null
     var historialFragment   : HistorialFragment?    = null
     var divisaBase          : Divisa?               = null
     var divisaPreferida     : Divisa?               = null
@@ -72,6 +73,7 @@ class MainActivity : AppCompatActivity(){
         this.configFragment     = ConfigFragment()
         this.historialFragment  = HistorialFragment()
         this.perfilFragment     = PerfilFragment()
+        this.loginFragment      = LoginFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,6 +133,7 @@ class MainActivity : AppCompatActivity(){
 
     private fun iniciarBottomNav() {
         val navigationView = findViewById<View>(R.id.bottom_navigation) as BottomNavigationView
+
         navigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
 
@@ -140,7 +143,7 @@ class MainActivity : AppCompatActivity(){
 
                 R.id.nav_configuracion  -> this.mostrarFragment(R.id.fragment_container,this.configFragment!!)
 
-                R.id.nav_perfil         -> this.mostrarFragment(R.id.fragment_container,this.perfilFragment!!)
+                R.id.nav_perfil         -> this.mostrarFragment(R.id.fragment_container,this.loginFragment!!)
             }
             true
         }
@@ -155,6 +158,14 @@ class MainActivity : AppCompatActivity(){
 
     fun irAPrincipal(){
         this.mostrarFragment(R.id.fragment_container, DivisasFragment())
+    }
+
+    fun irAPerfil(){
+        this.mostrarFragment(R.id.fragment_container, PerfilFragment())
+    }
+
+    fun irALoginOptions(){
+        this.mostrarFragment(R.id.fragment_container, LoginFragment())
     }
 
     fun getDivisas() : ArrayList<Divisa>{
