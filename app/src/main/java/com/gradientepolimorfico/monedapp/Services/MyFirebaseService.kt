@@ -29,8 +29,17 @@ class MyFirebaseService : FirebaseMessagingService() {
         }
 
         if (remoteMessage.notification != null) {
+
+            val body = remoteMessage.notification!!.body
+
             if(Preferencias.notificacionesEstanActivas(this)){
-                this.mostrarNotificacion(remoteMessage.notification!!.body,null,remoteMessage!!.notification!!.title)
+                if(body!!.contains("AVISO!")) {
+                    if (Preferencias.notificacionesImportantesEstanActivas(this)){
+                        this.mostrarNotificacion(body,null,remoteMessage.notification!!.title)
+                    }
+                } else {
+                    this.mostrarNotificacion(body, null, remoteMessage.notification!!.title)
+                }
             }
         }
     }

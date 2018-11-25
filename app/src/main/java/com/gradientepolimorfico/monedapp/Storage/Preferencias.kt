@@ -17,6 +17,7 @@ object Preferencias {
     val MONEDAS_SUSCRITAS           = "MONEDAS_SUSCRITAS"
     val NOTIFICACIONES_ACTIVAS      = "NOTIFICACIONES_ACTIVAS"
     val MONEDA_BASE                 = "MONEDA_BASE"
+    val NOTIFICACIONES_AVISO_IMPORTANTE = "NOTIFICACIONES_AVISO_IMPORTANTE"
 
     private val NOTIFICACIONES_POR_DIVISA = "NT_"
 
@@ -40,13 +41,27 @@ object Preferencias {
         return this.getPreferences(context).getBoolean(NOTIFICACIONES_ACTIVAS,true)
     }
 
+    fun getNotificacionesImportantesActivas(context: Context) : Boolean{
+        return this.getPreferences(context).getBoolean(NOTIFICACIONES_AVISO_IMPORTANTE,false)
+    }
+
     fun notificacionesEstanActivas(context: Context) : Boolean{
         return this.getNotificacionesActivas(context)
+    }
+
+    fun notificacionesImportantesEstanActivas(context: Context) : Boolean{
+        return this.getNotificacionesImportantesActivas(context)
     }
 
     fun setNotificacionesActivas(context: Context, notificaciones : Boolean){
         val editor = this.getPreferencesEditor(context)
         editor.putBoolean(NOTIFICACIONES_ACTIVAS,notificaciones)
+        editor.apply()
+    }
+
+    fun setNotificacionesImportantesActivas(context: Context, notificaciones : Boolean){
+        val editor = this.getPreferencesEditor(context)
+        editor.putBoolean(NOTIFICACIONES_AVISO_IMPORTANTE,notificaciones)
         editor.apply()
     }
 
