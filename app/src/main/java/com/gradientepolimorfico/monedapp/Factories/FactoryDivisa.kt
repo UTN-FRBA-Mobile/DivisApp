@@ -67,7 +67,7 @@ object FactoryDivisa {
             )
 
             DIVISA_PESO_URUGUAYO -> this.divisa =  this.crearDivisa(
-                    FactoryDivisa.DIVISA_PESO_ARGENTINO,
+                    FactoryDivisa.DIVISA_PESO_URUGUAYO,
                     "Uruguay",
                     "Peso Uruguayo",
                     R.drawable.pais_uy

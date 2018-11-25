@@ -21,10 +21,8 @@ import android.support.design.widget.FloatingActionButton
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.gradientepolimorfico.monedapp.Entities.Ubicacion
@@ -34,6 +32,8 @@ class DetalleFragment : Fragment(), OnMapReadyCallback  {
     var disposable: Disposable? = null
     var map: MapView? = null
     var ubicacion: Ubicacion? = null
+    var googleMap: GoogleMap? = null
+    var divisa: Divisa? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -41,7 +41,6 @@ class DetalleFragment : Fragment(), OnMapReadyCallback  {
         var vista = inflater.inflate(R.layout.fragment_detalle, container, false)
 
         var index = arguments!!.getInt("divisaIndex")
-        //Log.d("I","DETALLE--"+index.toString())
         var divisa : Divisa? = null
         if(index!=-1){
              divisa = (context as MainActivity).getDivisaByPosition(index)
@@ -49,6 +48,7 @@ class DetalleFragment : Fragment(), OnMapReadyCallback  {
         else{
              divisa = (context as MainActivity).divisaBase
         }
+        this.divisa = divisa
         this.mostrarDetalle(divisa!!, vista)
         this.botonVolver(vista)
         this.map = vista.findViewById(R.id.mapView)
@@ -65,7 +65,7 @@ class DetalleFragment : Fragment(), OnMapReadyCallback  {
                 .subscribe(
                         { result ->
                             this.ubicacion = result.ubicacion
-                            //Log.d("I","DETALLE- "+ubicacion.toString())
+                            this.agregarMark(this.ubicacion!!)
                             this.rellenarDetalle(result, vista)
                         },
                         {
@@ -118,6 +118,11 @@ false
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        map?.onStop()
+    }
+
     override fun onPause() {
         super.onPause()
         disposable?.dispose()
@@ -129,18 +134,48 @@ false
         map?.onResume()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        map?.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        map?.onLowMemory()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        map?.onSaveInstanceState(outState)
+    }
+
     private fun iniciarMapa(savedInstanceState: Bundle?){
         this.map?.onCreate(savedInstanceState)
         this.map?.getMapAsync(this)
     }
 
     override fun onMapReady(p0: GoogleMap?) {
-        var mMap = p0
-        //Log.d("I","DETALLE- 2"+ubicacion.toString())
+        this.googleMap = p0
         if(this.ubicacion != null){
-            val sydney = LatLng(ubicacion?.x?.toDouble()!!,ubicacion?.y?.toDouble()!!)
-            mMap!!.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-            mMap!!.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+            this.agregarMark(this.ubicacion!!)
+        }
+    }
+
+    private fun agregarMark(posicion : Ubicacion){
+        try {
+
+            MapsInitializer.initialize((this.context!! as MainActivity))
+            var mMap = this.googleMap
+            val point = LatLng(posicion.x.toDouble(),posicion.y.toDouble())
+            mMap!!.addMarker(MarkerOptions().position(point).title(this.divisa?.pais))
+
+            var zoom = (6.0).toFloat()
+            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(point,zoom))
+
+        } catch (e : GooglePlayServicesNotAvailableException) {
+
+            e.printStackTrace()
+
         }
     }
 }
