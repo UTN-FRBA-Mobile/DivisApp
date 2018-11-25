@@ -37,7 +37,7 @@
             android:paddingBottom="24dp">
 
             <TextView
-                android:id="@+id/user_profile_name"
+                android:id="@+id/tvNombreUsuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -48,10 +48,10 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/user_profile_short_bio"
+                android:id="@+id/tvModoIngreso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/user_profile_name"
+                android:layout_below="@+id/tvNombreUsuario"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="12dp"
                 android:text="Ingreso de Facebook"
@@ -68,6 +68,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/btnSaldoActual"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -75,9 +76,12 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Cargar saldo actual" />
+                android:text="Cargar saldo actual"
+                android:textSize="18dp"
+                android:textAlignment="center"/>
 
             <TextView
+                android:id="@+id/btnCargarDivisaIntercambio"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -87,9 +91,12 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Cargar divisa de intercambio" />
+                android:text="Cargar divisa de intercambio"
+                android:textSize="18dp"
+                android:textAlignment="center"/>
 
             <TextView
+                android:id="@+id/btnEvolucion"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -97,9 +104,12 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Ver evolución" />
+                android:text="Ver evolución"
+                android:textSize="18dp"
+                android:textAlignment="center"/>
 
             <TextView
+                android:id="@+id/btnInvitarAmigos"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -109,9 +119,12 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Invitar a un amigo" />
+                android:text="Invitar a un amigo"
+                android:textSize="18dp"
+                android:textAlignment="center"/>
 
             <TextView
+                android:id="@+id/btnCerrarSesion"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -119,7 +132,10 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Cerrar sesión" />
+                android:text="Cerrar sesión"
+                android:textSize="18dp"
+                android:textAlignment="center"
+                />
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>

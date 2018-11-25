@@ -2,7 +2,6 @@ package com.gradientepolimorfico.monedapp.Storage
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import com.github.mikephil.charting.data.Entry
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 
@@ -13,6 +12,7 @@ object Preferencias {
     val MONEDAS_SUSCRITAS           = "MONEDAS_SUSCRITAS"
     val NOTIFICACIONES_ACTIVAS      = "NOTIFICACIONES_ACTIVAS"
     val MONEDA_BASE                 = "MONEDA_BASE"
+    val DIVISA_INTERCAMBIO_PREF     = "DIVISA_INTERCAMBIO_PREF"
 
     private val NOTIFICACIONES_POR_DIVISA = "NOTIFICACIONES_"
 
@@ -28,6 +28,16 @@ object Preferencias {
     fun setMonedaBase(context: Context, monedaBase : String){
         val editor = this.getPreferencesEditor(context)
         editor.putString(MONEDA_BASE, monedaBase)
+        editor.apply()
+    }
+
+    fun getDivisaIntercambioPreferida(context: Context) : String?{
+        return this.getPreferences(context).getString(DIVISA_INTERCAMBIO_PREF,null)
+    }
+
+    fun setDivisaIntercambioPreferida(context: Context, monedaBase : String){
+        val editor = this.getPreferencesEditor(context)
+        editor.putString(DIVISA_INTERCAMBIO_PREF, monedaBase)
         editor.apply()
     }
 
