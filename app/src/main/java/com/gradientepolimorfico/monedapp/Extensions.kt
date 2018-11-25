@@ -33,7 +33,7 @@ fun LineChart.configureForList(context: Context, entries: ArrayList<Entry>) {
     mChart.xAxis.isEnabled = false
     mChart.axisRight.isEnabled = false
     mChart.axisLeft.isEnabled = false
-    mChart.animateX(1000, Easing.EasingOption.EaseOutQuart)
+    // mChart.animateX(1000, Easing.EasingOption.EaseOutQuart)
 }
 
 fun LineChart.configureForHistory(context: Context, entries: ArrayList<Entry>) {
@@ -60,5 +60,5 @@ fun LineChart.configureForHistory(context: Context, entries: ArrayList<Entry>) {
     mChart.setVisibleXRangeMaximum(25.toFloat())
     mChart.fitScreen()
     mChart.setTouchEnabled(false)
-    mChart.animateY(1000, Easing.EasingOption.EaseOutQuart)
+    // mChart.animateY(1000, Easing.EasingOption.EaseOutQuart)
 }

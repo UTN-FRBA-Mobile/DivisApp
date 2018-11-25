@@ -19,7 +19,7 @@ interface DetalleMonedaService {
                             RxJava2CallAdapterFactory.create())
                     .addConverterFactory(
                             GsonConverterFactory.create())
-                    .baseUrl("http://192.168.1.142:8080/bdc/divisapp/")
+                    .baseUrl("http://desarrollo.sw-ingenieria.com/divisapp/")
                     .build()
 
             return retrofit.create(DetalleMonedaService::class.java)

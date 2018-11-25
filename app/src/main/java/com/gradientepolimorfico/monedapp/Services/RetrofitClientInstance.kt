@@ -6,6 +6,7 @@ import java.lang.reflect.Type
 import java.text.SimpleDateFormat
 import android.R.attr.data
 import android.R.attr.entries
+import android.util.Log
 import com.github.mikephil.charting.data.Entry
 import com.google.gson.*
 import com.google.gson.internal.LinkedTreeMap
@@ -14,7 +15,6 @@ import java.util.*
 
 object RetrofitClientInstance {
 
-    var format = SimpleDateFormat("yyyy-MM-dd")
     private var retrofit: Retrofit? = null
     private val BASE_URL = "https://www.alphavantage.co/"
     val gson = GsonBuilder()
@@ -46,7 +46,8 @@ object RetrofitClientInstance {
             val timeSeries = jsonObject["Time Series FX (Daily)"]
             val gson = Gson()
             val rawData = gson.fromJson(timeSeries, Any::class.java) as LinkedTreeMap<String, LinkedTreeMap<String, String>>
-            rawData.forEach { (key, value) -> exchangeRate.data.add(Entry((format.parse(key).time/(60000*60*24)).toFloat(), value["4. close"]!!.toFloat())) }
+            val format = SimpleDateFormat("yyyy-MM-dd")
+            rawData.forEach { (key, value) -> exchangeRate.data.add(Entry((format.parse(key).time/(60000*60*24)).toFloat(), value["4. close"]!!.toFloat()))}
             exchangeRate.exchangeRate = exchangeRate.data.first().y
 
             return exchangeRate

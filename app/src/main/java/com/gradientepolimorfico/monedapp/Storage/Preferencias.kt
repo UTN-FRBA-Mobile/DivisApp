@@ -4,6 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.github.mikephil.charting.data.Entry
 import com.gradientepolimorfico.monedapp.Entities.Divisa
+import java.util.*
+import java.util.Arrays.asList
+import kotlin.collections.ArrayList
+
 
 object Preferencias {
     val PREF_NAME                   = "DIVIS_APP_PREFERENCES"
@@ -13,13 +17,15 @@ object Preferencias {
     val NOTIFICACIONES_ACTIVAS      = "NOTIFICACIONES_ACTIVAS"
     val MONEDA_BASE                 = "MONEDA_BASE"
     val DIVISA_INTERCAMBIO_PREF     = "DIVISA_INTERCAMBIO_PREF"
+    val NOTIFICACIONES_AVISO_IMPORTANTE = "NOTIFICACIONES_AVISO_IMPORTANTE"
 
-    private val NOTIFICACIONES_POR_DIVISA = "NOTIFICACIONES_"
+    private val NOTIFICACIONES_POR_DIVISA = "NT_"
 
     private val DIVISA_PARTICULAR               = "INFO_DIVISA_"
     private val DIVISA_PARTICULAR_VALOR         = "_VALOR"
     private val DIVISA_PARTICULAR_TIMES_SERIES  = "_TIMES_SERIES"
     private val DIVISA_PARTICULAR_FROM          = "_FROM"
+    private var DIVISA_ULTIMA_ACTUALIZACION     = "_ACTUALIZACION"
 
     fun getMonedaBase(context: Context) : String?{
         return this.getPreferences(context).getString(MONEDA_BASE,null)
@@ -45,8 +51,16 @@ object Preferencias {
         return this.getPreferences(context).getBoolean(NOTIFICACIONES_ACTIVAS,true)
     }
 
+    fun getNotificacionesImportantesActivas(context: Context) : Boolean{
+        return this.getPreferences(context).getBoolean(NOTIFICACIONES_AVISO_IMPORTANTE,false)
+    }
+
     fun notificacionesEstanActivas(context: Context) : Boolean{
         return this.getNotificacionesActivas(context)
+    }
+
+    fun notificacionesImportantesEstanActivas(context: Context) : Boolean{
+        return this.getNotificacionesImportantesActivas(context)
     }
 
     fun setNotificacionesActivas(context: Context, notificaciones : Boolean){
@@ -55,14 +69,24 @@ object Preferencias {
         editor.apply()
     }
 
+    fun setNotificacionesImportantesActivas(context: Context, notificaciones : Boolean){
+        val editor = this.getPreferencesEditor(context)
+        editor.putBoolean(NOTIFICACIONES_AVISO_IMPORTANTE,notificaciones)
+        editor.apply()
+    }
+
     fun notificacionesParaSubaDivisa(context: Context, divisa: String, notificaciones: Boolean){
         val editor = this.getPreferencesEditor(context)
+        editor.remove(NOTIFICACIONES_POR_DIVISA+"SUBA_"+divisa)
+        editor.apply()
         editor.putBoolean(NOTIFICACIONES_POR_DIVISA+"SUBA_"+divisa, notificaciones)
         editor.apply()
     }
 
     fun notificacionesParaBajaDivisa(context: Context, divisa: String, notificaciones: Boolean){
         val editor = this.getPreferencesEditor(context)
+        editor.remove(NOTIFICACIONES_POR_DIVISA+"BAJA_"+divisa)
+        editor.apply()
         editor.putBoolean(NOTIFICACIONES_POR_DIVISA+"BAJA_"+divisa, notificaciones)
         editor.apply()
     }
@@ -72,7 +96,7 @@ object Preferencias {
     }
 
     fun getNotificacionesParaBajaDivisa(context: Context, divisa: String) : Boolean{
-        return getPreferences(context).getBoolean(NOTIFICACIONES_POR_DIVISA+"BAJA_"+divisa,true)
+        return getPreferences(context).getBoolean(NOTIFICACIONES_POR_DIVISA+"BAJA_"+divisa,false)
     }
 
     fun getFirebaseToken(context: Context): String? {
@@ -97,6 +121,16 @@ object Preferencias {
 
     fun getIntervaloNotificaciones(context: Context): String{
         return this.getPreferences(context).getString(INTERVALO_NOTIFICACIONES,"1")!!
+    }
+
+    fun getIntervaloNotificacionesAsLong(context: Context): Long{
+        val dayInMiliseconds: Long = 24 * 3600 * 1000
+        when(this.getPreferences(context).getString(INTERVALO_NOTIFICACIONES,"1")!!){
+            "1" -> return dayInMiliseconds
+            "2" -> return dayInMiliseconds * 7
+            "3" -> return dayInMiliseconds * 30
+            else -> return dayInMiliseconds * 100
+        }
     }
 
     fun existeMonedero(context: Context, divisa:String) : Boolean{
@@ -151,15 +185,22 @@ object Preferencias {
         val codigo = divisa.codigo!!
 
         editor.remove(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES)
-        editor.putStringSet(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES, divisa.timesSeriesDataToSetString())
+        editor.apply()
+        editor.putString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES, divisa.timesSeriesDataToString())
         editor.apply()
 
         editor.remove(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_VALOR)
+        editor.apply()
         editor.putFloat(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_VALOR, divisa.valor!!)
         editor.apply()
 
         editor.remove(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_FROM)
+        editor.apply()
         editor.putString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_FROM,divisa.from!!)
+        editor.apply()
+
+        editor.remove(DIVISA_PARTICULAR+codigo+ DIVISA_ULTIMA_ACTUALIZACION)
+        editor.putLong(DIVISA_PARTICULAR+codigo+ DIVISA_ULTIMA_ACTUALIZACION,divisa.lastUpdated.time!!)
         editor.apply()
     }
 
@@ -169,8 +210,11 @@ object Preferencias {
 
         divisa.valor = preferences.getFloat(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_VALOR, (0.0).toFloat())
         divisa.from  = preferences.getString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_FROM,"ARS")
-        var entries = preferences.getStringSet(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES,null)
-        if(entries!= null){
+        divisa.lastUpdated = Date(preferences.getLong(DIVISA_PARTICULAR+codigo+ DIVISA_ULTIMA_ACTUALIZACION, 0))
+        var stringEntries = preferences.getString(DIVISA_PARTICULAR+codigo+ DIVISA_PARTICULAR_TIMES_SERIES,null)
+
+        if(stringEntries!= null){
+            var entries: ArrayList<String> = ArrayList(stringEntries.split(";"))
             entries.forEach {
                 e ->
                 var spliteado = e.split("x:","y:")
