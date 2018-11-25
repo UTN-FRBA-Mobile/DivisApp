@@ -1,5 +1,6 @@
 package com.gradientepolimorfico.monedapp.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -33,11 +34,17 @@ class PerfilFragment : Fragment() {
         this.btnCargarDivisaIntercambio?.setOnClickListener(View.OnClickListener { addFavoriteDialog.show(this.childFragmentManager!!,"Divisas") })
 
         this.btnEvolucion?.setOnClickListener {
-            Toast.makeText(activity, "VER EVOLUCION", Toast.LENGTH_SHORT).show()
+
         }
 
         this.btnInvitarAmigos?.setOnClickListener {
-            Toast.makeText(activity, "INVITAR AMIGOS", Toast.LENGTH_SHORT).show()
+            var myIntent = Intent(Intent.ACTION_SEND)
+            myIntent.setType("text/plain")
+            var shareBody = "Obtené informacion y alertas de distintas divisas, en tiempo real!.Descargá DivisAPP ahora mismo en divisapp.com/download"
+            var shareSub = "Usá DivisAPP"
+            myIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub)
+            myIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+            startActivity(Intent.createChooser(myIntent,"Compartir esto en..."))
         }
 
         this.btnCerrarSesion?.setOnClickListener {
