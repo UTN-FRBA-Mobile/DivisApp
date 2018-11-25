@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity(){
     var perfilFragment      : PerfilFragment?       = null
     var historialFragment   : HistorialFragment?    = null
     var divisaBase          : Divisa?               = null
+    var divisaPreferida     : Divisa?               = null
     var historialAdapter    : HistoriaPageAdapter?  = null
     var cambioEnMonedaBase  : Boolean = false
     var posicionPantallaParaNotificacion : Int?     = null
@@ -172,6 +173,12 @@ class MainActivity : AppCompatActivity(){
         val codigoMonedaBase = Preferencias.getMonedaBase(this)!!
         this.divisaBase = FactoryDivisa.create(codigoMonedaBase)
         Preferencias.desuscribirMoneda(this, codigoMonedaBase)
+        this.reloadDivisas()
+    }
+
+    fun cambiarDivisaPreferida(){
+        val codigoMonedaBase = Preferencias.getDivisaIntercambioPreferida(this)!!
+        this.divisaPreferida = FactoryDivisa.create(codigoMonedaBase)
         this.reloadDivisas()
     }
 
