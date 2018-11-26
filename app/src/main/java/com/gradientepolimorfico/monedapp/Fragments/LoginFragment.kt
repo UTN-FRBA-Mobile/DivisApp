@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,10 @@ import com.facebook.login.widget.LoginButton
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
+import com.facebook.Profile.getCurrentProfile
+import com.facebook.ProfileTracker
+
+
 
 
 class LoginFragment : Fragment() {
@@ -24,6 +29,16 @@ class LoginFragment : Fragment() {
     var btnFB: LoginButton?     = null
     var btnMail: Button?        = null
     var btnInvitado: Button?    = null
+    var profileTracker : ProfileTracker? = null
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if ((this.context!! as MainActivity).callbackManager?.onActivityResult(requestCode,resultCode,data)!!) {
+            return
+        }
+    }
 
     private fun inicializarBotones(vista: View){
         this.btnFB = vista.findViewById(R.id.btnFB)
@@ -31,12 +46,24 @@ class LoginFragment : Fragment() {
         this.btnMail = vista.findViewById(R.id.btnMail)
         this.btnInvitado = vista.findViewById(R.id.btnGuest)
 
+        this.btnFB?.setReadPermissions("public_profile")
+
         this.btnFB?.registerCallback((this.context!! as MainActivity).callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
+
+                var nombre: String? = null
+                profileTracker = object : ProfileTracker() {
+                    override fun onCurrentProfileChanged(oldProfile: Profile, currentProfile: Profile?) {
+                        if (currentProfile != null) {
+                            Preferencias.setUsername(context!!, currentProfile.name) // TODO: VER PORQUE NO CARGA EL NOMBRE
+                        }
+                    }
+                }
+                profileTracker?.stopTracking()
                 Preferencias.setLogged(context!!,true)
-                Preferencias.setUsername(context!!, Profile.getCurrentProfile().firstName + Profile.getCurrentProfile().lastName)
                 Preferencias.setLoginFrom(context!!,"Usuario de Facebook")
-                Preferencias.setTokenFacebook(context!!,AccessToken.getCurrentAccessToken().token)
+                Preferencias.setTokenFacebook(context!!,loginResult.accessToken.token)
+                (context!! as MainActivity).irAPerfil()
             }
 
             override fun onCancel() {
@@ -57,6 +84,7 @@ class LoginFragment : Fragment() {
             Preferencias.setLogged(this.context!!,true)
             Preferencias.setUsername(this.context!!, "Stov")
             Preferencias.setLoginFrom(this.context!!,"Usuario invitado")
+            (this.context!! as MainActivity).irAPerfil()
         }
 
     }
