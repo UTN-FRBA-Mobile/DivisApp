@@ -28,7 +28,7 @@ class MailDialogFragment : DialogFragment() {
                     Preferencias.setLogged(this.context!!, true)
                     Preferencias.setUsername(this.context!!, dialog.findViewById<EditText>(R.id.etMail).text.toString())
                     Preferencias.setLoginFrom(this.context!!, "Usuario registrado por Mail")
-                    (context as MainActivity).irAPrincipal()
+                    (context as MainActivity).irAPerfil()
                 }
 
         return builder.create()
