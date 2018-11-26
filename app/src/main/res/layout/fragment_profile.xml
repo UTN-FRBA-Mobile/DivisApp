@@ -97,7 +97,8 @@
                 android:padding="20dp"
                 android:text="@string/cargar_divisa_de_intercambio"
                 android:textSize="18dp"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/btnEvolucion"
@@ -111,7 +112,8 @@
                 android:padding="20dp"
                 android:text="@string/ver_evoluci_n"
                 android:textSize="18dp"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/btnInvitarAmigos"
