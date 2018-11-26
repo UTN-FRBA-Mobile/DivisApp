@@ -9,15 +9,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:background="#192226"
+            android:letterSpacing="0.2"
+            android:paddingBottom="10dp"
+            android:paddingEnd="5dp"
+            android:paddingStart="15dp"
+            android:paddingTop="10dp"
+            android:text="@string/logins_options"
+            android:textAllCaps="true"
+            android:textColor="@color/colorTextSelected"
+            android:textSize="14sp" />
+
         <com.facebook.login.widget.LoginButton
             xmlns:facebook="http://schemas.android.com/apk/res-auto"
-            facebook:com_facebook_login_text="ENTRAR CON FACEBOOK"
+            facebook:com_facebook_login_text="@string/entrar_con_facebook"
             android:id="@+id/btnFB"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            android:text="ENTRAR CON FACEBOOK2"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="15dp"
             />
@@ -28,7 +43,7 @@
             android:background="@drawable/divisa_ppal_gris"
             android:paddingEnd="20dp"
             android:paddingStart="20dp"
-            android:text="Entrar con Mail"
+            android:text="@string/entrar_con_mail"
             android:clickable="true"
             android:textAllCaps="true"
             android:textColor="#ffffff"
@@ -45,7 +60,7 @@
             android:background="@drawable/divisa_ppal_gris"
             android:paddingEnd="20dp"
             android:paddingStart="20dp"
-            android:text="Entrar como Invitado"
+            android:text="@string/entrar_como_invitado"
             android:clickable="true"
             android:textAllCaps="true"
             android:textColor="#ffffff"
