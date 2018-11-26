@@ -15,9 +15,11 @@ class ConfigFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPre
         when (key) {
             Preferencias.NOTIFICACIONES_ACTIVAS -> this.subscribirANotificaciones(sharedPreferences!!.getBoolean(Preferencias.NOTIFICACIONES_ACTIVAS, true))
 
-            Preferencias.MONEDA_BASE -> this.cambiarMonedaBase(sharedPreferences!!.getString(Preferencias.MONEDA_BASE, "ARS")!!)
+            Preferencias.MONEDA_BASE -> this.cambiarMonedaBase(sharedPreferences!!.getString(Preferencias.MONEDA_BASE, "ARS")!!,null)
 
             Preferencias.DIVISA_INTERCAMBIO_PREF -> this.cambiarDivisaPref(sharedPreferences!!.getString(Preferencias.DIVISA_INTERCAMBIO_PREF, "USD")!!)
+
+            Preferencias.DETECCION_AUTOMATICA_DIVISA -> this.cambiarMonedaBase("AUTO",sharedPreferences!!.getBoolean(Preferencias.DETECCION_AUTOMATICA_DIVISA,false))
 
             Preferencias.INTERVALO_NOTIFICACIONES -> Preferencias.setIntervaloNotificaciones(this.context!!, sharedPreferences!!.getString(Preferencias.INTERVALO_NOTIFICACIONES, "1")!!)
         }
@@ -49,17 +51,13 @@ class ConfigFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPre
 
     }
 
-    private fun cambiarMonedaBase(moneda: String) {
+    private fun cambiarMonedaBase(moneda: String, activo: Boolean?) {
         if(moneda == "AUTO"){
-            Preferencias.activarDivisaAutomatica(this.context!!)
+            if(activo!!){
+                Preferencias.activarDivisaAutomatica(this.context!!)
+                (context as MainActivity).cambiarMonedaBaseSegunGPS()
+            }
         }
-        /*if(moneda != "AUTO") {
-            Preferencias.setMonedaBase(this.context!!, moneda)
-        }
-        else{
-            Log.d("I","MONEDABASE "+moneda)
-            (context as MainActivity).paisActualConPermiso()
-        }*/
         (context as MainActivity).cambiarMonedaBase()
     }
 

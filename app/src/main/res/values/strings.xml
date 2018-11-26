@@ -34,7 +34,7 @@
     <!--END MENU -->
 
     <!-- DETALLE -->
-    <string name="saldo_actual">Saldo acutal</string>
+    <string name="saldo_actual">Saldo actual</string>
     <string name="su_saldo">Su saldo:</string>
     <string name="historia">Historia</string>
     <string name="ubicacion">Ubicación</string>
@@ -47,6 +47,9 @@
     <string name="intervalo_historial_desc">Establecer el intervalo de muestreo del gráfico del historial de las divisas</string>
 
     <string name="activar_notificaciones">Activar notificaciones</string>
+
+    <string name="cambio_base_automatica">Divisa regional</string>
+    <string name="cambio_base_automatica_desc">Permite el cambio de la divisa base según la ubicación actual</string>
 
     <string name="sonido">Sonido</string>
     <string name="vibracion">Vibrar</string>
@@ -159,6 +162,7 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="facebook_app_id">1924101540976240</string> <string name="fb_login_protocol_scheme">fb1924101540976240</string>
+
     <!-- START LOGIN-->
     <string name="logins_options">Ingresar con</string>
     <string name="entrar_con_mail">Entrar con Mail</string>

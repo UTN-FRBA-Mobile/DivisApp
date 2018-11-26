@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
+import com.google.firebase.messaging.FirebaseMessaging
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.Factories.FactoryDivisa
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
@@ -31,10 +32,15 @@ class AddDivisaDialogFragment : DialogFragment() {
                 .setPositiveButton(getString(R.string.aceptar)) { _, _ ->
                     for (i in 0 until divisas.size) {
                         val checked = seleccionados.toBooleanArray()[i]
+                        var divisa = FactoryDivisa.codigoSegunNombreMoneda(divisas[i])
                         if (checked) {
-                            Preferencias.suscribirMoneda(this.context!!, FactoryDivisa.codigoSegunNombreMoneda(divisas[i]))
+                            Preferencias.suscribirMoneda(this.context!!, divisa)
+                            FirebaseMessaging.getInstance().subscribeToTopic("suba_" + divisa)
+                            FirebaseMessaging.getInstance().subscribeToTopic("baja_" + divisa)
                         } else {
-                            Preferencias.desuscribirMoneda(this.context!!, FactoryDivisa.codigoSegunNombreMoneda(divisas[i]))
+                            Preferencias.desuscribirMoneda(this.context!!, divisa)
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("suba_" + divisa)
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("baja_" + divisa)
                         }
                     }
                     (context as MainActivity).reloadDivisas()

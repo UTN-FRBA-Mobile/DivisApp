@@ -11,6 +11,12 @@
             android:title="@string/moneda_base"
             android:summary="@string/moneda_base_desc"
             android:icon="@drawable/ic_money_white" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="DIVISA_AUTOMATICA"
+            android:title="@string/cambio_base_automatica"
+            android:summary="@string/cambio_base_automatica_desc"
+            android:icon="@drawable/ic_gps_white"/>
         <ListPreference
             android:entries="@array/INTERVALO_NOTIFICACIONES_NOMBRES"
             android:entryValues="@array/INTERVALO_NOTIFICACIONES"
