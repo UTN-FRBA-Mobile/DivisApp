@@ -92,4 +92,26 @@ object FactoryDivisa {
         divisa.valor = 1.0.toFloat()
         return divisa
     }
+
+    fun codigoDivisaSegunPais(pais : String) : String{
+        var codigo : String? = null
+        when(pais){
+            "Argentina"         -> codigo = DIVISA_PESO_ARGENTINO
+
+            "Estados Unidos"    -> codigo = DIVISA_DOLAR_ESTADOUNIDENSE
+
+            "España"            -> codigo = DIVISA_EURO_ESPANIOL
+
+            "Japón"             -> codigo = DIVISA_YEN_JAPONES
+
+            "Brasil"            -> codigo = DIVISA_REAL_BRASIL
+
+            "Reino Unido"       -> codigo = DIVISA_LIBRA_INGLESA
+
+            "Urugay"            -> codigo = DIVISA_PESO_URUGUAYO
+
+            "Chile"             -> codigo = DIVISA_PESO_CHILENO
+        }
+        return codigo!!
+    }
 }

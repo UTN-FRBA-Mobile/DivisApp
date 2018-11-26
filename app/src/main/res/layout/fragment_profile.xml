@@ -81,7 +81,7 @@
                 android:background="@drawable/divisa_ppal_gris"
                 android:textColor="#fff"
                 android:textSize="18dp"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/btnCargarDivisaIntercambio"
@@ -91,12 +91,13 @@
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
                 android:background="@drawable/divisa_ppal_gris"
-                android:textColor="#fff"                android:clickable="true"
+                android:textColor="#fff"
+                android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
                 android:text="Cargar divisa de intercambio"
                 android:textSize="18dp"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/btnEvolucion"
@@ -110,7 +111,7 @@
                 android:padding="20dp"
                 android:text="Ver evolución"
                 android:textSize="18dp"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/btnInvitarAmigos"
@@ -126,7 +127,7 @@
                 android:padding="20dp"
                 android:text="Invitar a un amigo"
                 android:textSize="18dp"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/btnCerrarSesion"
@@ -140,8 +141,7 @@
                 android:padding="20dp"
                 android:text="Cerrar sesión"
                 android:textSize="18dp"
-                android:textAlignment="center"
-                />
+                android:textAlignment="center" />
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>
