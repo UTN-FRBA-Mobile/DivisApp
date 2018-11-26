@@ -1,14 +1,11 @@
 package com.gradientepolimorfico.monedapp
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import android.graphics.DashPathEffect
-import android.support.v4.app.FragmentActivity
+import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -17,9 +14,18 @@ import java.util.*
 fun LineChart.configureForList(context: Context, entries: ArrayList<Entry>) {
     val mChart: LineChart = this
     val dataSet = LineDataSet(entries, "Label") // add entries to dataset
-    dataSet.color = ContextCompat.getColor(context, R.color.graphColorLinePositive)
+
+    if (entries[entries.lastIndex].y <= entries[entries.lastIndex - 1].y)
+        dataSet.color = ContextCompat.getColor(context, R.color.graphColorLinePositive)
+    else
+        dataSet.color = ContextCompat.getColor(context, R.color.graphColorLineNegative)
     dataSet.setDrawValues(false)
-    val drawable = ContextCompat.getDrawable(context, R.drawable.graph_gradient)
+
+    val drawable: Drawable
+    if (entries[entries.lastIndex].y <= entries[entries.lastIndex - 1].y)
+        drawable = ContextCompat.getDrawable(context, R.drawable.graph_gradient)!!
+    else
+        drawable = ContextCompat.getDrawable(context, R.drawable.graph_gradient_negative)!!
     dataSet.fillDrawable = drawable
     dataSet.setDrawFilled(true)
     dataSet.setDrawCircles(false)
@@ -40,9 +46,16 @@ fun LineChart.configureForList(context: Context, entries: ArrayList<Entry>) {
 fun LineChart.configureForHistory(context: Context, entries: ArrayList<Entry>, range: Int) {
     val mChart: LineChart = this
     val dataSet = LineDataSet(entries, "Label") // add entries to dataset
-    dataSet.color = ContextCompat.getColor(context, R.color.graphColorLinePositive)
+    if (entries[entries.lastIndex].y <= entries[entries.lastIndex - 1].y)
+        dataSet.color = ContextCompat.getColor(context, R.color.graphColorLinePositive)
+    else
+        dataSet.color = ContextCompat.getColor(context, R.color.graphColorLineNegative)
     dataSet.setDrawValues(false)
-    val drawable = ContextCompat.getDrawable(context, R.drawable.graph_gradient)
+    val drawable: Drawable
+    if (entries[entries.lastIndex].y <= entries[entries.lastIndex - 1].y)
+        drawable = ContextCompat.getDrawable(context, R.drawable.graph_gradient)!!
+    else
+        drawable = ContextCompat.getDrawable(context, R.drawable.graph_gradient_negative)!!
     dataSet.fillDrawable = drawable
     dataSet.setDrawFilled(true)
     dataSet.setDrawCircles(false)
@@ -62,7 +75,7 @@ fun LineChart.configureForHistory(context: Context, entries: ArrayList<Entry>, r
     mChart.setVisibleXRangeMaximum(range.toFloat())
     mChart.setVisibleXRangeMinimum(range.toFloat())
     //mChart.moveViewTo(position, mChart.axisLeft.axisMaximum, mChart.axisLeft.axisDependency);
-    mChart.moveViewToX(entries[entries.size-1].x)
+    mChart.moveViewToX(entries[entries.size - 1].x)
     mChart.isDragEnabled = false
     mChart.isDoubleTapToZoomEnabled = false
     mChart.isHighlightPerDragEnabled = true

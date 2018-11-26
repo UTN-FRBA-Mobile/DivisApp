@@ -5,13 +5,15 @@ public class DetalleDivisa {
     private String detalle;
     private Ubicacion ubicacion;
 
-    public String getCodigo(){
+    public String getCodigo() {
         return this.codigo;
     }
 
-    public String getDetalle(){
+    public String getDetalle() {
         return this.detalle;
     }
 
-    public Ubicacion getUbicacion() {  return this.ubicacion; }
+    public Ubicacion getUbicacion() {
+        return this.ubicacion;
+    }
 }

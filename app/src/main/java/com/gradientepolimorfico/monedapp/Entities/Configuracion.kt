@@ -1,6 +1,6 @@
 package com.gradientepolimorfico.monedapp.Entities
 
-class Configuracion{
+class Configuracion {
     var id: Int? = null
     var usuario: Usuario? = null
     var divisaBase: Divisa? = null
@@ -9,7 +9,7 @@ class Configuracion{
     var divisas: ArrayList<Divisa> = ArrayList()
 
 
-    public fun agregarDivisa(divisa: Divisa){
+    public fun agregarDivisa(divisa: Divisa) {
         this.divisas.add(divisa)
     }
 }

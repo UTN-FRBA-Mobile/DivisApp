@@ -8,15 +8,17 @@ import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
 
-class ConfigFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPreferenceChangeListener{
+class ConfigFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when(key){
-            Preferencias.NOTIFICACIONES_ACTIVAS -> this.subscribirANotificaciones(sharedPreferences!!.getBoolean(Preferencias.NOTIFICACIONES_ACTIVAS,true))
+        when (key) {
+            Preferencias.NOTIFICACIONES_ACTIVAS -> this.subscribirANotificaciones(sharedPreferences!!.getBoolean(Preferencias.NOTIFICACIONES_ACTIVAS, true))
 
-            Preferencias.MONEDA_BASE -> this.cambiarMonedaBase(sharedPreferences!!.getString(Preferencias.MONEDA_BASE,"ARS")!!)
+            Preferencias.MONEDA_BASE -> this.cambiarMonedaBase(sharedPreferences!!.getString(Preferencias.MONEDA_BASE, "ARS")!!)
 
-            Preferencias.INTERVALO_NOTIFICACIONES -> Preferencias.setIntervaloNotificaciones(this.context!!,sharedPreferences!!.getString(Preferencias.INTERVALO_NOTIFICACIONES,"1")!!)
+            Preferencias.DIVISA_INTERCAMBIO_PREF -> this.cambiarDivisaPref(sharedPreferences!!.getString(Preferencias.DIVISA_INTERCAMBIO_PREF, "USD")!!)
+
+            Preferencias.INTERVALO_NOTIFICACIONES -> Preferencias.setIntervaloNotificaciones(this.context!!, sharedPreferences!!.getString(Preferencias.INTERVALO_NOTIFICACIONES, "1")!!)
         }
     }
 
@@ -35,20 +37,24 @@ class ConfigFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPref
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    private fun subscribirANotificaciones(valor : Boolean){
-        Preferencias.setNotificacionesActivas(this.context!!,valor)
+    private fun subscribirANotificaciones(valor: Boolean) {
+        Preferencias.setNotificacionesActivas(this.context!!, valor)
 
-        if(Preferencias.getNotificacionesActivas(this.context!!)){
+        if (Preferencias.getNotificacionesActivas(this.context!!)) {
             FirebaseMessaging.getInstance().subscribeToTopic("notificaciones")
-        }
-        else{
+        } else {
             FirebaseMessaging.getInstance().unsubscribeFromTopic("notificaciones")
         }
 
     }
 
-    private fun cambiarMonedaBase(moneda : String){
+    private fun cambiarMonedaBase(moneda: String) {
         Preferencias.setMonedaBase(this.context!!, moneda)
         (context as MainActivity).cambiarMonedaBase()
+    }
+
+    private fun cambiarDivisaPref(moneda: String) {
+        Preferencias.setDivisaIntercambioPreferida(this.context!!, moneda)
+        (context as MainActivity).cambiarDivisaPreferida()
     }
 }

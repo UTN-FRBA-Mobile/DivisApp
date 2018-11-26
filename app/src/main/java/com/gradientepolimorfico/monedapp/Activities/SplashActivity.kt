@@ -4,9 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.gradientepolimorfico.monedapp.Fragments.LoginFragment
-import com.gradientepolimorfico.monedapp.Fragments.SplashFragment
-import com.gradientepolimorfico.monedapp.R
-
 
 class SplashActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionListener {
     override fun onLogin(nombreDeUsuario: String, contrasenia: String) {
@@ -17,7 +14,7 @@ class SplashActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionL
         finish()
     }
 
-    fun mostrarMain(){
+    fun mostrarMain() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()

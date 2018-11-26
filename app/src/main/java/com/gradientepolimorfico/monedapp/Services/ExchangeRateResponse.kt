@@ -1,9 +1,7 @@
 package com.gradientepolimorfico.monedapp.Services
 
 import com.github.mikephil.charting.data.Entry
-import com.google.gson.annotations.SerializedName
 import java.util.*
-import kotlin.collections.HashMap
 
 class ExchangeRateResponse {
     var fromCode: String? = null

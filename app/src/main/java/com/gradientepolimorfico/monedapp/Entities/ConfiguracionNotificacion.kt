@@ -1,6 +1,6 @@
 package com.gradientepolimorfico.monedapp.Entities
 
-class ConfiguracionNotificacion{
+class ConfiguracionNotificacion {
     var id: Integer? = null
     var configuracion: Configuracion? = null
     var divisa: Divisa? = null

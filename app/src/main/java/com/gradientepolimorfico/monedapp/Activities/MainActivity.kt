@@ -1,45 +1,53 @@
 package com.gradientepolimorfico.monedapp.Activities
 
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.view.ViewPager
+import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.gradientepolimorfico.monedapp.R
+import com.facebook.CallbackManager
+import com.facebook.ProfileTracker
+import com.facebook.login.LoginManager
+import com.google.firebase.messaging.FirebaseMessaging
+import com.gradientepolimorfico.monedapp.Adapters.HistoriaPageAdapter
 import com.gradientepolimorfico.monedapp.Entities.Configuracion
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.Entities.Usuario
-import com.gradientepolimorfico.monedapp.Storage.Preferencias
-import android.util.Log
-import com.google.firebase.messaging.FirebaseMessaging
-import com.gradientepolimorfico.monedapp.Adapters.HistoriaPageAdapter
 import com.gradientepolimorfico.monedapp.Factories.FactoryDivisa
 import com.gradientepolimorfico.monedapp.Fragments.*
+import com.gradientepolimorfico.monedapp.R
+import com.gradientepolimorfico.monedapp.Storage.Preferencias
 
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
     var fab: FloatingActionButton? = null
     var usuario = Usuario()
 
-    var divisasFragment     : DivisasFragment?      = null
-    var configFragment      : ConfigFragment?       = null
-    var perfilFragment      : PerfilFragment?       = null
-    var historialFragment   : HistorialFragment?    = null
-    var divisaBase          : Divisa?               = null
-    var historialAdapter    : HistoriaPageAdapter?  = null
-    var cambioEnMonedaBase  : Boolean = false
-    var posicionPantallaParaNotificacion : Int?     = null
+    var callbackManager: CallbackManager? = CallbackManager.Factory.create()
+    var profileTracker: ProfileTracker? = null
 
-    private fun init(){
+    var divisasFragment: DivisasFragment? = null
+    var configFragment: ConfigFragment? = null
+    var perfilFragment: PerfilFragment? = null
+    var loginFragment: LoginFragment? = null
+    var historialFragment: HistorialFragment? = null
+    var divisaBase: Divisa? = null
+    var divisaPreferida: Divisa? = null
+    var historialAdapter: HistoriaPageAdapter? = null
+    var cambioEnMonedaBase: Boolean = false
+    var posicionPantallaParaNotificacion: Int? = null
 
-        if(Preferencias.getMonedaBase(this) != null){
+    private fun init() {
+
+        if (Preferencias.getMonedaBase(this) != null) {
             this.divisaBase = FactoryDivisa.create(Preferencias.getMonedaBase(this)!!)
         }
 
-        if(this.divisaBase == null){
+        if (this.divisaBase == null) {
             this.iniciarPrimeraVez()
         }
 
@@ -52,25 +60,26 @@ class MainActivity : AppCompatActivity(){
         this.usuario.configuracion = configuracion
     }
 
-    private fun cargarDivisasEnConfiguracion(configuracion: Configuracion){
+    private fun cargarDivisasEnConfiguracion(configuracion: Configuracion) {
         configuracion.divisas.clear()
         var monedasSuscritas = Preferencias.getMonedasSuscritas(this)
-        monedasSuscritas!!.forEach {
-            m -> this.iniciarDivisaEn(configuracion, m)
+        monedasSuscritas!!.forEach { m ->
+            this.iniciarDivisaEn(configuracion, m)
         }
     }
 
-    private fun iniciarDivisaEn(configuracion : Configuracion, codigoDivisa : String){
+    private fun iniciarDivisaEn(configuracion: Configuracion, codigoDivisa: String) {
         var divisa = FactoryDivisa.create(codigoDivisa)
         Preferencias.recuperarDivisa(this, divisa!!)
         configuracion.agregarDivisa(divisa!!)
     }
 
-    private fun iniciarFragments(){
-        this.divisasFragment    = DivisasFragment()
-        this.configFragment     = ConfigFragment()
-        this.historialFragment  = HistorialFragment()
-        this.perfilFragment     = PerfilFragment()
+    private fun iniciarFragments() {
+        this.divisasFragment = DivisasFragment()
+        this.configFragment = ConfigFragment()
+        this.historialFragment = HistorialFragment()
+        this.perfilFragment = PerfilFragment()
+        this.loginFragment = LoginFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,20 +92,21 @@ class MainActivity : AppCompatActivity(){
 
 
         var codigoDivisa = this.intent?.extras?.getString("codigoDivisa")
-        if(codigoDivisa!= null){
+        if (codigoDivisa != null) {
             this.mostrarPantallaSegunNotificacion(codigoDivisa)
-        }
-        else{
+        } else {
             //FirebaseMessaging.getInstance().subscribeToTopic("notificaciones3")
             this.irAPrincipal()
         }
+
+
     }
 
-    private fun iniciarPrimeraVez(){
+    private fun iniciarPrimeraVez() {
         Preferencias.setMonedaBase(this, FactoryDivisa.divisaBaseDefault)
 
         FactoryDivisa.divisasDisponibles.forEach { d ->
-            if(d!= FactoryDivisa.divisaBaseDefault){
+            if (d != FactoryDivisa.divisaBaseDefault) {
                 this.iniciarPrimeraVezDivisa(d)
             }
         }
@@ -104,59 +114,70 @@ class MainActivity : AppCompatActivity(){
         Preferencias.setNotificacionesActivas(this, true)
     }
 
-    private fun iniciarPrimeraVezDivisa(codigoDivisa : String){
-        Preferencias.suscribirMoneda(this,codigoDivisa)
-        Preferencias.notificacionesParaSubaDivisa(this,codigoDivisa,true)
-        Preferencias.notificacionesParaBajaDivisa(this,codigoDivisa,true)
-        FirebaseMessaging.getInstance().subscribeToTopic("suba_"+codigoDivisa)
-        FirebaseMessaging.getInstance().subscribeToTopic("baja_"+codigoDivisa)
+    private fun iniciarPrimeraVezDivisa(codigoDivisa: String) {
+        Preferencias.suscribirMoneda(this, codigoDivisa)
+        Preferencias.notificacionesParaSubaDivisa(this, codigoDivisa, true)
+        Preferencias.notificacionesParaBajaDivisa(this, codigoDivisa, true)
+        FirebaseMessaging.getInstance().subscribeToTopic("suba_" + codigoDivisa)
+        FirebaseMessaging.getInstance().subscribeToTopic("baja_" + codigoDivisa)
     }
 
-    private fun mostrarPantallaSegunNotificacion(fragment : String){
+    private fun mostrarPantallaSegunNotificacion(fragment: String) {
         this.posicionPantallaParaNotificacion = this.getPosicionDivisaDeCodigo(fragment)
-        this.mostrarFragment(R.id.fragment_container,this.historialFragment!!)
+        this.mostrarFragment(R.id.fragment_container, this.historialFragment!!)
     }
 
-    public fun iniciarFragmentsPagers(pager: ViewPager?, manager : FragmentManager){
+    public fun iniciarFragmentsPagers(pager: ViewPager?, manager: FragmentManager) {
         val adapter = HistoriaPageAdapter(manager)
         adapter.agregarDivisas(getDivisas())
         adapter.notifyDataSetChanged()
         pager?.adapter = adapter
 
-        if(this.posicionPantallaParaNotificacion!= null){
+        if (this.posicionPantallaParaNotificacion != null) {
             pager?.currentItem = this.posicionPantallaParaNotificacion!!
         }
     }
 
     private fun iniciarBottomNav() {
         val navigationView = findViewById<View>(R.id.bottom_navigation) as BottomNavigationView
+
         navigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
 
-                R.id.nav_divisas        -> this.mostrarFragment(R.id.fragment_container,this.divisasFragment!!)
+                R.id.nav_divisas -> this.mostrarFragment(R.id.fragment_container, this.divisasFragment!!)
 
-                R.id.nav_historial      -> this.mostrarFragment(R.id.fragment_container,this.historialFragment!!)
+                R.id.nav_historial -> this.mostrarFragment(R.id.fragment_container, this.historialFragment!!)
 
-                R.id.nav_configuracion  -> this.mostrarFragment(R.id.fragment_container,this.configFragment!!)
+                R.id.nav_configuracion -> this.mostrarFragment(R.id.fragment_container, this.configFragment!!)
 
-                R.id.nav_perfil         -> this.mostrarFragment(R.id.fragment_container,this.perfilFragment!!)
+                R.id.nav_perfil -> this.mostrarFragment(R.id.fragment_container, this.loginFragment!!)
             }
             true
         }
     }
 
-    private fun mostrarFragment(containerViewId : Int, fragment : Fragment){
+    private fun mostrarFragment(containerViewId: Int, fragment: Fragment) {
         supportFragmentManager
                 .beginTransaction()
-                .replace(containerViewId,fragment)
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                //.setCustomAnimations(R.anim.fragment_slide_left_enter,R.anim.fragment_slide_left_exit, R.anim.fragment_slide_right_enter,R.anim.fragment_slide_right_exit)
+                .replace(containerViewId, fragment)
                 .commit()
     }
 
-    fun irAPrincipal(){
+    fun irAPrincipal() {
         this.mostrarFragment(R.id.fragment_container, DivisasFragment())
     }
 
-    fun getDivisas() : ArrayList<Divisa>{
+    fun irAPerfil() {
+        this.mostrarFragment(R.id.fragment_container, PerfilFragment())
+    }
+
+    fun irALoginOptions() {
+        this.mostrarFragment(R.id.fragment_container, LoginFragment())
+    }
+
+    fun getDivisas(): ArrayList<Divisa> {
         return usuario.configuracion!!.divisas
     }
 
@@ -164,19 +185,33 @@ class MainActivity : AppCompatActivity(){
         return usuario.configuracion!!.divisas[pos]
     }
 
-    fun getPosicionDivisaDeCodigo(codigo : String) : Int{
+    fun getPosicionDivisaDeCodigo(codigo: String): Int {
         return this.usuario.configuracion!!.divisas.indexOfFirst { d -> d.codigo!! == codigo }
     }
 
-    fun cambiarMonedaBase(){
+    fun cambiarMonedaBase() {
         val codigoMonedaBase = Preferencias.getMonedaBase(this)!!
         this.divisaBase = FactoryDivisa.create(codigoMonedaBase)
         Preferencias.desuscribirMoneda(this, codigoMonedaBase)
         this.reloadDivisas()
     }
 
-    fun reloadDivisas(){
+    fun cambiarDivisaPreferida() {
+        val codigoMonedaBase = Preferencias.getDivisaIntercambioPreferida(this)!!
+        this.divisaPreferida = FactoryDivisa.create(codigoMonedaBase)
+    }
+
+    fun reloadDivisas() {
         this.cambioEnMonedaBase = true
         this.cargarDivisasEnConfiguracion(this.usuario.configuracion!!)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        callbackManager?.onActivityResult(requestCode, resultCode, data)
+    }
+
+    fun desloguearFacebook() {
+        LoginManager.getInstance().logOut()
     }
 }

@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.Fragments.GraficoHistorialFragment
-import com.gradientepolimorfico.monedapp.Fragments.HistoriaFragment
 
 class PageAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
@@ -19,7 +18,7 @@ class PageAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         }
     }
 
-    fun agregarDivisa(divisa : Divisa){
+    fun agregarDivisa(divisa: Divisa) {
         this.divisa = divisa
     }
 

@@ -1,17 +1,12 @@
 package com.gradientepolimorfico.monedapp.Services
 
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.Retrofit
-import java.lang.reflect.Type
-import java.text.SimpleDateFormat
-import android.R.attr.data
-import android.R.attr.entries
-import android.util.Log
 import com.github.mikephil.charting.data.Entry
 import com.google.gson.*
 import com.google.gson.internal.LinkedTreeMap
-import java.util.*
-import kotlin.collections.ArrayList
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.reflect.Type
+import java.text.SimpleDateFormat
 
 
 object RetrofitClientInstance {
@@ -23,7 +18,7 @@ object RetrofitClientInstance {
 
     fun iterateAPIKeys(): String {
         val result = keysArray[indexAPI]
-        if (indexAPI == keysArray.size-1) {
+        if (indexAPI == keysArray.size - 1) {
             indexAPI = 0
         } else {
             indexAPI += 1
@@ -52,7 +47,7 @@ object RetrofitClientInstance {
             val exchangeRate = ExchangeRateResponse()
             val jsonObject = json.asJsonObject
             val metaData = jsonObject["Meta Data"]?.asJsonObject
-            if(metaData != null){
+            if (metaData != null) {
                 exchangeRate.fromCode = metaData["2. From Symbol"].toString()
                 exchangeRate.toCode = metaData["3. To Symbol"].toString()
                 exchangeRate.lastRefreshed = metaData["5. Last Refreshed"].toString()
@@ -61,7 +56,7 @@ object RetrofitClientInstance {
             val gson = Gson()
             val rawData = gson.fromJson(timeSeries, Any::class.java) as LinkedTreeMap<String, LinkedTreeMap<String, String>>
             val format = SimpleDateFormat("yyyy-MM-dd")
-            rawData.forEach { (key, value) -> exchangeRate.data.add(Entry((format.parse(key).time/(60000*60*24)).toFloat(), value["4. close"]!!.toFloat()))}
+            rawData.forEach { (key, value) -> exchangeRate.data.add(Entry((format.parse(key).time / (60000 * 60 * 24)).toFloat(), value["4. close"]!!.toFloat())) }
             exchangeRate.exchangeRate = exchangeRate.data.first().y
 
             return exchangeRate

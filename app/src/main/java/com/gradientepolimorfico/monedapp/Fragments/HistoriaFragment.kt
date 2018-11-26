@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
-import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.google.firebase.messaging.FirebaseMessaging
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
@@ -18,16 +17,14 @@ import com.gradientepolimorfico.monedapp.Adapters.PageAdapter
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
-import com.gradientepolimorfico.monedapp.configureForHistory
-import kotlinx.android.synthetic.main.fragment_historia.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelectedListener {
-    var divisa : Divisa? = null
+    var divisa: Divisa? = null
     var vista: View? = null
 
-    public fun agregarDivisa(divisa : Divisa){
+    public fun agregarDivisa(divisa: Divisa) {
         this.divisa = divisa
     }
 
@@ -38,9 +35,9 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
     fun setValorSegunFecha(valor: Float, fechaEnDias: Float) {
         val dateFormat = SimpleDateFormat("dd-MM-yyyy")
 
-        vista!!.findViewById<TextView>(R.id.tvValorDivisaSegunBase).text = "%.3f".format((1.toFloat()) / valor) + " "+this.divisa!!.codigo
+        vista!!.findViewById<TextView>(R.id.tvValorDivisaSegunBase).text = "%.3f".format((1.toFloat()) / valor) + " " + this.divisa!!.codigo
         vista!!.findViewById<TextView>(R.id.tvValorBaseSegunDivisa).text = valorMonedaSegunBase(valor)
-        vista!!.findViewById<TextView>(R.id.tvFecha).text = dateFormat.format(Date(fechaEnDias.toLong() *(60000*60*24)))
+        vista!!.findViewById<TextView>(R.id.tvFecha).text = dateFormat.format(Date(fechaEnDias.toLong() * (60000 * 60 * 24)))
     }
 
     override fun onValueSelected(entry: Entry) {
@@ -48,12 +45,12 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
     }
 
     fun valorMonedaSegunBase(valor: Float): String {
-        return valor.toString()+" "+ this.divisaBase()!!.codigo
+        return valor.toString() + " " + this.divisaBase()!!.codigo
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        if(this.divisa!!.hayDatos()){
+        if (this.divisa!!.hayDatos()) {
             vista = inflater.inflate(R.layout.fragment_historia, container, false)
 
             val pageAdapter = PageAdapter(childFragmentManager!!)
@@ -65,27 +62,26 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
 
             this.init(vista!!)
             return vista
-        }
-        else{
+        } else {
             vista = inflater.inflate(R.layout.fragment_error_conexion, container, false)
-            vista!!.findViewById<TextView>(R.id.tvPais).text      = this.divisa!!.pais
-            vista!!.findViewById<TextView>(R.id.tvDivisa).text    = this.divisa!!.moneda
+            vista!!.findViewById<TextView>(R.id.tvPais).text = this.divisa!!.pais
+            vista!!.findViewById<TextView>(R.id.tvDivisa).text = this.divisa!!.moneda
             vista!!.findViewById<ImageView>(R.id.iwBandera).setImageResource(this.divisa!!.bandera!!)
             return vista
         }
     }
 
-    private fun divisaBase() : Divisa?{
+    private fun divisaBase(): Divisa? {
         val mainActivity = this.context!! as MainActivity
         return mainActivity.divisaBase
     }
 
-    private fun init(vista : View){
-        vista.findViewById<TextView>(R.id.tvPais).text      = this.divisa!!.pais
-        vista.findViewById<TextView>(R.id.tvDivisa).text    = this.divisa!!.moneda
+    private fun init(vista: View) {
+        vista.findViewById<TextView>(R.id.tvPais).text = this.divisa!!.pais
+        vista.findViewById<TextView>(R.id.tvDivisa).text = this.divisa!!.moneda
         vista.findViewById<ImageView>(R.id.iwBandera).setImageResource(this.divisa!!.bandera!!)
 
-        if(this.divisa!!.hayDatos()){
+        if (this.divisa!!.hayDatos()) {
 
             var ultimoCambio = this.divisa!!.ultimoCambio()
             var ultimoCambioEnPorcentaje = this.divisa!!.ultimoCambioEnPorcentaje()
@@ -106,14 +102,13 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
             var colorDetalle = 1
             var base = this.divisaBase()
 
-            if(ultimoCambio<0){
+            if (ultimoCambio < 0) {
                 resource = R.drawable.ic_arrow_drop_down
-                detalle  = "(%.4f".format(ultimoCambioEnPorcentaje) + "%)"
+                detalle = "(%.4f".format(ultimoCambioEnPorcentaje) + "%)"
                 colorDetalle = R.color.colorTextNegative
-            }
-            else{
+            } else {
                 resource = R.drawable.ic_arrow_drop_up
-                detalle = "(+"+ultimoCambioEnPorcentaje.toString()+"%)"
+                detalle = "(+" + ultimoCambioEnPorcentaje.toString() + "%)"
                 colorDetalle = R.color.colorTextPositive
             }
 
@@ -131,42 +126,40 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
             /*vista.findViewById<TextView>(R.id.tvDetalleSubaBaja).text = detalle
             vista.findViewById<TextView>(R.id.tvCambio).setTextColor(resources.getColor(colorDetalle))*/
 
-            vista.findViewById<TextView>(R.id.tvValorMonedaBase).text = "1 "+ base!!.codigo
-            vista.findViewById<TextView>(R.id.tvUnidadDivisa).text = "1 "+ this.divisa!!.codigo
+            vista.findViewById<TextView>(R.id.tvValorMonedaBase).text = "1 " + base!!.codigo
+            vista.findViewById<TextView>(R.id.tvUnidadDivisa).text = "1 " + this.divisa!!.codigo
             setValorSegunFecha(this.divisa!!.valor!!, this.divisa!!.timeSeriesData.last().x)
 
             /**----------------------------- END DETALLES ---------------------------------- **/
 
             /**----------------------------- CONVERTIBILIDAD -------------------------------- **/
-            var monederoDivisa  = Preferencias.monedero(this.context!!,this.divisa!!.codigo!!)
-            var monederoBase    = Preferencias.monedero(this.context!!, base!!.codigo!!)
+            var monederoDivisa = Preferencias.monedero(this.context!!, this.divisa!!.codigo!!)
+            var monederoBase = Preferencias.monedero(this.context!!, base!!.codigo!!)
 
-            var ventaDivisa     = monederoDivisa*(this.divisa!!.valor!!)
-            var compraDivisa    = monederoBase/(this.divisa!!.valor!!)
+            var ventaDivisa = monederoDivisa * (this.divisa!!.valor!!)
+            var compraDivisa = monederoBase / (this.divisa!!.valor!!)
 
-            var descripcionVenta  = "Si  vende sus "+ monederoDivisa.toString()+" "+ this.divisa!!.codigo +" obtendrá "+ "%.2f".format(ventaDivisa).toString()+" "+base!!.codigo
-            var descripcionCompra = "Con sus "+monederoBase+" "+ base!!.codigo+" puede comprar "+"%.2f".format(compraDivisa).toString()+" "+this.divisa!!.codigo
+            var descripcionVenta = "Si  vende sus " + monederoDivisa.toString() + " " + this.divisa!!.codigo + " obtendrá " + "%.2f".format(ventaDivisa).toString() + " " + base!!.codigo
+            var descripcionCompra = "Con sus " + monederoBase + " " + base!!.codigo + " puede comprar " + "%.2f".format(compraDivisa).toString() + " " + this.divisa!!.codigo
 
-            vista.findViewById<TextView>(R.id.historiaTvVentaDivisa).text  = descripcionVenta
+            vista.findViewById<TextView>(R.id.historiaTvVentaDivisa).text = descripcionVenta
             vista.findViewById<TextView>(R.id.historiaTvCompraDivisa).text = descripcionCompra
             /**----------------------------- END CONVERTIBILIDAD ---------------------------- **/
 
             /**----------------------------- NOTIFICACIONES -------------------------------- **/
-            vista.findViewById<Switch>(R.id.historiaNotiSuba).isChecked = Preferencias.getNotificacionesParaSubaDivisa(this.context!!,this.divisa!!.codigo!!)
-            vista.findViewById<Switch>(R.id.historiaNotiBaja).isChecked = Preferencias.getNotificacionesParaBajaDivisa(this.context!!,this.divisa!!.codigo!!)
+            vista.findViewById<Switch>(R.id.historiaNotiSuba).isChecked = Preferencias.getNotificacionesParaSubaDivisa(this.context!!, this.divisa!!.codigo!!)
+            vista.findViewById<Switch>(R.id.historiaNotiBaja).isChecked = Preferencias.getNotificacionesParaBajaDivisa(this.context!!, this.divisa!!.codigo!!)
 
-            vista.findViewById<Switch>(R.id.historiaNotiSuba).setOnCheckedChangeListener {
-                buttonView, isChecked ->
-                Preferencias.notificacionesParaSubaDivisa(this.context!!, this.divisa!!.codigo!!,isChecked)
-                if(isChecked) FirebaseMessaging.getInstance().subscribeToTopic("suba_"+this.divisa!!.codigo!!)
-                else FirebaseMessaging.getInstance().unsubscribeFromTopic("suba_"+this.divisa!!.codigo!!)
+            vista.findViewById<Switch>(R.id.historiaNotiSuba).setOnCheckedChangeListener { buttonView, isChecked ->
+                Preferencias.notificacionesParaSubaDivisa(this.context!!, this.divisa!!.codigo!!, isChecked)
+                if (isChecked) FirebaseMessaging.getInstance().subscribeToTopic("suba_" + this.divisa!!.codigo!!)
+                else FirebaseMessaging.getInstance().unsubscribeFromTopic("suba_" + this.divisa!!.codigo!!)
             }
 
-            vista.findViewById<Switch>(R.id.historiaNotiBaja).setOnCheckedChangeListener {
-                buttonView, isChecked ->
-                Preferencias.notificacionesParaBajaDivisa(this.context!!, this.divisa!!.codigo!!,isChecked)
-                if(isChecked) FirebaseMessaging.getInstance().subscribeToTopic("baja_"+this.divisa!!.codigo!!)
-                else FirebaseMessaging.getInstance().unsubscribeFromTopic("baja_"+this.divisa!!.codigo!!)
+            vista.findViewById<Switch>(R.id.historiaNotiBaja).setOnCheckedChangeListener { buttonView, isChecked ->
+                Preferencias.notificacionesParaBajaDivisa(this.context!!, this.divisa!!.codigo!!, isChecked)
+                if (isChecked) FirebaseMessaging.getInstance().subscribeToTopic("baja_" + this.divisa!!.codigo!!)
+                else FirebaseMessaging.getInstance().unsubscribeFromTopic("baja_" + this.divisa!!.codigo!!)
             }
             /**----------------------------- END NOTIFICACIONES ---------------------------- **/
         }

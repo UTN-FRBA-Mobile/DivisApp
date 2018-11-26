@@ -10,7 +10,7 @@ class HistoriaPageAdapter : FragmentPagerAdapter {
     private var divisas = ArrayList<Divisa>()
     private val titles = ArrayList<String>()
 
-    constructor(fm: FragmentManager?) : super(fm){
+    constructor(fm: FragmentManager?) : super(fm) {
 
     }
 
@@ -26,7 +26,7 @@ class HistoriaPageAdapter : FragmentPagerAdapter {
         return divisas[position].bandera?.toLong() ?: super.getItemId(position)
     }
 
-    fun agregarDivisas(fragments : ArrayList<Divisa>){
+    fun agregarDivisas(fragments: ArrayList<Divisa>) {
         this.divisas.clear()
         this.divisas = fragments
     }
@@ -35,11 +35,11 @@ class HistoriaPageAdapter : FragmentPagerAdapter {
         return titles[position]
     }
 
-    fun removeDivisa(position: Int){
+    fun removeDivisa(position: Int) {
         this.divisas.removeAt(position)
     }
 
-    fun addDivisa(divisa: Divisa){
+    fun addDivisa(divisa: Divisa) {
         this.divisas.add(divisa)
     }
 }

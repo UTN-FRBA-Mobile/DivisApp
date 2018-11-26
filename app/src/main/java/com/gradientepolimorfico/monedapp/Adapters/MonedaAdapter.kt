@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.R
-@Deprecated("Ya no se utiliza")
-class MonedaAdapter: BaseAdapter {
-    var listaDeMonedas = ArrayList<Divisa>()
-    var context: Context?=null
 
-    constructor(context:Context, listaDeMonedas: ArrayList<Divisa>):super(){
+@Deprecated("Ya no se utiliza")
+class MonedaAdapter : BaseAdapter {
+    var listaDeMonedas = ArrayList<Divisa>()
+    var context: Context? = null
+
+    constructor(context: Context, listaDeMonedas: ArrayList<Divisa>) : super() {
         this.listaDeMonedas = listaDeMonedas;
         this.context = context
     }
@@ -20,7 +21,7 @@ class MonedaAdapter: BaseAdapter {
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         val animal = listaDeMonedas[p0]
         var inflator = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        var myView = inflator.inflate(R.layout.fragment_divisa_precioactual,null)
+        var myView = inflator.inflate(R.layout.fragment_divisa_precioactual, null)
         return myView
     }
 

@@ -1,6 +1,5 @@
 package com.gradientepolimorfico.monedapp.Dialogs
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
@@ -14,9 +13,9 @@ import kotlinx.android.synthetic.main.intervalconfig.view.*
 
 @Deprecated("No se usa más")
 class IntervaloNotificacionesDialog : DialogFragment() {
-    var  configFragment : ConfigFragment? = null
+    var configFragment: ConfigFragment? = null
 
-     public fun setRetornoFragment(configFragment: ConfigFragment){
+    public fun setRetornoFragment(configFragment: ConfigFragment) {
         this.configFragment = configFragment
     }
 
@@ -30,19 +29,19 @@ class IntervaloNotificacionesDialog : DialogFragment() {
         return vista
     }
 
-    private fun agregarListeners(vista : View){
+    private fun agregarListeners(vista: View) {
         var rgIntervalo = vista.rgIntervalo
 
-        vista.aceptar.setOnClickListener{
-            v -> this.recuperarOpcion(rgIntervalo)
+        vista.aceptar.setOnClickListener { v ->
+            this.recuperarOpcion(rgIntervalo)
         }
     }
 
-    private fun recuperarOpcionSeleccionada(vista : View){
+    private fun recuperarOpcionSeleccionada(vista: View) {
         var radioGroup = vista.rgIntervalo
         var intervaloNotificaciones = Preferencias.getIntervaloNotificaciones(this.context!!)
 
-        when(intervaloNotificaciones){
+        when (intervaloNotificaciones) {
 
             "1" -> radioGroup.check(R.id.diarias)
             "2" -> radioGroup.check(R.id.semanales)
@@ -51,14 +50,14 @@ class IntervaloNotificacionesDialog : DialogFragment() {
         }
     }
 
-    private fun recuperarOpcion(radioGroup: RadioGroup){
+    private fun recuperarOpcion(radioGroup: RadioGroup) {
         var opcionSeleccionada = radioGroup.checkedRadioButtonId
 
-        when(opcionSeleccionada){
+        when (opcionSeleccionada) {
 
-            R.id.diarias    -> Preferencias.setIntervaloNotificaciones(this.context!!,"1")
-            R.id.semanales  -> Preferencias.setIntervaloNotificaciones(this.context!!,"2")
-            R.id.mensuales  -> Preferencias.setIntervaloNotificaciones(this.context!!,"3")
+            R.id.diarias -> Preferencias.setIntervaloNotificaciones(this.context!!, "1")
+            R.id.semanales -> Preferencias.setIntervaloNotificaciones(this.context!!, "2")
+            R.id.mensuales -> Preferencias.setIntervaloNotificaciones(this.context!!, "3")
 
         }
         this.dismiss()

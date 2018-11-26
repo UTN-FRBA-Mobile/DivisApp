@@ -6,7 +6,6 @@ import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.Factories.FactoryDivisa
-import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
 
 class AddDivisaDialogFragment : DialogFragment() {
@@ -17,18 +16,17 @@ class AddDivisaDialogFragment : DialogFragment() {
 
         val builder = AlertDialog.Builder(this.context!!)
 
-        val divisas  = FactoryDivisa.divisasDisponibles
+        val divisas = FactoryDivisa.divisasDisponibles
 
-        var divsasActivas   = Preferencias.getMonedasSuscritas(this.context!!)
+        var divsasActivas = Preferencias.getMonedasSuscritas(this.context!!)
         var seleccionados = ArrayList<Boolean>()
 
-        divisas.forEach { d -> if(divsasActivas!!.contains(d)) seleccionados.add(true) else seleccionados.add(false) }
+        divisas.forEach { d -> if (divsasActivas!!.contains(d)) seleccionados.add(true) else seleccionados.add(false) }
 
-        builder .setTitle("Divisas")
+        builder.setTitle("Divisas")
 
                 .setMultiChoiceItems(divisas, seleccionados.toBooleanArray(),
-                        {
-                            dialog,which,isChecked ->
+                        { dialog, which, isChecked ->
                             seleccionados[which] = isChecked
                         }
                 )
@@ -38,9 +36,8 @@ class AddDivisaDialogFragment : DialogFragment() {
                         val checked = seleccionados.toBooleanArray()[i]
                         if (checked) {
                             Preferencias.suscribirMoneda(this.context!!, divisas[i])
-                        }
-                        else{
-                            Preferencias.desuscribirMoneda(this.context!!,divisas[i])
+                        } else {
+                            Preferencias.desuscribirMoneda(this.context!!, divisas[i])
                         }
                     }
                     (context as MainActivity).reloadDivisas()

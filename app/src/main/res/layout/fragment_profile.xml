@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -10,14 +11,14 @@
         <ImageView
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/foreign_currency" />
 
         <ImageButton
             android:id="@+id/user_profile_photo"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_below="@+id/header_cover_image"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-60dp"
@@ -32,28 +33,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/header_cover_image"
-            android:background="#ebca0707"
+            android:background="@color/colorPrincipal"
             android:elevation="4dp"
             android:paddingBottom="24dp">
 
             <TextView
-                android:id="@+id/user_profile_name"
+                android:id="@+id/tvNombreUsuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="76dp"
+                android:layout_marginTop="38dp"
+                android:clickable="true"
                 android:text="Steve Linus"
                 android:textColor="#fff"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/user_profile_short_bio"
+                android:id="@+id/tvModoIngreso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/user_profile_name"
+                android:layout_below="@+id/tvNombreUsuario"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="7dp"
                 android:text="Ingreso de Facebook"
                 android:textColor="#fff"
                 android:textSize="14sp" />
@@ -68,58 +70,78 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/btnSaldoActual"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="#fff"
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Cargar saldo actual" />
+                android:text="Cargar saldo actual"
+                android:background="@drawable/divisa_ppal_gris"
+                android:textColor="#fff"
+                android:textSize="18dp"
+                android:textAlignment="center"/>
 
             <TextView
+                android:id="@+id/btnCargarDivisaIntercambio"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
-                android:background="#fff"
-                android:clickable="true"
+                android:background="@drawable/divisa_ppal_gris"
+                android:textColor="#fff"                android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Cargar divisa de intercambio" />
+                android:text="Cargar divisa de intercambio"
+                android:textSize="18dp"
+                android:textAlignment="center"/>
 
             <TextView
+                android:id="@+id/btnEvolucion"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="#fff"
+                android:background="@drawable/divisa_ppal_gris"
+                android:textColor="#fff"
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Ver evolución" />
+                android:text="Ver evolución"
+                android:textSize="18dp"
+                android:textAlignment="center"/>
 
             <TextView
+                android:id="@+id/btnInvitarAmigos"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
-                android:background="#fff"
+                android:background="@drawable/divisa_ppal_gris"
+                android:textColor="#fff"
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Invitar a un amigo" />
+                android:text="Invitar a un amigo"
+                android:textSize="18dp"
+                android:textAlignment="center"/>
 
             <TextView
+                android:id="@+id/btnCerrarSesion"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="#fff"
+                android:background="@drawable/divisa_ppal_gris"
+                android:textColor="#fff"
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Cerrar sesión" />
+                android:text="Cerrar sesión"
+                android:textSize="18dp"
+                android:textAlignment="center"
+                />
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>
