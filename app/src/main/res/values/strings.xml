@@ -34,7 +34,7 @@
     <!--END MENU -->
 
     <!-- DETALLE -->
-    <string name="saldo_actual">Saldo acutal</string>
+    <string name="saldo_actual">Saldo actual</string>
     <string name="su_saldo">Su saldo:</string>
     <string name="historia">Historia</string>
     <string name="ubicacion">Ubicación</string>

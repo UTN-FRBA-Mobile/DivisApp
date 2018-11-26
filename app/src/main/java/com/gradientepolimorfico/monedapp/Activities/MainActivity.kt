@@ -185,6 +185,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun mostrarPantallaSegunNotificacion(fragment: String) {
         this.posicionPantallaParaNotificacion = this.getPosicionDivisaDeCodigo(fragment)
+        val navigationView = findViewById<View>(R.id.bottom_navigation) as BottomNavigationView
+        navigationView.selectedItemId = R.id.nav_historial
         this.mostrarFragment(R.id.fragment_container, this.historialFragment!!)
     }
 
@@ -221,7 +223,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager
                 .beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                //.setCustomAnimations(R.anim.fragment_slide_left_enter,R.anim.fragment_slide_left_exit, R.anim.fragment_slide_right_enter,R.anim.fragment_slide_right_exit)
                 .replace(containerViewId, fragment)
                 .commit()
     }
