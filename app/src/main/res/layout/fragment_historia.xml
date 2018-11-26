@@ -248,6 +248,47 @@
                     android:layout_height="15dp"
                     android:layout_weight="1" />
 
+                <LinearLayout
+                    android:id="@+id/layoutDevaluacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#192226"
+                        android:letterSpacing="0.2"
+                        android:paddingStart="15dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="10dp"
+                        android:text="@string/devaluacion"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorTextSelected" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/historiaTvDevaluacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="15dp"
+                        android:text="Si vende sus 24 USD obtendrá 350 ARS"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default"
+                        android:textSize="16sp" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Switch
 import android.widget.TextView
 import com.github.mikephil.charting.data.Entry
@@ -32,12 +33,32 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
         super.onCreate(savedInstanceState)
     }
 
-    fun setValorSegunFecha(valor: Float, fechaEnDias: Float) {
+    fun setDetallesSegunFecha(valor: Float, fechaEnDias: Float) {
         val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+        var base = this.divisaBase()
+        var stringFecha = dateFormat.format(Date(fechaEnDias.toLong() * (60000 * 60 * 24)))
 
         vista!!.findViewById<TextView>(R.id.tvValorDivisaSegunBase).text = "%.3f".format((1.toFloat()) / valor) + " " + this.divisa!!.codigo
         vista!!.findViewById<TextView>(R.id.tvValorBaseSegunDivisa).text = valorMonedaSegunBase(valor)
-        vista!!.findViewById<TextView>(R.id.tvFecha).text = dateFormat.format(Date(fechaEnDias.toLong() * (60000 * 60 * 24)))
+        vista!!.findViewById<TextView>(R.id.tvFecha).text = stringFecha
+
+        /**----------------------------- CONVERTIBILIDAD -------------------------------- **/
+        var monederoDivisa = Preferencias.monedero(this.context!!, this.divisa!!.codigo!!)
+        var monederoBase = Preferencias.monedero(this.context!!, base!!.codigo!!)
+
+        var ventaDivisa = monederoDivisa * (this.divisa!!.valor!!)
+        var compraDivisa = monederoBase / (this.divisa!!.valor!!)
+
+        if(fechaEnDias != divisa!!.timeSeriesData.last().y){
+            vista!!.findViewById<LinearLayout>(R.id.layoutDevaluacion).visibility = View.VISIBLE
+            vista!!.findViewById<TextView>(R.id.historiaTvDevaluacion).text = "Tu saldo actual de " + monederoBase + " " + base!!.codigo!! + " equivale a haber tenido " + monederoBase * (divisa!!.timeSeriesData.last().x / valor) + " " + base!!.codigo!! + " el " + stringFecha+ " " + this.divisa!!.codigo
+        } else {
+            vista!!.findViewById<LinearLayout>(R.id.layoutDevaluacion).visibility = View.GONE
+        }
+
+        vista!!.findViewById<TextView>(R.id.historiaTvVentaDivisa).text = getString(R.string.convertibilidad_venta_base_1)+" "+ monederoDivisa.toString() + " " + this.divisa!!.codigo + " "+getString(R.string.convertibilidad_venta_base_2) + " "+"%.2f".format(ventaDivisa).toString() + " " + base!!.codigo
+        vista!!.findViewById<TextView>(R.id.historiaTvCompraDivisa).text = getString(R.string.convertibilidad_compra_divisa_1) + " "+monederoBase + " " + base!!.codigo + " "+getString(R.string.convertibilidad_compra_divisa_2) + " "+"%.2f".format(compraDivisa).toString() + " " + this.divisa!!.codigo
+        /**----------------------------- END CONVERTIBILIDAD ---------------------------- **/
     }
 
     override fun onValueSelected(entry: Entry?) {
@@ -47,7 +68,7 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
         if(entry === null) {
             entryData = divisa!!.timeSeriesData.last()
         }
-        setValorSegunFecha(entryData!!.y, entryData!!.x)
+        setDetallesSegunFecha(entryData!!.y, entryData!!.x)
         adapter.setSelectedValue(entry)
     }
 
@@ -135,23 +156,9 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
 
             vista.findViewById<TextView>(R.id.tvValorMonedaBase).text = "1 " + base!!.codigo
             vista.findViewById<TextView>(R.id.tvUnidadDivisa).text = "1 " + this.divisa!!.codigo
-            setValorSegunFecha(this.divisa!!.valor!!, this.divisa!!.timeSeriesData.last().x)
+            setDetallesSegunFecha(this.divisa!!.valor!!, this.divisa!!.timeSeriesData.last().x)
 
             /**----------------------------- END DETALLES ---------------------------------- **/
-
-            /**----------------------------- CONVERTIBILIDAD -------------------------------- **/
-            var monederoDivisa = Preferencias.monedero(this.context!!, this.divisa!!.codigo!!)
-            var monederoBase = Preferencias.monedero(this.context!!, base!!.codigo!!)
-
-            var ventaDivisa = monederoDivisa * (this.divisa!!.valor!!)
-            var compraDivisa = monederoBase / (this.divisa!!.valor!!)
-
-            var descripcionVenta = getString(R.string.convertibilidad_venta_base_1)+" "+ monederoDivisa.toString() + " " + this.divisa!!.codigo + " "+getString(R.string.convertibilidad_venta_base_2) + " "+"%.2f".format(ventaDivisa).toString() + " " + base!!.codigo
-            var descripcionCompra = getString(R.string.convertibilidad_compra_divisa_1) + " "+monederoBase + " " + base!!.codigo + " "+getString(R.string.convertibilidad_compra_divisa_2) + " "+"%.2f".format(compraDivisa).toString() + " " + this.divisa!!.codigo
-
-            vista.findViewById<TextView>(R.id.historiaTvVentaDivisa).text = descripcionVenta
-            vista.findViewById<TextView>(R.id.historiaTvCompraDivisa).text = descripcionCompra
-            /**----------------------------- END CONVERTIBILIDAD ---------------------------- **/
 
             /**----------------------------- NOTIFICACIONES -------------------------------- **/
             vista.findViewById<Switch>(R.id.historiaNotiSuba).isChecked = Preferencias.getNotificacionesParaSubaDivisa(this.context!!, this.divisa!!.codigo!!)

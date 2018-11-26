@@ -61,6 +61,7 @@
     <string name="cotizaciones">Quotations</string>
     <string name="dias">days</string>
     <string name="valores_cambiarios">Exchange values</string>
+    <string name="devaluacion">Devaluation</string>
     <string name="convertibilidad">Convertibility</string>
     <string name="notificaciones">Notifications</string>
 
