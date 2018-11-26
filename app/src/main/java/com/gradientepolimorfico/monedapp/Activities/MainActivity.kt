@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.ViewPager
 import android.view.View
 import com.gradientepolimorfico.monedapp.R
@@ -165,6 +166,8 @@ class MainActivity : AppCompatActivity(){
     private fun mostrarFragment(containerViewId : Int, fragment : Fragment){
         supportFragmentManager
                 .beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                //.setCustomAnimations(R.anim.fragment_slide_left_enter,R.anim.fragment_slide_left_exit, R.anim.fragment_slide_right_enter,R.anim.fragment_slide_right_exit)
                 .replace(containerViewId,fragment)
                 .commit()
     }

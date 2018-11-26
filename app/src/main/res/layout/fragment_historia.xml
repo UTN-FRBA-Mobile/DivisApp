@@ -120,7 +120,7 @@
             android:paddingBottom="15dp"
             android:textAllCaps="true"
             android:textColor="@color/colorTextSelected" />
-            
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/priceHistoricGraph"
         android:layout_width="match_parent"
