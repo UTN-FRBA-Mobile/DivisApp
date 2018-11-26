@@ -49,6 +49,9 @@
 
     <string name="activar_notificaciones">Activate notifications</string>
 
+    <string name="cambio_base_automatica">Regional currency</string>
+    <string name="cambio_base_automatica_desc">Allows the change of the base currency according to the current location</string>
+
     <string name="sonido">Sound</string>
     <string name="vibracion">Vibrate</string>
 

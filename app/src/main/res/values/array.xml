@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="MONEDA_BASE">
-        <item>@string/automatico_ubicacion</item>
         <item>@string/MONEDA_EEUU</item>
         <item>@string/MONEDA_ESPANIA</item>
         <item>@string/MONEDA_REINO_UNIDO</item>
@@ -13,7 +12,6 @@
     </string-array>
 
     <string-array name="MONEDA_BASE_CODIGO">
-        <item>AUTO</item>
         <item>USD</item>
         <item>EUR</item>
         <item>GBP</item>

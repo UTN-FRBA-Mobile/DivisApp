@@ -80,8 +80,8 @@ class DivisaAdapter : RecyclerView.Adapter<DivisaAdapter.MyViewHolder> {
             unaDivisa.dataRequested = true
             val service = RetrofitClientInstance.retrofitInstance!!.create<MonedasService>(MonedasService::class.java)
             val call = service.getTimeSeries(unaDivisa.codigo, this.monedaBase(), RetrofitClientInstance.iterateAPIKeys())
-            Log.d("MAINACT--", "------------------------ Getting currency exchange data for: " + unaDivisa.codigo)
-            Log.d("MAINACT--", this.desactualizada(unaDivisa).toString() + " " + this.cambioMonedaBase(unaDivisa).toString())
+            //Log.d("MAINACT--", "------------------------ Getting currency exchange data for: " + unaDivisa.codigo)
+            //Log.d("MAINACT--", this.desactualizada(unaDivisa).toString() + " " + this.cambioMonedaBase(unaDivisa).toString())
 
             call.enqueue(object : Callback<ExchangeRateResponse> {
                 override fun onFailure(call: Call<ExchangeRateResponse>?, t: Throwable?) {
@@ -109,7 +109,7 @@ class DivisaAdapter : RecyclerView.Adapter<DivisaAdapter.MyViewHolder> {
 
         } else {
             holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = ("$" + unaDivisa.valor.toString())
-            Log.d("I", "MAINACT-- CHECKEO VACIO" + unaDivisa.timeSeriesData.isEmpty().toString() + " " + unaDivisa.timeSeriesData.count().toString())
+            //Log.d("I", "MAINACT-- CHECKEO VACIO" + unaDivisa.timeSeriesData.isEmpty().toString() + " " + unaDivisa.timeSeriesData.count().toString())
             holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
             setGraphColor(unaDivisa, holder)
         }

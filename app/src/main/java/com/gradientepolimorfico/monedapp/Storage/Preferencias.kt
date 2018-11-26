@@ -18,7 +18,7 @@ object Preferencias {
     val DIVISA_INTERCAMBIO_PREF = "DIVISA_INTERCAMBIO_PREF"
     val NOTIFICACIONES_AVISO_IMPORTANTE = "NOTIFICACIONES_AVISO_IMPORTANTE"
     val DETECCION_AUTOMATICA_DIVISA = "DIVISA_AUTOMATICA"
-
+    val ULTIMA_UBICACION_CONOCIDA = "LAST_UBICACION"
 
     val IS_LOGGED = "IS_LOGGED"
     val LOGIN_FROM = "LOGIN_FROM"
@@ -51,6 +51,16 @@ object Preferencias {
     fun setTokenFacebook(context: Context, tokenFacebook: String) {
         val editor = this.getPreferencesEditor(context)
         editor.putString(TOKEN_FACEBOOK, tokenFacebook)
+        editor.apply()
+    }
+
+    fun ultimaUbicacionConocida(context: Context) : String{
+        return this.getPreferences(context).getString(ULTIMA_UBICACION_CONOCIDA,"Argentina")!!
+    }
+
+    fun saveUltimaUbicacion(context: Context, ubicacion : String){
+        val editor = this.getPreferencesEditor(context)
+        editor.putString(ULTIMA_UBICACION_CONOCIDA,ubicacion)
         editor.apply()
     }
 

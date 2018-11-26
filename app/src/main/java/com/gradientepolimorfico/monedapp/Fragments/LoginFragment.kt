@@ -50,7 +50,7 @@ class LoginFragment : Fragment() {
 
                 var nombre: String? = null
                 profileTracker = object : ProfileTracker() {
-                    override fun onCurrentProfileChanged(oldProfile: ContactsContract.Profile, currentProfile: ContactsContract.Profile?) {
+                    override fun onCurrentProfileChanged(oldProfile: Profile, currentProfile: Profile?) {
                         if (currentProfile != null) {
                             Preferencias.setUsername(context!!, currentProfile.name) // TODO: VER PORQUE NO CARGA EL NOMBRE
                         }
