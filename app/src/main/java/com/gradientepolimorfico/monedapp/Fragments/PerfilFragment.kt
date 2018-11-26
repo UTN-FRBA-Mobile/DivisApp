@@ -57,6 +57,7 @@ class PerfilFragment : Fragment() {
 
         this.btnCerrarSesion?.setOnClickListener {
             Preferencias.setLogged(this.context!!,false)
+            Preferencias.setTokenFacebook(this.context!!,"")
             (this.context!! as MainActivity).irALoginOptions()
         }
 

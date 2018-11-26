@@ -11,23 +11,44 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.facebook.*
+import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
 
+
 class LoginFragment : Fragment() {
 
-    var btnFB: Button?          = null
+    var btnFB: LoginButton?     = null
     var btnMail: Button?        = null
     var btnInvitado: Button?    = null
 
     private fun inicializarBotones(vista: View){
         this.btnFB = vista.findViewById(R.id.btnFB)
+        this.btnFB?.setFragment(this)
         this.btnMail = vista.findViewById(R.id.btnMail)
         this.btnInvitado = vista.findViewById(R.id.btnGuest)
 
+        this.btnFB?.registerCallback((this.context!! as MainActivity).callbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                Preferencias.setLogged(context!!,true)
+                Preferencias.setUsername(context!!, Profile.getCurrentProfile().firstName + Profile.getCurrentProfile().lastName)
+                Preferencias.setLoginFrom(context!!,"Usuario de Facebook")
+                Preferencias.setTokenFacebook(context!!,AccessToken.getCurrentAccessToken().token)
+            }
+
+            override fun onCancel() {
+            }
+
+            override fun onError(error: FacebookException) {
+                Toast.makeText(activity, "Ocurrio un error: " + error.toString(), Toast.LENGTH_SHORT).show()
+            }
+        })
+
         this.btnFB?.setOnClickListener {
-            Toast.makeText(activity, "FB LOGIN", Toast.LENGTH_SHORT).show()
+
         }
         this.btnMail?.setOnClickListener {
             Toast.makeText(activity, "MAIL LOGIN", Toast.LENGTH_SHORT).show()
@@ -47,6 +68,7 @@ class LoginFragment : Fragment() {
         } else {
             vista = inflater.inflate(R.layout.fragment_loginoptions, container, false)
             inicializarBotones(vista)
+
         }
         return vista
     }

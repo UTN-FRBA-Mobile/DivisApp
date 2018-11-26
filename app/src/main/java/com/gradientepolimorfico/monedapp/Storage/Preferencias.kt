@@ -22,6 +22,7 @@ object Preferencias {
     val IS_LOGGED                   = "IS_LOGGED"
     val LOGIN_FROM                  = "LOGIN_FROM"
     val USERNAME                    = "USERNAME"
+    val TOKEN_FACEBOOK              = "TOKEN_FACEBOOK"
     val PHOTO                       = "PHOTO"
 
     private val NOTIFICACIONES_POR_DIVISA = "NT_"
@@ -39,6 +40,16 @@ object Preferencias {
     fun setMonedaBase(context: Context, monedaBase : String){
         val editor = this.getPreferencesEditor(context)
         editor.putString(MONEDA_BASE, monedaBase)
+        editor.apply()
+    }
+
+    fun getTokenFacebook(context: Context) : String?{
+        return this.getPreferences(context).getString(TOKEN_FACEBOOK,null)
+    }
+
+    fun setTokenFacebook(context: Context, tokenFacebook : String){
+        val editor = this.getPreferencesEditor(context)
+        editor.putString(TOKEN_FACEBOOK, tokenFacebook)
         editor.apply()
     }
 

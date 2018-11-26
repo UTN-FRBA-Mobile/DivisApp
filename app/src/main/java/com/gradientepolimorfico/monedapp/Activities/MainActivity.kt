@@ -1,5 +1,6 @@
 package com.gradientepolimorfico.monedapp.Activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -14,6 +15,8 @@ import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.Entities.Usuario
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
 import android.util.Log
+import com.facebook.CallbackManager
+import com.facebook.FacebookSdk
 import com.google.firebase.messaging.FirebaseMessaging
 import com.gradientepolimorfico.monedapp.Adapters.HistoriaPageAdapter
 import com.gradientepolimorfico.monedapp.Factories.FactoryDivisa
@@ -23,6 +26,8 @@ import com.gradientepolimorfico.monedapp.Fragments.*
 class MainActivity : AppCompatActivity(){
     var fab: FloatingActionButton? = null
     var usuario = Usuario()
+
+    var callbackManager: CallbackManager? = CallbackManager.Factory.create()
 
     var divisasFragment     : DivisasFragment?      = null
     var configFragment      : ConfigFragment?       = null
@@ -195,5 +200,10 @@ class MainActivity : AppCompatActivity(){
     fun reloadDivisas(){
         this.cambioEnMonedaBase = true
         this.cargarDivisasEnConfiguracion(this.usuario.configuracion!!)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        callbackManager?.onActivityResult(requestCode,resultCode,data)
     }
 }
