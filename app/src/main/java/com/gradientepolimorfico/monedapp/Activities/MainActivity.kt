@@ -17,10 +17,15 @@ import com.gradientepolimorfico.monedapp.Storage.Preferencias
 import android.util.Log
 import com.facebook.CallbackManager
 import com.facebook.FacebookSdk
+import com.facebook.Profile
+import com.facebook.login.LoginManager
 import com.google.firebase.messaging.FirebaseMessaging
 import com.gradientepolimorfico.monedapp.Adapters.HistoriaPageAdapter
 import com.gradientepolimorfico.monedapp.Factories.FactoryDivisa
 import com.gradientepolimorfico.monedapp.Fragments.*
+import com.facebook.ProfileTracker
+
+
 
 
 class MainActivity : AppCompatActivity(){
@@ -28,6 +33,7 @@ class MainActivity : AppCompatActivity(){
     var usuario = Usuario()
 
     var callbackManager: CallbackManager? = CallbackManager.Factory.create()
+    var profileTracker: ProfileTracker? = null
 
     var divisasFragment     : DivisasFragment?      = null
     var configFragment      : ConfigFragment?       = null
@@ -98,6 +104,8 @@ class MainActivity : AppCompatActivity(){
             //FirebaseMessaging.getInstance().subscribeToTopic("notificaciones3")
             this.irAPrincipal()
         }
+
+
     }
 
     private fun iniciarPrimeraVez(){
@@ -205,5 +213,9 @@ class MainActivity : AppCompatActivity(){
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         callbackManager?.onActivityResult(requestCode,resultCode,data)
+    }
+
+    fun desloguearFacebook(){
+        LoginManager.getInstance().logOut()
     }
 }

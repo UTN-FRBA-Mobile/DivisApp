@@ -59,6 +59,7 @@ class PerfilFragment : Fragment() {
             Preferencias.setLogged(this.context!!,false)
             Preferencias.setTokenFacebook(this.context!!,"")
             (this.context!! as MainActivity).irALoginOptions()
+            (this.context!! as MainActivity).desloguearFacebook()
         }
 
 
