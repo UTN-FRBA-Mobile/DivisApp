@@ -55,6 +55,10 @@ class MainActivity : AppCompatActivity() {
             this.iniciarPrimeraVez()
         }
 
+        if(Preferencias.divisaAutomatica(this)){
+            this.iniciarCambioDeBasePorUbicacion()
+        }
+
         this.usuario.nombreDeUsuario = "Steve"
 
         var configuracion = Configuracion()
@@ -105,16 +109,41 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun paisActualConPermiso(){
+    private fun verificarCambioUbicacion(){
+        var locationManager = (getSystemService(Context.LOCATION_SERVICE) as LocationManager)
+        var lastPosition = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        if(lastPosition!= null){
+            val geocoder = Geocoder(this)
+            var location = geocoder.getFromLocation(lastPosition.latitude,lastPosition.longitude,1)
+            var pais = location.first().countryName
+            if(Preferencias.ultimaUbicacionConocida(this) != pais){
+                Preferencias.saveUltimaUbicacion(this, pais)
+                var divisa = FactoryDivisa.codigoDivisaSegunPais(pais)
+                Preferencias.setMonedaBase(this,divisa)
+                this.divisaBase = FactoryDivisa.create(Preferencias.getMonedaBase(this)!!)
+            }
+        }
+    }
+
+    private fun iniciarCambioDeBasePorUbicacion(){
         var razon = "Podemos cambiar la moneda base según tu ubicación."
         Permissions.checkForPermissions(this, android.Manifest.permission.ACCESS_FINE_LOCATION,razon, object : Permissions.Callback{
             override fun onSuccess() {
-                paisActual()
+                verificarCambioUbicacion()
             }
         })
     }
 
-    private fun paisActual(){
+    fun paisActualConPermiso(){
+        var razon = "Podemos cambiar la moneda base según tu ubicación."
+        Permissions.checkForPermissions(this, android.Manifest.permission.ACCESS_FINE_LOCATION,razon, object : Permissions.Callback{
+            override fun onSuccess() {
+                cambiarPaisActual()
+            }
+        })
+    }
+
+    private fun cambiarPaisActual(){
         var locationManager = (getSystemService(Context.LOCATION_SERVICE) as LocationManager)
         var lastPosition = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
         if(lastPosition == null && this.divisaBase==null) {
@@ -123,6 +152,7 @@ class MainActivity : AppCompatActivity() {
             val geocoder = Geocoder(this)
             var location = geocoder.getFromLocation(lastPosition.latitude,lastPosition.longitude,1)
             var pais = location.first().countryName
+            Preferencias.saveUltimaUbicacion(this, pais)
             var divisa = FactoryDivisa.codigoDivisaSegunPais(pais)
             Preferencias.setMonedaBase(this,divisa)
         }
@@ -133,13 +163,16 @@ class MainActivity : AppCompatActivity() {
         Preferencias.setMonedaBase(this, FactoryDivisa.divisaBaseDefault)
         this.divisaBase = FactoryDivisa.create(Preferencias.getMonedaBase(this)!!)
         this.paisActualConPermiso()
+        this.agregarDivisasPrimeraVez()
+        Preferencias.setNotificacionesActivas(this, true)
+    }
+
+    private fun agregarDivisasPrimeraVez(){
         FactoryDivisa.divisasDisponibles.forEach { d ->
             if (d != FactoryDivisa.divisaBaseDefault) {
                 this.iniciarPrimeraVezDivisa(d)
             }
         }
-
-        Preferencias.setNotificacionesActivas(this, true)
     }
 
     private fun iniciarPrimeraVezDivisa(codigoDivisa: String) {
@@ -152,6 +185,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun mostrarPantallaSegunNotificacion(fragment: String) {
         this.posicionPantallaParaNotificacion = this.getPosicionDivisaDeCodigo(fragment)
+        val navigationView = findViewById<View>(R.id.bottom_navigation) as BottomNavigationView
+        navigationView.selectedItemId = R.id.nav_historial
         this.mostrarFragment(R.id.fragment_container, this.historialFragment!!)
     }
 
@@ -188,7 +223,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager
                 .beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                //.setCustomAnimations(R.anim.fragment_slide_left_enter,R.anim.fragment_slide_left_exit, R.anim.fragment_slide_right_enter,R.anim.fragment_slide_right_exit)
                 .replace(containerViewId, fragment)
                 .commit()
     }
@@ -215,6 +249,10 @@ class MainActivity : AppCompatActivity() {
 
     fun getPosicionDivisaDeCodigo(codigo: String): Int {
         return this.usuario.configuracion!!.divisas.indexOfFirst { d -> d.codigo!! == codigo }
+    }
+
+    fun cambiarMonedaBaseSegunGPS(){
+        this.paisActualConPermiso()
     }
 
     fun cambiarMonedaBase() {
@@ -245,7 +283,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (grantResults.first() == 0) {
-            paisActual()
+            cambiarPaisActual()
         } else {
             Preferencias.setMonedaBase(this, FactoryDivisa.divisaBaseDefault)
             this.divisaBase = FactoryDivisa.create(Preferencias.getMonedaBase(this)!!)
