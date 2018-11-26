@@ -50,7 +50,7 @@
                     android:text="Argentina"
                     android:textAlignment="center"
                     android:textColor="@color/common_google_signin_btn_text_dark_default"
-                    android:textSize="36sp" />
+                    android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/detalleTvMoneda"
@@ -61,7 +61,7 @@
                     android:textAlignment="center"
                     android:textAllCaps="true"
                     android:textColor="@color/common_google_signin_btn_text_dark_default"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:textStyle="italic" />
             </LinearLayout>
 
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:srcCompat="@drawable/pais_ar" />
         </LinearLayout>
 
