@@ -95,15 +95,16 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
 
                     Preferencias.saveDivisa(context!!, unaDivisa)
 
-                    holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = "$" + unaDivisa.valor.toString()
+                    holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = ("$" + unaDivisa.valor.toString())
                     holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
                     holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).invalidate()
                 }
 
             })
+
         }
         else {
-            holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = "$" + unaDivisa.valor.toString()
+            holder.view.findViewById<TextView>(R.id.tvValorDivisa).text = ("$" + unaDivisa.valor.toString())
             Log.d("I",  "MAINACT-- CHECKEO VACIO"+unaDivisa.timeSeriesData.isEmpty().toString()+" "+unaDivisa.timeSeriesData.count().toString())
             holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).configureForList(holder.view.context, unaDivisa.timeSeriesData)
         }
@@ -123,8 +124,17 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
 
         requestDataFromAPI(unaDivisa, holder)
 
+        //Cambio de color según aumento o baja
+        var color: String? = null
+        if( unaDivisa.ultimoCambio() < 0) color = "#FF5252"
+        else color = "#00E789"
+
+        holder.view.findViewById<TextView>(R.id.tvValorDivisa).textColor = Color.parseColor(color).toLong()
+
         this.listenerDetalle(holder, position)
     }
+
+    fun String.toColor(): Int = Color.parseColor(this)
 
     private fun listenerDetalle(holder: MyViewHolder, position: Int){
         holder.itemView.setOnClickListener {
@@ -138,4 +148,12 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
                     .commit()
         }
     }
+
+    var TextView.textColor: Long
+        get() {
+            return this.textColor
+        }
+        set(value: Long) {
+            this.setTextColor(value.toInt())
+        }
 }
