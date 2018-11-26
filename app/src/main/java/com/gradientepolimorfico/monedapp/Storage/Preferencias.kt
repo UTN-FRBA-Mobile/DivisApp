@@ -14,9 +14,12 @@ object Preferencias {
     val INTERVALO_NOTIFICACIONES = "INTERVALO_NOTIFICACIONES"
     val MONEDAS_SUSCRITAS = "MONEDAS_SUSCRITAS"
     val NOTIFICACIONES_ACTIVAS = "NOTIFICACIONES_ACTIVAS"
+    val NOTIFICACIONES_SONIDO = "NOTIFICACIONES_SONIDO"
+    val NOTIFICACIONES_VIBRAR = "NOTIFICACIONES_VIBRAR"
     val MONEDA_BASE = "MONEDA_BASE"
     val DIVISA_INTERCAMBIO_PREF = "DIVISA_INTERCAMBIO_PREF"
     val NOTIFICACIONES_AVISO_IMPORTANTE = "NOTIFICACIONES_AVISO_IMPORTANTE"
+    val DETECCION_AUTOMATICA_DIVISA = "DIVISA_AUTOMATICA"
 
 
     val IS_LOGGED = "IS_LOGGED"
@@ -104,6 +107,16 @@ object Preferencias {
         editor.apply()
     }
 
+    fun divisaAutomatica(context: Context) : Boolean{
+        return this.getPreferences(context).getBoolean(DETECCION_AUTOMATICA_DIVISA,false)
+    }
+
+    fun activarDivisaAutomatica(context: Context) {
+        val editor = this.getPreferencesEditor(context)
+        editor.putBoolean(DETECCION_AUTOMATICA_DIVISA, true)
+        editor.apply()
+    }
+
     fun getNotificacionesActivas(context: Context): Boolean {
         return this.getPreferences(context).getBoolean(NOTIFICACIONES_ACTIVAS, true)
     }
@@ -130,6 +143,14 @@ object Preferencias {
         val editor = this.getPreferencesEditor(context)
         editor.putBoolean(NOTIFICACIONES_AVISO_IMPORTANTE, notificaciones)
         editor.apply()
+    }
+
+    fun getSonidoNotificaciones(context: Context): Boolean {
+        return this.getPreferences(context).getBoolean(NOTIFICACIONES_SONIDO, true)
+    }
+
+    fun getVibrarNotificaciones(context: Context): Boolean {
+        return this.getPreferences(context).getBoolean(NOTIFICACIONES_VIBRAR, true)
     }
 
     fun notificacionesParaSubaDivisa(context: Context, divisa: String, notificaciones: Boolean) {

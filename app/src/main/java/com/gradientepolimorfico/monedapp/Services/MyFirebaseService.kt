@@ -52,6 +52,7 @@ class MyFirebaseService : FirebaseMessagingService() {
         val pendingIntent = this.pendingIntent(codigoDivisa)
         val builder = this.getNotificationBuilder(messageBody, pendingIntent, titulo)
         val manager = this.notificationManager()
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(CHANNEL_ID,
                     "Channel human readable title",
@@ -68,9 +69,10 @@ class MyFirebaseService : FirebaseMessagingService() {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentText(messageBody)
                 .setAutoCancel(true)
-                .setSound(this.sonidoDeNotificacion())
                 .setVibrate(this.vibracion())
                 .setContentIntent(pendingIntent)
+        if(Preferencias.getSonidoNotificaciones(this))
+            notificationBuilder.setSound(this.sonidoDeNotificacion())
         if (title != null) {
             notificationBuilder.setContentTitle(title)
         } else {
@@ -84,7 +86,11 @@ class MyFirebaseService : FirebaseMessagingService() {
     }
 
     private fun vibracion(): LongArray {
-        return longArrayOf(1000, 1000, 1000, 1000, 1000)
+
+        if(Preferencias.getVibrarNotificaciones(this))
+            return longArrayOf(1000, 1000, 1000, 1000, 1000)
+        else
+            return longArrayOf(0, 0, 0, 0, 0)
     }
 
     private fun notificationManager(): NotificationManager {

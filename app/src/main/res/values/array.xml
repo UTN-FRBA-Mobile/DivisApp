@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="MONEDA_BASE">
-        <item>Dolár Estadounidense</item>
-        <item>Euro</item>
-        <item>Libra</item>
-        <item>Peso Argentino</item>
-        <item>Peso Chileno</item>
-        <item>Peso Uruguayo</item>
-        <item>Real</item>
-        <item>Yen</item>
+        <item>@string/automatico_ubicacion</item>
+        <item>@string/MONEDA_EEUU</item>
+        <item>@string/MONEDA_ESPANIA</item>
+        <item>@string/MONEDA_REINO_UNIDO</item>
+        <item>@string/MONEDA_ARGENTINA</item>
+        <item>@string/MONEDA_CHILE</item>
+        <item>@string/MONEDA_URUGUAY</item>
+        <item>@string/MONEDA_BRASIL</item>
+        <item>@string/MONEDA_JAPON</item>
     </string-array>
 
     <string-array name="MONEDA_BASE_CODIGO">
+        <item>AUTO</item>
         <item>USD</item>
         <item>EUR</item>
         <item>GBP</item>

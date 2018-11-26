@@ -21,6 +21,8 @@
     <string name="carga_fallida">Información no disponible</string>
     <string name="carga_fallida_ext">No se pudo cargar información sobre la divisa:</string>
 
+    <string name="automatico_ubicacion">Automático según ubicación</string>
+
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
 

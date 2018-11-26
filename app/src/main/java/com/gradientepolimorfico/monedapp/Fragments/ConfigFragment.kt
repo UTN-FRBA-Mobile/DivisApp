@@ -3,6 +3,7 @@ package com.gradientepolimorfico.monedapp.Fragments
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.preference.PreferenceFragmentCompat
+import android.util.Log
 import com.google.firebase.messaging.FirebaseMessaging
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.R
@@ -49,7 +50,16 @@ class ConfigFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPre
     }
 
     private fun cambiarMonedaBase(moneda: String) {
-        Preferencias.setMonedaBase(this.context!!, moneda)
+        if(moneda == "AUTO"){
+            Preferencias.activarDivisaAutomatica(this.context!!)
+        }
+        /*if(moneda != "AUTO") {
+            Preferencias.setMonedaBase(this.context!!, moneda)
+        }
+        else{
+            Log.d("I","MONEDABASE "+moneda)
+            (context as MainActivity).paisActualConPermiso()
+        }*/
         (context as MainActivity).cambiarMonedaBase()
     }
 

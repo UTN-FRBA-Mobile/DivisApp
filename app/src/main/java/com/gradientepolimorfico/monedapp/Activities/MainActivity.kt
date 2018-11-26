@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun paisActualConPermiso(){
+    fun paisActualConPermiso(){
         var razon = "Podemos cambiar la moneda base según tu ubicación."
         Permissions.checkForPermissions(this, android.Manifest.permission.ACCESS_FINE_LOCATION,razon, object : Permissions.Callback{
             override fun onSuccess() {
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
     private fun paisActual(){
         var locationManager = (getSystemService(Context.LOCATION_SERVICE) as LocationManager)
         var lastPosition = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        if(lastPosition == null) {
+        if(lastPosition == null && this.divisaBase==null) {
             Preferencias.setMonedaBase(this, FactoryDivisa.divisaBaseDefault)
         } else {
             val geocoder = Geocoder(this)
