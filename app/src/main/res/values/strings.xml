@@ -55,6 +55,9 @@
     <string name="aviso_importante_desc">Recibir notificaciones cuando haya cambios bruscos en las cotizaciones</string>
     <!-- END SETTINGS -->
 
+
+
+
     <string name="moneda_base">Moneda base</string>
     <string name="cotizaciones">Cotizaciones</string>
     <string name="dias">días</string>
@@ -156,6 +159,23 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="facebook_app_id">1924101540976240</string> <string name="fb_login_protocol_scheme">fb1924101540976240</string>
+    <!-- START LOGIN-->
+    <string name="logins_options">Ingresar con</string>
+    <string name="entrar_con_mail">Entrar con Mail</string>
+    <string name="entrar_como_invitado">Entrar como Invitado</string>
+    <string name="entrar_con_facebook">ENTRAR CON FACEBOOK</string>
 
 
+
+    <!-- END LOGIN-->
+    <!-- START PROFILE-->
+    <string name="cargar_saldo_actual">Cargar saldo actual</string>
+    <string name="cargar_divisa_de_intercambio">Cargar divisa de intercambio</string>
+    <string name="ver_evoluci_n">Ver evolución</string>
+    <string name="invitar_a_un_amigo">Invitar a un amigo</string>
+    <string name="cerrar_sesi_n">Cerrar sesión</string>
+    <string name="str_invitado">Invitado</string>
+    <string name="usuario_invitado">Usuario invitado</string>
+    <string name="usuario_de_facebook">Usuario de Facebook</string>
+    <!-- END PROFILE-->
 </resources>

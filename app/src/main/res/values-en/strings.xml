@@ -73,4 +73,24 @@
     <string name="notificaciones_avisos_suba">Receive notices when there are uploads</string>
     <string name="notificaciones_avisos_baja">Receive notifications when there are casualties</string>
 
+    <!-- START LOGIN-->
+    <string name="logins_options">Login with</string>
+    <string name="entrar_con_mail">Sign in with mail</string>
+    <string name="entrar_como_invitado">Sign in as guest</string>
+    <string name="entrar_con_facebook">SIGN IN WITH FACEBOOK</string>
+
+
+    <!-- END LOGIN-->
+    <!-- START PROFILE-->
+    <string name="cargar_saldo_actual">Load current balance</string>
+    <string name="cargar_divisa_de_intercambio">Load favorite foreign currency</string>
+    <string name="ver_evoluci_n">Show evolution</string>
+    <string name="invitar_a_un_amigo">Invite a friend</string>
+    <string name="cerrar_sesi_n">Log out</string>
+    <string name="str_invitado">Guest</string>
+    <string name="usuario_invitado">User guest</string>
+    <string name="usuario_de_facebook">Facebook User</string>
+    <!-- END PROFILE-->
+
+
 </resources>

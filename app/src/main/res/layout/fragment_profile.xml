@@ -77,7 +77,7 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Cargar saldo actual"
+                android:text="@string/cargar_saldo_actual"
                 android:background="@drawable/divisa_ppal_gris"
                 android:textColor="#fff"
                 android:textSize="18dp"
@@ -95,7 +95,7 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Cargar divisa de intercambio"
+                android:text="@string/cargar_divisa_de_intercambio"
                 android:textSize="18dp"
                 android:textAlignment="center" />
 
@@ -109,7 +109,7 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Ver evolución"
+                android:text="@string/ver_evoluci_n"
                 android:textSize="18dp"
                 android:textAlignment="center" />
 
@@ -125,7 +125,7 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Invitar a un amigo"
+                android:text="@string/invitar_a_un_amigo"
                 android:textSize="18dp"
                 android:textAlignment="center" />
 
@@ -139,7 +139,7 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Cerrar sesión"
+                android:text="@string/cerrar_sesi_n"
                 android:textSize="18dp"
                 android:textAlignment="center" />
         </LinearLayout>

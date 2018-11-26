@@ -3,6 +3,7 @@ package com.gradientepolimorfico.monedapp.Fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +50,7 @@ class LoginFragment : Fragment() {
 
                 var nombre: String? = null
                 profileTracker = object : ProfileTracker() {
-                    override fun onCurrentProfileChanged(oldProfile: Profile, currentProfile: Profile?) {
+                    override fun onCurrentProfileChanged(oldProfile: ContactsContract.Profile, currentProfile: ContactsContract.Profile?) {
                         if (currentProfile != null) {
                             Preferencias.setUsername(context!!, currentProfile.name) // TODO: VER PORQUE NO CARGA EL NOMBRE
                         }
@@ -57,7 +58,7 @@ class LoginFragment : Fragment() {
                 }
                 profileTracker?.stopTracking()
                 Preferencias.setLogged(context!!, true)
-                Preferencias.setLoginFrom(context!!, "Usuario de Facebook")
+                Preferencias.setLoginFrom(context!!, getString(R.string.usuario_de_facebook))
                 Preferencias.setTokenFacebook(context!!, loginResult.accessToken.token)
                 (context!! as MainActivity).irAPerfil()
             }
@@ -73,13 +74,14 @@ class LoginFragment : Fragment() {
         this.btnFB?.setOnClickListener {
 
         }
-        this.btnMail?.setOnClickListener {
-            Toast.makeText(activity, "MAIL LOGIN", Toast.LENGTH_SHORT).show()
-        }
+
+        val addSaldoDialog = MailDialogFragment()
+        this.btnMail?.setOnClickListener (View.OnClickListener { addSaldoDialog.show(this.childFragmentManager!!, "Divisas") })
+
         this.btnInvitado?.setOnClickListener {
             Preferencias.setLogged(this.context!!, true)
-            Preferencias.setUsername(this.context!!, "Stov")
-            Preferencias.setLoginFrom(this.context!!, "Usuario invitado")
+            Preferencias.setUsername(this.context!!, getString(R.string.str_invitado))
+            Preferencias.setLoginFrom(this.context!!, getString(R.string.usuario_invitado))
             (this.context!! as MainActivity).irAPerfil()
         }
 
