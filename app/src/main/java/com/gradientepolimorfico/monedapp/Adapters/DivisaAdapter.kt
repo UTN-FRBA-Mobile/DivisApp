@@ -87,9 +87,9 @@ class DivisaAdapter : RecyclerView.Adapter<DivisaAdapter.MyViewHolder> {
                 override fun onFailure(call: Call<ExchangeRateResponse>?, t: Throwable?) {
                     Log.e("DivisApp", Log.getStackTraceString(t))
                     unaDivisa.dataRequested = false
-                    holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).setNoDataText("Carga fallida, reintente nuevamente")
+                    holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).setNoDataText(context!!.getString(R.string.carga_fallida))
                     holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).invalidate()
-                    Toast.makeText(holder.view.context, "No se pudo cargar información sobre la divisa: " + unaDivisa.moneda, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(holder.view.context, context!!.getString(R.string.carga_fallida_ext)+" " + context!!.getString(unaDivisa.monedaResource!!), Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onResponse(call: Call<ExchangeRateResponse>?, response: retrofit2.Response<ExchangeRateResponse>?) {
@@ -120,12 +120,12 @@ class DivisaAdapter : RecyclerView.Adapter<DivisaAdapter.MyViewHolder> {
         var unaDivisa = (this.context!! as MainActivity).getDivisaByPosition(position)
         //var unaDivisa = this.getDivisa(position)
 
-        holder.view.findViewById<TextView>(R.id.tvPais).text = unaDivisa.pais
-        holder.view.findViewById<TextView>(R.id.tvDivisa).text = unaDivisa.moneda
+        holder.view.findViewById<TextView>(R.id.tvPais).text = context!!.getString(unaDivisa.paisResource!!)
+        holder.view.findViewById<TextView>(R.id.tvDivisa).text = context!!.getString(unaDivisa.monedaResource!!)
         holder.view.findViewById<ImageView>(R.id.iwBandera).setImageResource(unaDivisa.bandera!!)
         holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).data = null
         holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).setNoDataTextColor(Color.LTGRAY)
-        holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).setNoDataText("Cargando...")
+        holder.view.findViewById<LineChart>(R.id.priceHistoricGraph).setNoDataText(context!!.getString(R.string.cargando))
 
         requestDataFromAPI(unaDivisa, holder)
 

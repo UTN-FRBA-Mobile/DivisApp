@@ -60,7 +60,7 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
         if (this.divisa!!.hayDatos()) {
             vista = inflater.inflate(R.layout.fragment_historia, container, false)
 
-            val pageAdapter = GraficoHistorialAdapter(childFragmentManager!!)
+            val pageAdapter = GraficoHistorialAdapter(childFragmentManager!!, this.context!!)
 
             pageAdapter.agregarDivisa(this.divisa!!)
             val viewPager = vista!!.findViewById<ViewPager>(R.id.viewPagerGraficos)
@@ -71,8 +71,8 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
             return vista
         } else {
             vista = inflater.inflate(R.layout.fragment_error_conexion, container, false)
-            vista!!.findViewById<TextView>(R.id.tvPais).text = this.divisa!!.pais
-            vista!!.findViewById<TextView>(R.id.tvDivisa).text = this.divisa!!.moneda
+            vista!!.findViewById<TextView>(R.id.tvPais).text = this.context!!.getString(this.divisa!!.paisResource!!)
+            vista!!.findViewById<TextView>(R.id.tvDivisa).text = this.context!!.getString(this.divisa!!.monedaResource!!)
             vista!!.findViewById<ImageView>(R.id.iwBandera).setImageResource(this.divisa!!.bandera!!)
             return vista
         }
@@ -84,8 +84,8 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
     }
 
     private fun init(vista: View) {
-        vista.findViewById<TextView>(R.id.tvPais).text = this.divisa!!.pais
-        vista.findViewById<TextView>(R.id.tvDivisa).text = this.divisa!!.moneda
+        vista.findViewById<TextView>(R.id.tvPais).text = this.getString(this.divisa!!.paisResource!!)
+        vista.findViewById<TextView>(R.id.tvDivisa).text = this.getString(this.divisa!!.monedaResource!!)
         vista.findViewById<ImageView>(R.id.iwBandera).setImageResource(this.divisa!!.bandera!!)
 
         if (this.divisa!!.hayDatos()) {
@@ -146,8 +146,8 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
             var ventaDivisa = monederoDivisa * (this.divisa!!.valor!!)
             var compraDivisa = monederoBase / (this.divisa!!.valor!!)
 
-            var descripcionVenta = "Si  vende sus " + monederoDivisa.toString() + " " + this.divisa!!.codigo + " obtendrá " + "%.2f".format(ventaDivisa).toString() + " " + base!!.codigo
-            var descripcionCompra = "Con sus " + monederoBase + " " + base!!.codigo + " puede comprar " + "%.2f".format(compraDivisa).toString() + " " + this.divisa!!.codigo
+            var descripcionVenta = getString(R.string.convertibilidad_venta_base_1)+" "+ monederoDivisa.toString() + " " + this.divisa!!.codigo + " "+getString(R.string.convertibilidad_venta_base_2) + " "+"%.2f".format(ventaDivisa).toString() + " " + base!!.codigo
+            var descripcionCompra = getString(R.string.convertibilidad_compra_divisa_1) + " "+monederoBase + " " + base!!.codigo + " "+getString(R.string.convertibilidad_compra_divisa_2) + " "+"%.2f".format(compraDivisa).toString() + " " + this.divisa!!.codigo
 
             vista.findViewById<TextView>(R.id.historiaTvVentaDivisa).text = descripcionVenta
             vista.findViewById<TextView>(R.id.historiaTvCompraDivisa).text = descripcionCompra

@@ -19,16 +19,11 @@ import kotlinx.android.synthetic.main.fragment_divisas.*
 import java.util.*
 
 class DivisasFragment : Fragment() {
-    //private var divisas:ArrayList<Divisa>? = null
     private var fab: FloatingActionButton? = null
 
     private var usuario: Usuario? = null
 
     private var adapter: DivisaAdapter? = null
-
-    /*private fun inicializar(){
-        this.divisas = this.usuario!!.configuracion!!.divisas
-    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,9 +54,10 @@ class DivisasFragment : Fragment() {
     }
 
     private fun iniciarMonedaBase(vista: View) {
-        vista.findViewById<TextView>(R.id.tvDivisaBase).text = (this.context as MainActivity).divisaBase!!.moneda
-        vista.findViewById<TextView>(R.id.tvPaisBase).text = (this.context as MainActivity).divisaBase!!.pais
-        vista.findViewById<ImageView>(R.id.iwBanderaBase).setImageResource((this.context as MainActivity).divisaBase!!.bandera!!)
+        val context = (this.context as MainActivity)
+        vista.findViewById<TextView>(R.id.tvDivisaBase).text = context.getString(context.divisaBase!!.monedaResource!!)
+        vista.findViewById<TextView>(R.id.tvPaisBase).text = context.getString(context.divisaBase!!.paisResource!!)
+        vista.findViewById<ImageView>(R.id.iwBanderaBase).setImageResource(context.divisaBase!!.bandera!!)
 
         vista.findViewById<FrameLayout>(R.id.divisaFLBase).setOnClickListener {
             var args = Bundle()

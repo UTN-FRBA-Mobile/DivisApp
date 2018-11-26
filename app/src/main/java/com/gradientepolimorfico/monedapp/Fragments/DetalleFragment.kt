@@ -69,7 +69,7 @@ class DetalleFragment : Fragment(), OnMapReadyCallback {
                         },
                         { error ->
                             Log.d("I", "DETALLE-" + error.message)
-                            Toast.makeText(activity, "Información no disponible!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity, this.context!!.getString(R.string.carga_fallida)+"!", Toast.LENGTH_SHORT).show()
                         }
                 )
     }
@@ -80,8 +80,8 @@ class DetalleFragment : Fragment(), OnMapReadyCallback {
 
     private fun rellenarVista(divisa: Divisa, vista: View) {
         vista.findViewById<ImageView>(R.id.detalleIwBandera).setImageResource(divisa.bandera!!)
-        vista.findViewById<TextView>(R.id.detalleTvPais).text = divisa.pais!!
-        vista.findViewById<TextView>(R.id.detalleTvMoneda).text = divisa.moneda!! + " - " + divisa.codigo!!
+        vista.findViewById<TextView>(R.id.detalleTvPais).text = this.context!!.getString(divisa.paisResource!!)
+        vista.findViewById<TextView>(R.id.detalleTvMoneda).text = this.context!!.getString(divisa.monedaResource!!) + " - " + divisa.codigo!!
         vista.findViewById<TextView>(R.id.detalleTVCodigo).text = divisa.codigo!!
         var monedero = Preferencias.monedero(this.context!!, divisa.codigo!!)
         vista.findViewById<EditText>(R.id.detalleETCantidad).setText(monedero.toString())

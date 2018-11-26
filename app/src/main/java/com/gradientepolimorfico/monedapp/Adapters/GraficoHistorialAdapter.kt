@@ -1,18 +1,26 @@
 package com.gradientepolimorfico.monedapp.Adapters;
 
+import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.github.mikephil.charting.data.Entry
+import com.gradientepolimorfico.monedapp.Activities.MainActivity
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.Fragments.GraficoHistorialFragment
+import com.gradientepolimorfico.monedapp.R
 
-class GraficoHistorialAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class GraficoHistorialAdapter : FragmentPagerAdapter {
 
+    private var context : Context? = null
     private var divisa = Divisa()
     private val graphSizes = arrayOf(7, 30, 100)
     private var selectedValue: Entry? = null
     private val items = HashMap<Int, Fragment>()
+
+    constructor(fm : FragmentManager, context: Context) : super(fm){
+        this.context = context
+    }
 
     interface onSelectedValueListener {
         fun onSelectedValue(entry: Entry?)
@@ -43,6 +51,6 @@ class GraficoHistorialAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     }
 
     override fun getPageTitle(position: Int): CharSequence {
-        return graphSizes[position].toString() + " Días"
+        return graphSizes[position].toString() + " "+(this.context as MainActivity).getString(R.string.dias)
     }
 }

@@ -6,17 +6,17 @@
         <item
             android:id="@+id/nav_divisas"
             android:icon="@drawable/ic_money"
-            android:title="Divisas" />
+            android:title="@string/divisas" />
         <item
             android:id="@+id/nav_historial"
             android:icon="@drawable/ic_timeline"
-            android:title="Historial" />
+            android:title="@string/historial" />
         <item
             android:id="@+id/nav_configuracion"
             android:icon="@drawable/ic_settings"
-            android:title="Configuración" />
+            android:title="@string/configuracion" />
         <item
             android:id="@+id/nav_perfil"
             android:icon="@drawable/ic_perfil"
-            android:title="Perfil" />
+            android:title="@string/perfil" />
 </menu>

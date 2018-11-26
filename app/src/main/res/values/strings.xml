@@ -1,4 +1,75 @@
 <resources>
+    <string name="MONEDA_ARGENTINA">Peso argentino</string>
+    <string name="MONEDA_EEUU">Dólar</string>
+    <string name="MONEDA_ESPANIA">Euro</string>
+    <string name="MONEDA_JAPON">Yen</string>
+    <string name="MONEDA_BRASIL">Real</string>
+    <string name="MONEDA_REINO_UNIDO">Libra</string>
+    <string name="MONEDA_URUGUAY">Peso uruguayo</string>
+    <string name="MONEDA_CHILE">Peso chileno</string>
+
+    <string name="PAIS_ARGENTINA">Argentina</string>
+    <string name="PAIS_EEUU">Estados Unidos</string>
+    <string name="PAIS_ESPANIA">España</string>
+    <string name="PAIS_JAPON">Japón</string>
+    <string name="PAIS_BRASIL">Brasil</string>
+    <string name="PAIS_REINO_UNIDO">Reino Unido</string>
+    <string name="PAIS_URUGUAY">Uruguay</string>
+    <string name="PAIS_CHILE">Chile</string>
+
+    <string name="cargando">Cargando...</string>
+    <string name="carga_fallida">Información no disponible</string>
+    <string name="carga_fallida_ext">No se pudo cargar información sobre la divisa:</string>
+
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
+
+    <!-- MENU -->
+    <string name="divisas">Divisas</string>
+    <string name="historial">Historial</string>
+    <string name="configuracion">Configuración</string>
+    <string name="perfil">Perfil</string>
+    <!--END MENU -->
+
+    <!-- DETALLE -->
+    <string name="saldo_actual">Saldo acutal</string>
+    <string name="su_saldo">Su saldo:</string>
+    <string name="historia">Historia</string>
+    <string name="ubicacion">Ubicación</string>
+    <!-- DETALLE END -->
+
+    <!-- SETTINGS -->
+    <string name="moneda_base_desc">Establecer la moneda con la cual se van a comparar las divisas</string>
+
+    <string name="intervalo_historial">Intervalo del Historial</string>
+    <string name="intervalo_historial_desc">Establecer el intervalo de muestreo del gráfico del historial de las divisas</string>
+
+    <string name="activar_notificaciones">Activar notificaciones</string>
+
+    <string name="sonido">Sonido</string>
+    <string name="vibracion">Vibrar</string>
+
+    <string name="aviso_importante">Aviso importante</string>
+    <string name="aviso_importante_desc">Recibir notificaciones cuando haya cambios bruscos en las cotizaciones</string>
+    <!-- END SETTINGS -->
+
+    <string name="moneda_base">Moneda base</string>
+    <string name="cotizaciones">Cotizaciones</string>
+    <string name="dias">días</string>
+    <string name="valores_cambiarios">Valores cambiarios</string>
+    <string name="convertibilidad">Convertibilidad</string>
+    <string name="notificaciones">Notificaciones</string>
+
+    <string name="convertibilidad_venta_base_1">Si vende sus</string>
+    <string name="convertibilidad_venta_base_2">obtendrá</string>
+
+    <string name="convertibilidad_compra_divisa_1">Con sus</string>
+    <string name="convertibilidad_compra_divisa_2">puede comprar</string>
+
+    <string name="notificaciones_avisos_suba">Recibir avisos cuando haya subas</string>
+    <string name="notificaciones_avisos_baja">Recibir avisos cuando haya bajas</string>
+
+
     <string name="app_name">DivisApp</string>
     <string name="title_activity_swipe">DivisApp</string>
     <string name="action_settings">Settings</string>

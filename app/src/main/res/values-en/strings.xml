@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MONEDA_ARGENTINA">Argentine peso</string>
+    <string name="MONEDA_EEUU">Dollar</string>
+    <string name="MONEDA_ESPANIA">Euro</string>
+    <string name="MONEDA_JAPON">Yen</string>
+    <string name="MONEDA_BRASIL">Real</string>
+    <string name="MONEDA_REINO_UNIDO">Pound</string>
+    <string name="MONEDA_URUGUAY">Uruguayan Peso</string>
+    <string name="MONEDA_CHILE">Chilean peso</string>
+
+    <string name="PAIS_ARGENTINA">Argentina</string>
+    <string name="PAIS_EEUU">United States</string>
+    <string name="PAIS_ESPANIA">Spain</string>
+    <string name="PAIS_JAPON">Japan</string>
+    <string name="PAIS_BRASIL">Brazil</string>
+    <string name="PAIS_REINO_UNIDO">United Kingdom</string>
+    <string name="PAIS_URUGUAY">Uruguay</string>
+    <string name="PAIS_CHILE">Chile</string>
+
+    <string name="cargando">Loading...</string>
+    <string name="carga_fallida">Information not available</string>
+    <string name="carga_fallida_ext">Could not load information about the currency:</string>
+
+    <!-- DETALLE -->
+    <string name="saldo_actual">Current balance</string>
+    <string name="su_saldo">Your balance:</string>
+    <string name="historia">History</string>
+    <string name="ubicacion">Location</string>
+    <!-- DETALLE END -->
+
+    <string name="aceptar">Ok</string>
+    <string name="cancelar">Cancel</string>
+
+    <!--MENU -->
+    <string name="divisas">Currencies</string>
+    <string name="historial">Historic</string>
+    <string name="configuracion">Settings</string>
+    <string name="perfil">Profile</string>
+    <!--END MENU -->
+
+    <!-- SETTINGS -->
+    <string name="moneda_base_desc">Set the currency with which the currencies are to be compared</string>
+
+    <string name="intervalo_historial">History interval</string>
+    <string name="intervalo_historial_desc">Set the sampling interval of the currency history graph</string>
+
+    <string name="activar_notificaciones">Activate notifications</string>
+
+    <string name="sonido">Sound</string>
+    <string name="vibracion">Vibrate</string>
+
+    <string name="aviso_importante">Important notice</string>
+    <string name="aviso_importante_desc">Receive notifications when there are abrupt changes in quotes</string>
+
+    <!-- END SETTINGS -->
+
+    <string name="moneda_base">Base currency</string>
+    <string name="cotizaciones">Quotations</string>
+    <string name="dias">days</string>
+    <string name="valores_cambiarios">Exchange values</string>
+    <string name="convertibilidad">Convertibility</string>
+    <string name="notificaciones">Notifications</string>
+
+    <string name="convertibilidad_venta_base_1">If you sell your</string>
+    <string name="convertibilidad_venta_base_2">you will get</string>
+
+    <string name="convertibilidad_compra_divisa_1">With your</string>
+    <string name="convertibilidad_compra_divisa_2">you can buy</string>
+
+    <string name="notificaciones_avisos_suba">Receive notices when there are uploads</string>
+    <string name="notificaciones_avisos_baja">Receive notifications when there are casualties</string>
+
+</resources>

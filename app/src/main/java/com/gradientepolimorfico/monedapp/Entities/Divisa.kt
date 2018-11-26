@@ -12,6 +12,10 @@ class Divisa {
     var valor: Float? = null
     var pais: String? = null
     var moneda: String? = null
+
+    var paisResource : Int? = null
+    var monedaResource: Int? = null
+
     var bandera: Int? = null
     var dataRequested: Boolean = false
     var timeSeriesData = ArrayList<Entry>()

@@ -148,8 +148,9 @@
                         android:paddingTop="10dp"
                         android:paddingEnd="5dp"
                         android:paddingBottom="10dp"
-                        android:text="VALORES CAMBIAROS"
-                        android:textAlignment="center"
+                        android:text="@string/valores_cambiarios"
+                        android:textAlignment="viewStart"
+                        android:textAllCaps="true"
                         android:textColor="@color/colorTextSelected" />
 
                     <TextView
@@ -256,7 +257,8 @@
                     android:paddingTop="10dp"
                     android:paddingEnd="5dp"
                     android:paddingBottom="10dp"
-                    android:text="CONVERTIBILIDAD"
+                    android:text="@string/convertibilidad"
+                    android:textAllCaps="true"
                     android:textColor="@color/colorTextSelected" />
 
                 <Space
@@ -305,7 +307,8 @@
                     android:paddingTop="10dp"
                     android:paddingEnd="5dp"
                     android:paddingBottom="10dp"
-                    android:text="NOTIFICACIONES"
+                    android:text="@string/notificaciones"
+                    android:textAllCaps="true"
                     android:textColor="@color/colorTextSelected" />
 
                 <Space
@@ -319,7 +322,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:paddingStart="15dp"
-                    android:text="Recibir avisos cuando haya subas"
+                    android:text="@string/notificaciones_avisos_suba"
                     android:textAppearance="@android:style/TextAppearance.Material.Small"
                     android:textColor="@color/common_google_signin_btn_text_dark_default"
                     android:textSize="16sp" />
@@ -334,7 +337,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="15dp"
-                    android:text="Recibir avisos cuando haya bajas"
+                    android:text="@string/notificaciones_avisos_baja"
                     android:textAppearance="@android:style/TextAppearance.Material.Small"
                     android:textColor="@color/common_google_signin_btn_text_dark_default"
                     android:textSize="16sp" />

@@ -98,7 +98,8 @@
                     android:paddingTop="10dp"
                     android:paddingEnd="5dp"
                     android:paddingBottom="10dp"
-                    android:text="SALDO ACTUAL"
+                    android:text="@string/saldo_actual"
+                    android:textAllCaps="true"
                     android:textColor="@color/colorTextSelected"
                     android:textSize="14sp" />
 
@@ -114,7 +115,7 @@
                         android:layout_weight="1"
                         android:paddingStart="15dp"
                         android:paddingTop="10dp"
-                        android:text="Su saldo:"
+                        android:text="@string/su_saldo"
                         android:textColor="@color/common_google_signin_btn_text_dark_default"
                         android:textSize="18sp" />
 
@@ -160,7 +161,8 @@
                     android:paddingTop="10dp"
                     android:paddingEnd="5dp"
                     android:paddingBottom="10dp"
-                    android:text="HISTORIA"
+                    android:text="@string/historia"
+                    android:textAllCaps="true"
                     android:textColor="@color/colorTextSelected"
                     android:textSize="14sp" />
 
@@ -213,7 +215,8 @@
                 android:paddingTop="10dp"
                 android:paddingEnd="5dp"
                 android:paddingBottom="10dp"
-                android:text="UBICACIÓN"
+                android:text="@string/ubicacion"
+                android:textAllCaps="true"
                 android:textColor="@color/colorTextSelected"
                 android:textSize="14sp" />
 

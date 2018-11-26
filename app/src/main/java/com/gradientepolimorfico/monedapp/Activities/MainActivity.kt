@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.view.ViewPager
+import android.util.Log
 import android.view.View
 import com.facebook.CallbackManager
 import com.facebook.ProfileTracker
@@ -93,8 +94,6 @@ class MainActivity : AppCompatActivity() {
         this.init()
         this.iniciarFragments()
 
-        //this.paisActualConPermiso()
-
         var codigoDivisa = this.intent?.extras?.getString("codigoDivisa")
         if (codigoDivisa != null) {
             this.mostrarPantallaSegunNotificacion(codigoDivisa)
@@ -123,7 +122,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             val geocoder = Geocoder(this)
             var location = geocoder.getFromLocation(lastPosition.latitude,lastPosition.longitude,1)
-            //Log.d("I","MAINACT: "+location.first().countryName)
             var pais = location.first().countryName
             var divisa = FactoryDivisa.codigoDivisaSegunPais(pais)
             Preferencias.setMonedaBase(this,divisa)
