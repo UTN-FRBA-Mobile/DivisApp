@@ -134,6 +134,7 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
             fragment.arguments = args
             (context as MainActivity).getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                     .replace(R.id.fragment_container, fragment)
                     .commit()
         }
