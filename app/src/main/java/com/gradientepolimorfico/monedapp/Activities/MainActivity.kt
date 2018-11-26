@@ -1,6 +1,9 @@
 package com.gradientepolimorfico.monedapp.Activities
 
+import android.content.Context
 import android.content.Intent
+import android.location.Geocoder
+import android.location.LocationManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -22,6 +25,8 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.gradientepolimorfico.monedapp.Adapters.HistoriaPageAdapter
 import com.gradientepolimorfico.monedapp.Factories.FactoryDivisa
 import com.gradientepolimorfico.monedapp.Fragments.*
+import com.gradientepolimorfico.monedapp.Permissions.Permissions
+import java.security.Permission
 
 
 class MainActivity : AppCompatActivity(){
@@ -90,20 +95,41 @@ class MainActivity : AppCompatActivity(){
         this.init()
         this.iniciarFragments()
 
+        this.paisActualConPermiso()
 
         var codigoDivisa = this.intent?.extras?.getString("codigoDivisa")
         if(codigoDivisa!= null){
             this.mostrarPantallaSegunNotificacion(codigoDivisa)
         }
         else{
-            //FirebaseMessaging.getInstance().subscribeToTopic("notificaciones3")
             this.irAPrincipal()
         }
     }
 
-    private fun iniciarPrimeraVez(){
-        Preferencias.setMonedaBase(this, FactoryDivisa.divisaBaseDefault)
+    private fun paisActualConPermiso(){
+        var razon = "Podemos cambiar la moneda base según tu ubicación."
+        Permissions.checkForPermissions(this, android.Manifest.permission.ACCESS_FINE_LOCATION,razon, object : Permissions.Callback{
+            override fun onSuccess() {
+                paisActual()
+            }
+        })
+    }
 
+    private fun paisActual(){
+        var locationManager = (getSystemService(Context.LOCATION_SERVICE) as LocationManager)
+        var lastPosition = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        val geocoder = Geocoder(this)
+        var location = geocoder.getFromLocation(lastPosition.latitude,lastPosition.longitude,1)
+        //Log.d("I","MAINACT: "+location.first().countryName)
+
+        var pais = location.first().countryName
+        var divisa = FactoryDivisa.codigoDivisaSegunPais(pais)
+        Preferencias.setMonedaBase(this,divisa)
+    }
+
+    private fun iniciarPrimeraVez(){
+        this.paisActualConPermiso()
+        //Preferencias.setMonedaBase(this, FactoryDivisa.divisaBaseDefault)
         FactoryDivisa.divisasDisponibles.forEach { d ->
             if(d!= FactoryDivisa.divisaBaseDefault){
                 this.iniciarPrimeraVezDivisa(d)
