@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.github.mikephil.charting.data.Entry
 import com.gradientepolimorfico.monedapp.Entities.Divisa
+import com.gradientepolimorfico.monedapp.Factories.FactoryDivisa
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -108,7 +109,7 @@ object Preferencias {
 
 
     fun getDivisaIntercambioPreferida(context: Context): String? {
-        return this.getPreferences(context).getString(DIVISA_INTERCAMBIO_PREF, null)
+        return this.getPreferences(context).getString(DIVISA_INTERCAMBIO_PREF, FactoryDivisa.DIVISA_DOLAR_ESTADOUNIDENSE)
     }
 
     fun setDivisaIntercambioPreferida(context: Context, monedaBase: String) {

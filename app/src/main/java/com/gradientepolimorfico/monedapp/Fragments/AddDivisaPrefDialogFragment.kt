@@ -14,9 +14,10 @@ class AddDivisaPrefDialogFragment : DialogFragment() {
 
         val builder = AlertDialog.Builder(this.context!!)
 
-        val divisas = FactoryDivisa.divisasDisponibles
+        val divisas = FactoryDivisa.monedasDisponibles
 
         var divisaPreferida = Preferencias.getDivisaIntercambioPreferida(this.context!!)
+        if(divisaPreferida != null) divisaPreferida = FactoryDivisa.nombreMonedaSegunCodigo(divisaPreferida)
         var seleccionados = ArrayList<Boolean>()
 
         divisas.forEach { d -> if (divisaPreferida == (d)) seleccionados.add(true) else seleccionados.add(false) }
@@ -31,7 +32,8 @@ class AddDivisaPrefDialogFragment : DialogFragment() {
                     for (i in 0 until divisas.size) {
                         val checked = seleccionados.toBooleanArray()[i]
                         if (checked) {
-                            Preferencias.setDivisaIntercambioPreferida(this.context!!, divisas[i])
+                            var divisa = FactoryDivisa.codigoSegunNombreMoneda(divisas[i])
+                            Preferencias.setDivisaIntercambioPreferida(this.context!!, divisa)
                         }
                     }
                 }
