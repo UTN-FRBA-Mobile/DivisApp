@@ -17,6 +17,7 @@ object Preferencias {
     val MONEDA_BASE = "MONEDA_BASE"
     val DIVISA_INTERCAMBIO_PREF = "DIVISA_INTERCAMBIO_PREF"
     val NOTIFICACIONES_AVISO_IMPORTANTE = "NOTIFICACIONES_AVISO_IMPORTANTE"
+    val DETECCION_AUTOMATICA_DIVISA = "DIVISA_AUTOMATICA"
 
 
     val IS_LOGGED = "IS_LOGGED"
@@ -101,6 +102,16 @@ object Preferencias {
     fun setDivisaIntercambioPreferida(context: Context, monedaBase: String) {
         val editor = this.getPreferencesEditor(context)
         editor.putString(DIVISA_INTERCAMBIO_PREF, monedaBase)
+        editor.apply()
+    }
+
+    fun divisaAutomatica(context: Context) : Boolean{
+        return this.getPreferences(context).getBoolean(DETECCION_AUTOMATICA_DIVISA,false)
+    }
+
+    fun activarDivisaAutomatica(context: Context) {
+        val editor = this.getPreferencesEditor(context)
+        editor.putBoolean(DETECCION_AUTOMATICA_DIVISA, true)
         editor.apply()
     }
 

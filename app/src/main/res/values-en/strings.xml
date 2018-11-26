@@ -22,6 +22,8 @@
     <string name="carga_fallida">Information not available</string>
     <string name="carga_fallida_ext">Could not load information about the currency:</string>
 
+    <string name="automatico_ubicacion">Automatic by location</string>
+
     <!-- DETALLE -->
     <string name="saldo_actual">Current balance</string>
     <string name="su_saldo">Your balance:</string>

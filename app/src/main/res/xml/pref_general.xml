@@ -10,8 +10,7 @@
             android:key="MONEDA_BASE"
             android:title="@string/moneda_base"
             android:summary="@string/moneda_base_desc"
-            android:icon="@drawable/ic_money_white"
-            android:defaultValue="ARS"/>
+            android:icon="@drawable/ic_money_white" />
         <ListPreference
             android:entries="@array/INTERVALO_NOTIFICACIONES_NOMBRES"
             android:entryValues="@array/INTERVALO_NOTIFICACIONES"
