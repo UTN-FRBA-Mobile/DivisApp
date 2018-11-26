@@ -18,6 +18,8 @@
     <string name="PAIS_URUGUAY">Uruguay</string>
     <string name="PAIS_CHILE">Chile</string>
 
+    <string name="FORMATO_FECHA">MM-dd-yyyy</string>
+
     <string name="cargando">Loading...</string>
     <string name="carga_fallida">Information not available</string>
     <string name="carga_fallida_ext">Could not load information about the currency:</string>
@@ -67,6 +69,10 @@
     <string name="devaluacion">Devaluation</string>
     <string name="convertibilidad">Convertibility</string>
     <string name="notificaciones">Notifications</string>
+
+    <string name="devaluacion1">Your current balance of</string>
+    <string name="devaluacion2">equals having had</string>
+    <string name="devaluacion3">on</string>
 
     <string name="convertibilidad_venta_base_1">If you sell your</string>
     <string name="convertibilidad_venta_base_2">you will get</string>

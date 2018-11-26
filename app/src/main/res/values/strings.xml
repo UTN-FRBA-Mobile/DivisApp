@@ -17,7 +17,9 @@
     <string name="PAIS_URUGUAY">Uruguay</string>
     <string name="PAIS_CHILE">Chile</string>
 
-    <string name="cargando">Cargando...</string>
+    <string name="FORMATO_FECHA">dd-MM-yyyy</string>
+
+<string name="cargando">Cargando...</string>
     <string name="carga_fallida">Información no disponible</string>
     <string name="carga_fallida_ext">No se pudo cargar información sobre la divisa:</string>
 
@@ -68,6 +70,10 @@
     <string name="devaluacion">Devaluación</string>
     <string name="convertibilidad">Convertibilidad</string>
     <string name="notificaciones">Notificaciones</string>
+
+    <string name="devaluacion1">Tu saldo actual de </string>
+    <string name="devaluacion2">equivale a haber tenido</string>
+    <string name="devaluacion3">el</string>
 
     <string name="convertibilidad_venta_base_1">Si vende sus</string>
     <string name="convertibilidad_venta_base_2">obtendrá</string>

@@ -34,7 +34,7 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
     }
 
     fun setDetallesSegunFecha(valor: Float, fechaEnDias: Float) {
-        val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+        val dateFormat = SimpleDateFormat(getString(R.string.FORMATO_FECHA))
         var base = this.divisaBase()
         var stringFecha = dateFormat.format(Date(fechaEnDias.toLong() * (60000 * 60 * 24)))
 
@@ -49,9 +49,9 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
         var ventaDivisa = monederoDivisa * (this.divisa!!.valor!!)
         var compraDivisa = monederoBase / (this.divisa!!.valor!!)
 
-        if(fechaEnDias != divisa!!.timeSeriesData.last().y){
+        if(fechaEnDias != divisa!!.timeSeriesData.last().x){
             vista!!.findViewById<LinearLayout>(R.id.layoutDevaluacion).visibility = View.VISIBLE
-            vista!!.findViewById<TextView>(R.id.historiaTvDevaluacion).text = "Tu saldo actual de " + monederoBase + " " + base!!.codigo!! + " equivale a haber tenido " + monederoBase * (divisa!!.timeSeriesData.last().x / valor) + " " + base!!.codigo!! + " el " + stringFecha+ " " + this.divisa!!.codigo
+            vista!!.findViewById<TextView>(R.id.historiaTvDevaluacion).text = getString(R.string.devaluacion1) + " " + monederoBase + " " + base!!.codigo!! + " " + getString(R.string.devaluacion2) + " " + monederoBase * (divisa!!.timeSeriesData.last().y / valor) + " " + base!!.codigo!! + " " + getString(R.string.devaluacion3) + " " + stringFecha
         } else {
             vista!!.findViewById<LinearLayout>(R.id.layoutDevaluacion).visibility = View.GONE
         }

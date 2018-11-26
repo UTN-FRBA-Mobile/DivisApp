@@ -252,7 +252,8 @@
                     android:id="@+id/layoutDevaluacion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:layout_weight="1">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -265,6 +266,7 @@
                         android:paddingBottom="10dp"
                         android:text="@string/devaluacion"
                         android:textAllCaps="true"
+                        android:layout_weight="1"
                         android:textColor="@color/colorTextSelected" />
 
                     <Space
