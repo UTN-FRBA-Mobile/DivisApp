@@ -16,8 +16,8 @@
             android:entries="@array/INTERVALO_NOTIFICACIONES_NOMBRES"
             android:entryValues="@array/INTERVALO_NOTIFICACIONES"
             android:key="INTERVALO_NOTIFICACIONES"
-            android:title="Intervalo del Historial"
-            android:summary="Establecer el intervalo de muestro del gráfico del historial de las divisas"
+            android:title="Intervalo de actualización"
+            android:summary="Representa la frecuencia con la que se actualizarán los valores de las diferentes divisas"
             android:icon="@drawable/ic_update_white"
             android:defaultValue="1"/>
     </PreferenceCategory>
