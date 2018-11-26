@@ -34,6 +34,7 @@ import kotlin.collections.ArrayList
 
 class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
     var divisas:ArrayList<Divisa>? = null
+    var indexAPI = 0
     private var context:Context? = null
 
     constructor(divisas:ArrayList<Divisa>, context: Context) : super(){
@@ -71,11 +72,11 @@ class DivisaAdapter: RecyclerView.Adapter<DivisaAdapter.MyViewHolder>{
         //return divisa.hayDatos() && divisa.from!= this.monedaBase()!!
     }
 
-    fun requestDataFromAPI(unaDivisa: Divisa, holder: MyViewHolder) {
+    private fun requestDataFromAPI(unaDivisa: Divisa, holder: MyViewHolder) {
         if(this.desactualizada(unaDivisa) || this.cambioMonedaBase(unaDivisa)) {
             unaDivisa.dataRequested = true
             val service = RetrofitClientInstance.retrofitInstance!!.create<MonedasService>(MonedasService::class.java)
-            val call = service.getTimeSeries(unaDivisa.codigo, this.monedaBase())
+            val call = service.getTimeSeries(unaDivisa.codigo, this.monedaBase(), RetrofitClientInstance.iterateAPIKeys())
             Log.d("MAINACT--", "------------------------ Getting currency exchange data for: " + unaDivisa.codigo)
             Log.d("MAINACT--", this.desactualizada(unaDivisa).toString()+" "+this.cambioMonedaBase(unaDivisa).toString())
 

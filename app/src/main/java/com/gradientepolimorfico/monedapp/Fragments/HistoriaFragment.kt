@@ -1,9 +1,9 @@
 package com.gradientepolimorfico.monedapp.Fragments
 
-import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
-import android.util.Log
+import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +11,21 @@ import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.data.Entry
 import com.google.firebase.messaging.FirebaseMessaging
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
+import com.gradientepolimorfico.monedapp.Adapters.PageAdapter
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
 import com.gradientepolimorfico.monedapp.configureForHistory
+import kotlinx.android.synthetic.main.fragment_historia.*
+import java.text.SimpleDateFormat
+import java.util.*
 
-class HistoriaFragment : Fragment() {
+class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelectedListener {
     var divisa : Divisa? = null
+    var vista: View? = null
 
     public fun agregarDivisa(divisa : Divisa){
         this.divisa = divisa
@@ -29,21 +35,42 @@ class HistoriaFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    fun setValorSegunFecha(valor: Float, fechaEnDias: Float) {
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+
+        vista!!.findViewById<TextView>(R.id.tvValorDivisaSegunBase).text = "%.3f".format((1.toFloat()) / valor) + " "+this.divisa!!.codigo
+        vista!!.findViewById<TextView>(R.id.tvValorBaseSegunDivisa).text = valorMonedaSegunBase(valor)
+        vista!!.findViewById<TextView>(R.id.tvFecha).text = dateFormat.format(Date(fechaEnDias.toLong() *(60000*60*24)))
+    }
+
+    override fun onValueSelected(entry: Entry) {
+        setValorSegunFecha(entry.y, entry.x)
+    }
+
+    fun valorMonedaSegunBase(valor: Float): String {
+        return valor.toString()+" "+ this.divisaBase()!!.codigo
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         if(this.divisa!!.hayDatos()){
-            var vista = inflater.inflate(R.layout.fragment_historia, container, false)
+            vista = inflater.inflate(R.layout.fragment_historia, container, false)
 
-            this.init(vista)
-            val mChart : LineChart = vista.findViewById<LineChart>(R.id.priceHistoricGraph)
-            mChart.configureForHistory(activity!!.applicationContext, this.divisa!!.timeSeriesData)
+            val pageAdapter = PageAdapter(childFragmentManager!!)
+
+            pageAdapter.agregarDivisa(this.divisa!!)
+            val viewPager = vista!!.findViewById<ViewPager>(R.id.view_pager)
+            viewPager.adapter = pageAdapter
+            vista!!.findViewById<TabLayout>(R.id.tabsGraficoHistorial).setupWithViewPager(viewPager)
+
+            this.init(vista!!)
             return vista
         }
         else{
-            var vista = inflater.inflate(R.layout.fragment_error_conexion, container, false)
-            vista.findViewById<TextView>(R.id.tvPais).text      = this.divisa!!.pais
-            vista.findViewById<TextView>(R.id.tvDivisa).text    = this.divisa!!.moneda
-            vista.findViewById<ImageView>(R.id.iwBandera).setImageResource(this.divisa!!.bandera!!)
+            vista = inflater.inflate(R.layout.fragment_error_conexion, container, false)
+            vista!!.findViewById<TextView>(R.id.tvPais).text      = this.divisa!!.pais
+            vista!!.findViewById<TextView>(R.id.tvDivisa).text    = this.divisa!!.moneda
+            vista!!.findViewById<ImageView>(R.id.iwBandera).setImageResource(this.divisa!!.bandera!!)
             return vista
         }
     }
@@ -51,10 +78,6 @@ class HistoriaFragment : Fragment() {
     private fun divisaBase() : Divisa?{
         val mainActivity = this.context!! as MainActivity
         return mainActivity.divisaBase
-    }
-
-    private fun valorMonedaSegunBase() : String{
-        return this.divisa!!.valor.toString()+" "+ this.divisaBase()!!.codigo
     }
 
     private fun init(vista : View){
@@ -68,21 +91,13 @@ class HistoriaFragment : Fragment() {
             var ultimoCambioEnPorcentaje = this.divisa!!.ultimoCambioEnPorcentaje()
 
             /**----------------------------- HEADERS ---------------------------------- **/
-            vista.findViewById<TextView>(R.id.tvValorDivisa).text = this.valorMonedaSegunBase()
+            vista.findViewById<TextView>(R.id.tvValorDivisa).text = this.valorMonedaSegunBase(this.divisa!!.valor!!)
 
             vista.findViewById<TextView>(R.id.tvAmbosCambios).text =
                     ("%.3f".format(ultimoCambio) + " (" + "%.3f".format(ultimoCambioEnPorcentaje) + "%)")
 
             //vista.findViewById<TextView>(R.id.tvCambio).text = ("$"+"%.4f".format(ultimoCambio))
 
-            vista.findViewById<TextView>(R.id.tvFrecuenciaAct).text = (
-                    when(Preferencias.getIntervaloNotificaciones(context!!))
-                    {
-                        "1" -> "Diario"
-                        "2" -> "Semanal"
-                        "3" -> "Mensual"
-                        else -> "ERROR"
-                    } )
             /**----------------------------- END HEADERS ------------------------------- **/
 
             var resource = 1
@@ -117,11 +132,8 @@ class HistoriaFragment : Fragment() {
             vista.findViewById<TextView>(R.id.tvCambio).setTextColor(resources.getColor(colorDetalle))*/
 
             vista.findViewById<TextView>(R.id.tvValorMonedaBase).text = "1 "+ base!!.codigo
-            vista.findViewById<TextView>(R.id.tvValorDivisaSegunBase).text = "%.3f".format((1.toFloat()) / this.divisa!!.valor!!).toString() + " "+this.divisa!!.codigo
-
-
-            vista.findViewById<TextView>(R.id.tvValorBaseSegunDivisa).text = valorMonedaSegunBase()
             vista.findViewById<TextView>(R.id.tvUnidadDivisa).text = "1 "+ this.divisa!!.codigo
+            setValorSegunFecha(this.divisa!!.valor!!, this.divisa!!.timeSeriesData.last().x)
 
             /**----------------------------- END DETALLES ---------------------------------- **/
 

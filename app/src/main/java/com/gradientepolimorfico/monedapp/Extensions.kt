@@ -3,6 +3,7 @@ package com.gradientepolimorfico.monedapp
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.graphics.DashPathEffect
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import com.github.mikephil.charting.animation.Easing
@@ -36,7 +37,7 @@ fun LineChart.configureForList(context: Context, entries: ArrayList<Entry>) {
     // mChart.animateX(1000, Easing.EasingOption.EaseOutQuart)
 }
 
-fun LineChart.configureForHistory(context: Context, entries: ArrayList<Entry>) {
+fun LineChart.configureForHistory(context: Context, entries: ArrayList<Entry>, range: Int) {
     val mChart: LineChart = this
     val dataSet = LineDataSet(entries, "Label") // add entries to dataset
     dataSet.color = ContextCompat.getColor(context, R.color.graphColorLinePositive)
@@ -45,6 +46,7 @@ fun LineChart.configureForHistory(context: Context, entries: ArrayList<Entry>) {
     dataSet.fillDrawable = drawable
     dataSet.setDrawFilled(true)
     dataSet.setDrawCircles(false)
+    dataSet.highLightColor = ContextCompat.getColor(context, R.color.colorTextSelected)
 
     val lineData = LineData(dataSet)
     mChart.data = lineData
@@ -57,8 +59,12 @@ fun LineChart.configureForHistory(context: Context, entries: ArrayList<Entry>) {
     mChart.axisRight.setDrawAxisLine(false)
     mChart.axisRight.axisMinimum = 0.toFloat()
     mChart.axisLeft.isEnabled = false
-    mChart.setVisibleXRangeMaximum(25.toFloat())
-    mChart.fitScreen()
-    mChart.setTouchEnabled(false)
-    // mChart.animateY(1000, Easing.EasingOption.EaseOutQuart)
+    mChart.setVisibleXRangeMaximum(range.toFloat())
+    mChart.setVisibleXRangeMinimum(range.toFloat())
+    //mChart.moveViewTo(position, mChart.axisLeft.axisMaximum, mChart.axisLeft.axisDependency);
+    mChart.moveViewToX(entries[entries.size-1].x)
+    mChart.isDragEnabled = false
+    mChart.isDoubleTapToZoomEnabled = false
+    mChart.isHighlightPerDragEnabled = true
+    mChart.animateY(1000, Easing.EasingOption.EaseOutQuart)
 }

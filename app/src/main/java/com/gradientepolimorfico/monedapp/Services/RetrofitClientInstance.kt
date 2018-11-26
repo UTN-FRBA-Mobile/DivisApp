@@ -11,12 +11,26 @@ import com.github.mikephil.charting.data.Entry
 import com.google.gson.*
 import com.google.gson.internal.LinkedTreeMap
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 object RetrofitClientInstance {
 
     private var retrofit: Retrofit? = null
     private val BASE_URL = "https://www.alphavantage.co/"
+    private var indexAPI = 0
+    private val keysArray = arrayOf("QHMCIG8LM0A0UB40")
+
+    fun iterateAPIKeys(): String {
+        val result = keysArray[indexAPI]
+        if (indexAPI == keysArray.size-1) {
+            indexAPI = 0
+        } else {
+            indexAPI += 1
+        }
+        return result
+    }
+
     val gson = GsonBuilder()
             .registerTypeAdapter(ExchangeRateResponse::class.java, TimeSeriesAdapter())
             .create()

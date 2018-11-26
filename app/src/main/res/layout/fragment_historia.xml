@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="15dp"
-        android:paddingStart="15dp">
+        android:paddingStart="15dp"
+        android:paddingBottom="10dp">
 
         <ImageView
             android:id="@+id/iwBandera"
@@ -98,24 +99,22 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvFrecuenciaAct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/frecuencia_historial"
-        android:letterSpacing="0.2"
-        android:paddingStart="30dp"
-        android:paddingTop="15dp"
-        android:paddingEnd="30dp"
-        android:paddingBottom="15dp"
-        android:textAllCaps="true"
-        android:textColor="@color/colorTextSelected" />
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/priceHistoricGraph"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabsGraficoHistorial"
         android:layout_width="match_parent"
-        android:layout_height="250dp" >
-    </com.github.mikephil.charting.charts.LineChart>
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:tabTextColor="@color/colorTextUnselected"
+        app:tabBackground="?attr/selectableItemBackground"
+        app:tabGravity="fill"
+        app:tabSelectedTextColor="@color/colorTextSelected"
+        app:tabMode="fixed"
+        />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -127,17 +126,44 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#192226"
-            android:letterSpacing="0.2"
-            android:paddingStart="15dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="10dp"
-            android:text="VALORES CAMBIAROS"
-            android:textColor="@color/colorTextSelected" />
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_weight="1"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#192226"
+                android:letterSpacing="0.2"
+                android:paddingStart="15dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="5dp"
+                android:paddingBottom="10dp"
+                android:text="VALORES CAMBIAROS"
+                android:textColor="@color/colorTextSelected"
+                android:gravity="left"
+                android:textAlignment="center"
+                android:layout_weight="0.5"/>
+
+            <TextView
+                android:id="@+id/tvFecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#192226"
+                android:letterSpacing="0.2"
+                android:paddingStart="15dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="5dp"
+                android:paddingBottom="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/colorTextSelected"
+                android:layout_weight="0.5"/>
+
+        </LinearLayout>
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="15dp"
