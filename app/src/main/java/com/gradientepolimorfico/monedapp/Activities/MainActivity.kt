@@ -25,7 +25,6 @@ import com.gradientepolimorfico.monedapp.Fragments.*
 import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
 import com.gradientepolimorfico.monedapp.Permissions.Permissions
-import java.security.Permission
 
 class MainActivity : AppCompatActivity() {
     var fab: FloatingActionButton? = null
@@ -94,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         this.init()
         this.iniciarFragments()
 
-        this.paisActualConPermiso()
+        //this.paisActualConPermiso()
 
         var codigoDivisa = this.intent?.extras?.getString("codigoDivisa")
         if (codigoDivisa != null) {
@@ -119,17 +118,23 @@ class MainActivity : AppCompatActivity() {
     private fun paisActual(){
         var locationManager = (getSystemService(Context.LOCATION_SERVICE) as LocationManager)
         var lastPosition = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        val geocoder = Geocoder(this)
-        var location = geocoder.getFromLocation(lastPosition.latitude,lastPosition.longitude,1)
-        //Log.d("I","MAINACT: "+location.first().countryName)
-        var pais = location.first().countryName
-        var divisa = FactoryDivisa.codigoDivisaSegunPais(pais)
-        Preferencias.setMonedaBase(this,divisa)
+        if(lastPosition == null) {
+            Preferencias.setMonedaBase(this, FactoryDivisa.divisaBaseDefault)
+        } else {
+            val geocoder = Geocoder(this)
+            var location = geocoder.getFromLocation(lastPosition.latitude,lastPosition.longitude,1)
+            //Log.d("I","MAINACT: "+location.first().countryName)
+            var pais = location.first().countryName
+            var divisa = FactoryDivisa.codigoDivisaSegunPais(pais)
+            Preferencias.setMonedaBase(this,divisa)
+        }
+        this.divisaBase = FactoryDivisa.create(Preferencias.getMonedaBase(this)!!)
     }
 
     private fun iniciarPrimeraVez(){
+        Preferencias.setMonedaBase(this, FactoryDivisa.divisaBaseDefault)
+        this.divisaBase = FactoryDivisa.create(Preferencias.getMonedaBase(this)!!)
         this.paisActualConPermiso()
-        //Preferencias.setMonedaBase(this, FactoryDivisa.divisaBaseDefault)
         FactoryDivisa.divisasDisponibles.forEach { d ->
             if (d != FactoryDivisa.divisaBaseDefault) {
                 this.iniciarPrimeraVezDivisa(d)
@@ -238,5 +243,14 @@ class MainActivity : AppCompatActivity() {
 
     fun desloguearFacebook() {
         LoginManager.getInstance().logOut()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (grantResults.first() == 0) {
+            paisActual()
+        } else {
+            Preferencias.setMonedaBase(this, FactoryDivisa.divisaBaseDefault)
+            this.divisaBase = FactoryDivisa.create(Preferencias.getMonedaBase(this)!!)
+        }
     }
 }

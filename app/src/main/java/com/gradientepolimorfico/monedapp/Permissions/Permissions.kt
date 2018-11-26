@@ -2,7 +2,6 @@ package com.gradientepolimorfico.monedapp.Permissions
 
 import android.app.Activity
 import android.content.pm.PackageManager
-import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 
@@ -17,7 +16,7 @@ object Permissions {
 
     fun checkForPermissions(activity: Activity, permissionCode: String, reason: String, callback: Callback) {
         if (hasPermissions(activity, permissionCode)) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permissionCode)) {
+            if (activity.shouldShowRequestPermissionRationale(permissionCode)) {
                 showStoragePermissionExplanation(activity, permissionCode, reason)
             } else {
                 dispatchStoragePermissionRequest(activity, permissionCode)
@@ -28,7 +27,7 @@ object Permissions {
     }
 
     private fun dispatchStoragePermissionRequest(activity: Activity, permissionCode: String) {
-        ActivityCompat.requestPermissions(activity, arrayOf(permissionCode), REQUEST_USE_GPS)
+        activity.requestPermissions(arrayOf(permissionCode), REQUEST_USE_GPS)
     }
 
     private fun showStoragePermissionExplanation(activity: Activity, permissionCode: String, reason: String) {

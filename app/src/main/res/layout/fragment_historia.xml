@@ -120,7 +120,7 @@
                 app:tabTextColor="@color/colorTextUnselected" />
 
             <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager"
+                android:id="@+id/viewPagerGraficos"
                 android:layout_width="wrap_content"
                 android:layout_height="150dp" />
 

@@ -14,7 +14,7 @@ object RetrofitClientInstance {
     private var retrofit: Retrofit? = null
     private val BASE_URL = "https://www.alphavantage.co/"
     private var indexAPI = 0
-    private val keysArray = arrayOf("QHMCIG8LM0A0UB40")
+    private val keysArray = arrayOf("EDAJ3I7I94LLBHG6")
 
     fun iterateAPIKeys(): String {
         val result = keysArray[indexAPI]

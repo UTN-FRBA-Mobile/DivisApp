@@ -41,16 +41,15 @@ class DivisasFragment : Fragment() {
         val vista = inflater.inflate(R.layout.fragment_divisas, container, false)
         adapter = DivisaAdapter((context as MainActivity).getDivisas(), context!!)
 
-        this.iniciarMonedaBase(vista)
         this.inflarRecycler(vista, adapter!!)
         this.iniciarBottomNav(vista)
+        this.iniciarMonedaBase(vista)
 
         return vista
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         swiperefresh.setOnRefreshListener {
             adapter!!.divisas!!.forEach { divisa -> divisa.lastUpdated = Date(0) }
             adapter!!.notifyDataSetChanged()

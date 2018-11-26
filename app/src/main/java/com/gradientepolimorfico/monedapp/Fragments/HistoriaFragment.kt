@@ -13,7 +13,7 @@ import android.widget.TextView
 import com.github.mikephil.charting.data.Entry
 import com.google.firebase.messaging.FirebaseMessaging
 import com.gradientepolimorfico.monedapp.Activities.MainActivity
-import com.gradientepolimorfico.monedapp.Adapters.PageAdapter
+import com.gradientepolimorfico.monedapp.Adapters.GraficoHistorialAdapter
 import com.gradientepolimorfico.monedapp.Entities.Divisa
 import com.gradientepolimorfico.monedapp.R
 import com.gradientepolimorfico.monedapp.Storage.Preferencias
@@ -40,8 +40,15 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
         vista!!.findViewById<TextView>(R.id.tvFecha).text = dateFormat.format(Date(fechaEnDias.toLong() * (60000 * 60 * 24)))
     }
 
-    override fun onValueSelected(entry: Entry) {
-        setValorSegunFecha(entry.y, entry.x)
+    override fun onValueSelected(entry: Entry?) {
+        val viewPager = vista!!.findViewById<ViewPager>(R.id.viewPagerGraficos)
+        val adapter = viewPager.adapter as GraficoHistorialAdapter
+        var entryData = entry
+        if(entry === null) {
+            entryData = divisa!!.timeSeriesData.last()
+        }
+        setValorSegunFecha(entryData!!.y, entryData!!.x)
+        adapter.setSelectedValue(entry)
     }
 
     fun valorMonedaSegunBase(valor: Float): String {
@@ -53,10 +60,10 @@ class HistoriaFragment : Fragment(), GraficoHistorialFragment.OnChartValueSelect
         if (this.divisa!!.hayDatos()) {
             vista = inflater.inflate(R.layout.fragment_historia, container, false)
 
-            val pageAdapter = PageAdapter(childFragmentManager!!)
+            val pageAdapter = GraficoHistorialAdapter(childFragmentManager!!)
 
             pageAdapter.agregarDivisa(this.divisa!!)
-            val viewPager = vista!!.findViewById<ViewPager>(R.id.view_pager)
+            val viewPager = vista!!.findViewById<ViewPager>(R.id.viewPagerGraficos)
             viewPager.adapter = pageAdapter
             vista!!.findViewById<TabLayout>(R.id.tabsGraficoHistorial).setupWithViewPager(viewPager)
 
